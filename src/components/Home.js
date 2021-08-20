@@ -4,10 +4,7 @@ import LoginForm from "./LoginForm";
 import {Container, createStyles, CssBaseline, makeStyles} from "@material-ui/core";
 import Footer from "./Footer";
 
-const Home = () => {
-    const [currentUser, setCurrentUser] = useState("");
-
-    const addCurrentUser = (user) => setCurrentUser(user);
+const Home = ({grandAccess}) => {
 
     const styles = makeStyles((theme) =>
         createStyles({
@@ -23,7 +20,7 @@ const Home = () => {
         <>
             <CssBaseline/>
             <div className={classes.container}>
-                <LoginForm addCurrentUser={addCurrentUser}/>
+                <LoginForm addCurrentUser={grandAccess}/>
                 <Footer/>
             </div>
         </>
