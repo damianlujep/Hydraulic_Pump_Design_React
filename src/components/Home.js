@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Header from "./Header";
 import LoginForm from "./LoginForm";
-import {setRef} from "@material-ui/core";
+import {Container, createStyles, CssBaseline, makeStyles} from "@material-ui/core";
 import Footer from "./Footer";
 
 const Home = () => {
@@ -9,10 +9,23 @@ const Home = () => {
 
     const addCurrentUser = (user) => setCurrentUser(user);
 
+    const styles = makeStyles((theme) =>
+        createStyles({
+            container: {
+                margin: "0 8px"
+            }
+        })
+    );
+
+    const classes = styles();
+
     return (
         <>
-            <LoginForm addCurrentUser={addCurrentUser}/>
-            <Footer/>
+            <CssBaseline/>
+            <div className={classes.container}>
+                <LoginForm addCurrentUser={addCurrentUser}/>
+                <Footer/>
+            </div>
         </>
     );
 };
