@@ -1,12 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Header from "./Header";
 import LoginForm from "./LoginForm";
+import {setRef} from "@material-ui/core";
+import Footer from "./Footer";
 
 const Home = () => {
+    const [currentUser, setCurrentUser] = useState("");
+
+    const addCurrentUser = (user) => setCurrentUser(user);
+
     return (
         <>
-            <Header/>
-            <LoginForm/>
+            <LoginForm addCurrentUser={addCurrentUser}/>
+            <Footer/>
         </>
     );
 };

@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import {Button, Container, createStyles, FormGroup, InputLabel, makeStyles, Paper, TextField} from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
+import {User} from "../models/User";
 
-const LoginForm = () => {
+const LoginForm = ({addCurrentUser}) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState([]);
@@ -22,6 +23,12 @@ const LoginForm = () => {
         }
 
         setErrors(tempErrors);
+
+        if (tempErrors.length === 0){
+            const newUser = new User(username, password, "email@test.com");
+            addCurrentUser(newUser);
+            setErrors([]);
+        }
     }
 
     const styles = makeStyles((theme) =>
@@ -40,7 +47,7 @@ const LoginForm = () => {
                 minWidth: "100px"
             },
             paper: {
-                height: "calc(100vh - 90px)",
+                height: "calc(100vh - 50px)",
                 display: "flex",
                 alignItems: "center"
             }
