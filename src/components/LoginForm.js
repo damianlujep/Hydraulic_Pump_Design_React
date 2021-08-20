@@ -1,8 +1,20 @@
 import React, {useState} from 'react';
-import {Button, Container, createStyles, FormGroup, InputLabel, makeStyles, Paper, TextField} from "@material-ui/core";
+import {
+    Button,
+    Container,
+    createStyles,
+    FormGroup,
+    InputAdornment,
+    InputLabel,
+    makeStyles,
+    Paper,
+    TextField
+} from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
+import {User} from "../models/User";
+import {AccountCircle} from "@material-ui/icons";
 
-const LoginForm = () => {
+const LoginForm = ({addCurrentUser}) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState([]);
@@ -22,6 +34,12 @@ const LoginForm = () => {
         }
 
         setErrors(tempErrors);
+
+        if (tempErrors.length === 0){
+            const newUser = new User(username, password, "email@test.com");
+            addCurrentUser(newUser);
+            setErrors([]);
+        }
     }
 
     const styles = makeStyles((theme) =>
@@ -32,6 +50,7 @@ const LoginForm = () => {
                 flexDirection: "column",
                 alignItems: "center",
                 flexWrap: "wrap",
+                marginBottom: "40px"
             },
             field: {
                 margin: "20px 20px"
@@ -40,9 +59,20 @@ const LoginForm = () => {
                 minWidth: "100px"
             },
             paper: {
-                height: "calc(100vh - 90px)",
+                height: "calc(100vh - 50px)",
                 display: "flex",
                 alignItems: "center"
+            },
+            passwordInput: {
+                width: "261px"
+            },
+            alert: {
+                margin: "0 auto 10px",
+                width: "300px",
+                justifyContent: "center",
+            },
+            alertsDiv: {
+
             }
         })
     );
@@ -51,7 +81,7 @@ const LoginForm = () => {
     let errorsJsx = null;
 
     if (errors.length > 0 ){
-        errorsJsx = errors.map((err, index) => <Alert key={index} severity={"error"}>{err}</Alert>)
+        errorsJsx = errors.map((err, index) => <Alert className={classes.alert} key={index} severity={"error"}>{err}</Alert>)
     }
 
     return (
@@ -59,16 +89,25 @@ const LoginForm = () => {
             <Container maxWidth={"md"}>
                 <form className={classes.form} onSubmit={handleSubmit}>
                     <FormGroup className={classes.field}>
-                        <InputLabel>username</InputLabel>
-                        <TextField value={username} onChange={e => setUsername(e.target.value)}/>
+                        <TextField type="text" value={username} id="outlined-basic" label="Username" variant="outlined"
+                                   onChange={e => setUsername(e.target.value)} InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start">
+                                    <AccountCircle/>
+                                </InputAdornment>
+                            ),
+                        }}>
+                        </TextField>
                     </FormGroup>
                     <FormGroup className={classes.field}>
-                        <InputLabel>password</InputLabel>
-                        <TextField type="password" value={password} onChange={e => setPassword(e.target.value)}/>
+                        <TextField type="password" value={password} id="outlined-basic" label="Password" variant="outlined"
+                                   onChange={e => setPassword(e.target.value)} className={classes.passwordInput}/>
                     </FormGroup>
                     <Button type="submit" variant="contained" color="primary">Login</Button>
                 </form>
-                {errorsJsx}
+                <div className={classes.alertsDiv}>
+                    {errorsJsx}
+                </div>
             </Container>
         </Paper>
     );
