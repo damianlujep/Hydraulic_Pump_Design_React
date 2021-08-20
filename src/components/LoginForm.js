@@ -13,11 +13,14 @@ import {
 import {Alert} from "@material-ui/lab";
 import {User} from "../models/User";
 import {AccountCircle} from "@material-ui/icons";
+import {useHistory} from "react-router-dom";
 
 const LoginForm = ({addCurrentUser}) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState([]);
+
+    const history = useHistory();
 
     const handleSubmit = (e) => {
         const tempErrors = [];
@@ -39,6 +42,8 @@ const LoginForm = ({addCurrentUser}) => {
             const newUser = new User(username, password, "email@test.com");
             addCurrentUser(newUser);
             setErrors([]);
+
+            history.push("/newProject");
         }
     }
 
