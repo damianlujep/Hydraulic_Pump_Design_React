@@ -10,9 +10,9 @@ import {
     Typography
 } from "@material-ui/core";
 import {Redirect} from "react-router-dom";
-import Footer from "./Footer";
+import Footer from "../Footer";
 import {AccountCircle} from "@material-ui/icons";
-import LoginForm from "./LoginForm";
+import LoginForm from "../home/LoginForm";
 import NewProjectForm from "./NewProjectForm";
 
 const NewProject = ({authorized, username}) => {

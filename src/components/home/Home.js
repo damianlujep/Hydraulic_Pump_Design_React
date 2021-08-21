@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import Header from "./Header";
+import Header from "../Header";
 import LoginForm from "./LoginForm";
 import {Container, createStyles, CssBaseline, makeStyles} from "@material-ui/core";
-import Footer from "./Footer";
+import Footer from "../Footer";
 
 const Home = ({grandAccess}) => {
 
