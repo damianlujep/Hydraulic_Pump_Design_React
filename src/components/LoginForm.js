@@ -60,9 +60,6 @@ const LoginForm = ({addCurrentUser}) => {
             field: {
                 margin: "20px 20px"
             },
-            unitSelect: {
-                minWidth: "100px"
-            },
             paper: {
                 height: "calc(100vh - 50px)",
                 display: "flex",
@@ -76,9 +73,6 @@ const LoginForm = ({addCurrentUser}) => {
                 width: "300px",
                 justifyContent: "center",
             },
-            alertsDiv: {
-
-            }
         })
     );
 
@@ -110,7 +104,7 @@ const LoginForm = ({addCurrentUser}) => {
                     </FormGroup>
                     <Button type="submit" variant="contained" color="primary">Login</Button>
                 </form>
-                <div className={classes.alertsDiv}>
+                <div>
                     {errorsJsx}
                 </div>
             </Container>
