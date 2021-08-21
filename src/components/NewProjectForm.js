@@ -11,13 +11,23 @@ import {
     TextField,
     Typography
 } from "@material-ui/core";
+import {useHistory} from "react-router-dom";
 
-const NewProjectForm = () => {
+const NewProjectForm = ({username}) => {
     const [typeOfOilField, setTypeOfOilField] = React.useState("Directional");
+    const history = useHistory();
 
     const handleSelectChange = (event) => {
         setTypeOfOilField(event.target.value);
     };
+
+    const cancelButtonHandler = (event) => {
+      history.push("/");
+    }
+
+    const createProjectHandler = (event) => {
+      history.push(`/${username}/workspace`)
+    }
 
     const styles = makeStyles((theme) =>
         createStyles({
@@ -33,12 +43,24 @@ const NewProjectForm = () => {
                 justifyContent: "center",
                 flexDirection: "column"
             },
+            customLabel: {
+                display: "flex",
+                justifyContent: "center"
+            },
             inputGroups: {
-              justifyContent: "center",
-                paddingBottom: "50px"
+                justifyContent: "center",
+                paddingBottom: "50px",
+                alignItems: "center"
+            },
+            inputBoxEl: {
+              marginBottom: "20px"
             },
             text: {
-              marginBottom: "20px"
+                marginBottom: "20px"
+            },
+            selectInput: {
+                display: "flex",
+                flexDirection: "column"
             },
             buttons: {
                 display: "flex",
@@ -50,7 +72,6 @@ const NewProjectForm = () => {
             buttonCreate: {
                 padding: "10px",
                 width: "250px",
-                marginTop: "40px"
             },
             buttonCancel: {
                 padding: "8px",
@@ -64,13 +85,16 @@ const NewProjectForm = () => {
 
     return (
         <Paper square elevation={2} className={classes.paper}>
-            <Container maxWidth="lg" className={classes.container}>
+            <Grid container
+                  direction="column"
+                  justifyContent="center"
+                  alignItems="center" style={{width: "1200px"}}>
                 <Grid container spacing={0} className={classes.inputGroups}>
-                    <Grid item xs={6} sm={3}>
-                        <InputLabel>New project name</InputLabel>
+                    <Grid item lg={4} sm={2} className={classes.customLabel}>
+                        <InputLabel style={{alignSelf:"center"}}>New project name</InputLabel>
                     </Grid>
-                    <Grid item xs={6} sm={3}>
-                        <TextField>sadsdasdasd</TextField>
+                    <Grid item lg={8} sm={4}>
+                        <TextField style={{width: "80%"}} type="text" id="outlined-basic" variant="outlined"/>
                     </Grid>
                 </Grid>
 
@@ -78,47 +102,49 @@ const NewProjectForm = () => {
 
                 <Grid container spacing={10} className={classes.inputGroups}>
                     <Grid item xs={6} sm={4}>
-                        <FormGroup>
+                        <FormGroup className={classes.inputBoxEl}>
                             <InputLabel>Company name</InputLabel>
-                            <TextField></TextField>
+                            <TextField type="text" id="outlined-basic" variant="outlined"/>
                         </FormGroup>
-                        <FormGroup>
+                        <FormGroup className={classes.inputBoxEl}>
                             <InputLabel>Location</InputLabel>
-                            <TextField></TextField>
+                            <TextField type="text" id="outlined-basic" variant="outlined"/>
                         </FormGroup>
-                        <FormGroup>
+                        <FormGroup className={classes.inputBoxEl}>
                             <InputLabel>Sand</InputLabel>
-                            <TextField></TextField>
+                            <TextField type="text" id="outlined-basic" variant="outlined"/>
                         </FormGroup>
-                        <FormGroup>
+                        <FormGroup className={classes.inputBoxEl}>
                             <InputLabel>Analyst name</InputLabel>
-                            <TextField></TextField>
+                            <TextField type="text" id="outlined-basic" variant="outlined"/>
                         </FormGroup>
                     </Grid>
                     <Grid item xs={6} sm={4}>
-                        <FormGroup>
+                        <FormGroup className={classes.inputBoxEl}>
                             <InputLabel>Oil field</InputLabel>
-                            <TextField></TextField>
+                            <TextField type="text" id="outlined-basic" variant="outlined"/>
                         </FormGroup>
-                        <FormGroup>
+                        <FormGroup className={classes.inputBoxEl}>
                             <InputLabel>Oil well</InputLabel>
-                            <TextField></TextField>
+                            <TextField type="text" id="outlined-basic" variant="outlined"/>
                         </FormGroup>
-                        <FormGroup>
+                        <FormGroup className={classes.inputBoxEl}>
                             <InputLabel>Date</InputLabel>
-                            <TextField type="date"></TextField>
+                            <TextField type="text" id="outlined-basic" variant="outlined"/>
                         </FormGroup>
-                        <FormGroup>
+                        <FormGroup className={classes.inputBoxEl}>
                             <InputLabel>Commentary</InputLabel>
-                            <TextField></TextField>
+                            <TextField type="text" id="outlined-basic" variant="outlined"/>
                         </FormGroup>
                     </Grid>
                 </Grid>
 
-                <Typography variant={"h6"} className={classes.text}>Production well</Typography>
+                <Grid container spacing={0} className={classes.inputGroups}>
+                    <Grid item xs={4} sm={2}>
+                        <Typography variant={"h6"}>Production well</Typography>
+                    </Grid>
 
-                <Grid container spacing={0}>
-                    <Grid item xs={6} sm={3}>
+                    <Grid item xs={8} sm={2} className={classes.selectInput}>
                         <InputLabel id="demo-simple-select-helper-label">Oil field type</InputLabel>
                         <Select
                             labelId="demo-simple-select-helper-label"
@@ -133,15 +159,22 @@ const NewProjectForm = () => {
                 </Grid>
 
                 <section className={classes.buttons}>
-                    <Button className={classes.buttonCreate} variant="contained" color="primary" size="large">
+                    <Button className={classes.buttonCreate}
+                            variant="contained" color="primary"
+                            size="large"
+                            onClick={createProjectHandler}>
                         Create new project
                     </Button>
-                    <Button className={classes.buttonCancel} variant="contained" color="secondary" size="small">
+                    <Button className={classes.buttonCancel}
+                            variant="contained"
+                            color="secondary"
+                            size="small"
+                            onClick={cancelButtonHandler}>
                         Cancel
                     </Button>
                 </section>
 
-            </Container>
+            </Grid>
         </Paper>
     );
 };

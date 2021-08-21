@@ -15,7 +15,7 @@ import {AccountCircle} from "@material-ui/icons";
 import LoginForm from "./LoginForm";
 import NewProjectForm from "./NewProjectForm";
 
-const NewProject = ({authorized}) => {
+const NewProject = ({authorized, username}) => {
     if (!authorized) {
         return <Redirect to="/"/>
     }
@@ -34,7 +34,7 @@ const NewProject = ({authorized}) => {
         <>
             <CssBaseline/>
             <div className={classes.container}>
-                <NewProjectForm/>
+                <NewProjectForm username={username}/>
                 <Footer/>
             </div>
         </>

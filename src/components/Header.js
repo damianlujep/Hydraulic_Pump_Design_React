@@ -6,7 +6,7 @@ const Header = () => {
         <>
             <AppBar position="static">
                 <Toolbar>
-                    <Container maxWidth={"md"}>
+                    <Container maxWidth={"ls"}>
                         <Typography variant="h6">
                             Hydraulic Pump Design
                         </Typography>
