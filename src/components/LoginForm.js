@@ -60,9 +60,6 @@ const LoginForm = ({addCurrentUser}) => {
             field: {
                 margin: "20px 20px"
             },
-            unitSelect: {
-                minWidth: "100px"
-            },
             paper: {
                 height: "calc(100vh - 50px)",
                 display: "flex",
@@ -76,17 +73,20 @@ const LoginForm = ({addCurrentUser}) => {
                 width: "300px",
                 justifyContent: "center",
             },
-            alertsDiv: {
-
-            }
         })
     );
 
     const classes = styles();
     let errorsJsx = null;
 
-    if (errors.length > 0 ){
-        errorsJsx = errors.map((err, index) => <Alert className={classes.alert} key={index} severity={"error"}>{err}</Alert>)
+    if (errors.length > 0) {
+        errorsJsx = errors.map((err, index) =>
+            <Alert className={classes.alert}
+                   key={index}
+                   severity={"error"}
+            >
+                {err}
+            </Alert>)
     }
 
     return (
@@ -94,23 +94,33 @@ const LoginForm = ({addCurrentUser}) => {
             <Container maxWidth={"md"}>
                 <form className={classes.form} onSubmit={handleSubmit}>
                     <FormGroup className={classes.field}>
-                        <TextField type="text" value={username} id="outlined-basic" label="Username" variant="outlined"
-                                   onChange={e => setUsername(e.target.value)} InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <AccountCircle/>
-                                </InputAdornment>
-                            ),
-                        }}>
+                        <TextField type="text"
+                                   value={username}
+                                   id="outlined-basic"
+                                   label="Username"
+                                   variant="outlined"
+                                   onChange={e => setUsername(e.target.value)}
+                                   InputProps={{
+                                       startAdornment: (
+                                           <InputAdornment position="start">
+                                               <AccountCircle/>
+                                           </InputAdornment>
+                                       ),
+                                   }}>
                         </TextField>
                     </FormGroup>
                     <FormGroup className={classes.field}>
-                        <TextField type="password" value={password} id="outlined-basic" label="Password" variant="outlined"
-                                   onChange={e => setPassword(e.target.value)} className={classes.passwordInput}/>
+                        <TextField type="password"
+                                   value={password}
+                                   id="outlined-basic"
+                                   label="Password"
+                                   variant="outlined"
+                                   onChange={e => setPassword(e.target.value)}
+                                   className={classes.passwordInput}/>
                     </FormGroup>
                     <Button type="submit" variant="contained" color="primary">Login</Button>
                 </form>
-                <div className={classes.alertsDiv}>
+                <div>
                     {errorsJsx}
                 </div>
             </Container>

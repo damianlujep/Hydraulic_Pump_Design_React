@@ -1,15 +1,42 @@
 import React from 'react';
-import {Typography} from "@material-ui/core";
+import {
+    Button,
+    Container, createStyles, CssBaseline,
+    FormGroup,
+    InputAdornment,
+    makeStyles,
+    Paper,
+    TextField,
+    Typography
+} from "@material-ui/core";
 import {Redirect} from "react-router-dom";
+import Footer from "./Footer";
+import {AccountCircle} from "@material-ui/icons";
+import LoginForm from "./LoginForm";
+import NewProjectForm from "./NewProjectForm";
 
-const NewProject = ({authorized}) => {
-    if (!authorized){
+const NewProject = ({authorized, username}) => {
+    if (!authorized) {
         return <Redirect to="/"/>
     }
 
+    const styles = makeStyles((theme) =>
+        createStyles({
+            container: {
+                margin: "0 8px"
+            }
+        })
+    );
+
+    const classes = styles();
+
     return (
         <>
-            <Typography variant="h1">To będzie strona po logowaniu</Typography>
+            <CssBaseline/>
+            <div className={classes.container}>
+                <NewProjectForm username={username}/>
+                <Footer/>
+            </div>
         </>
     );
 };
