@@ -1,24 +1,23 @@
 import React from 'react';
-import Header from "../Header";
 import {
-    AppBar, Badge,
-    Container,
+    AppBar,
     CssBaseline,
     Divider,
     Drawer,
-    Grid,
     IconButton,
-    List, makeStyles,
-    Paper,
-    Toolbar, Typography
+    List,
+    makeStyles,
+    Toolbar,
+    Typography
 } from "@material-ui/core";
-import {ChevronLeft, Menu, Notifications} from "@material-ui/icons";
+import {ChevronLeft, Menu} from "@material-ui/icons";
 import clsx from "clsx";
 import {mainListItems, secondaryListItems} from "./listItems";
+import WorkspaceActionsBar from "./WorkspaceActionsBar";
 
 
 const Workspace = () => {
-    const drawerWidth = 240;
+    const drawerWidth = 200;
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -84,19 +83,13 @@ const Workspace = () => {
             height: '100vh',
             overflow: 'auto',
         },
-        container: {
-            paddingTop: theme.spacing(4),
-            paddingBottom: theme.spacing(4),
-        },
-        paper: {
-            padding: theme.spacing(2),
-            display: 'flex',
-            overflow: 'auto',
-            flexDirection: 'column',
-        },
-        fixedHeight: {
-            height: 240,
-        },
+        workspaceHeader: {
+            display:"flex",
+            justifyContent:"space-around",
+            width: "100%",
+            textAlign:"center",
+            alignItems:"center"
+        }
     }));
 
     const classes = useStyles();
@@ -107,7 +100,6 @@ const Workspace = () => {
     const handleDrawerClose = () => {
         setOpen(false);
     };
-    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
     return (
         <div className={classes.root}>
@@ -123,14 +115,17 @@ const Workspace = () => {
                     >
                         <Menu />
                     </IconButton>
-                    <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                        Dashboard
-                    </Typography>
-                    <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary">
-                            <Notifications />
-                        </Badge>
-                    </IconButton>
+                    <section className={classes.workspaceHeader}>
+                        <Typography variant="subtitle1" color="inherit">
+                            Analyst: Analyst name
+                        </Typography>
+                        <Typography variant="subtitle1" color="inherit">
+                            My New Project Name
+                        </Typography>
+                        <Typography variant="subtitle2" color="inherit">
+                           Options
+                        </Typography>
+                    </section>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -150,8 +145,10 @@ const Workspace = () => {
                 <Divider />
                 <List>{secondaryListItems}</List>
             </Drawer>
+
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
+                <WorkspaceActionsBar/>
             </main>
         </div>
     );
