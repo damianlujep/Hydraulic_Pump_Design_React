@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import {AppBar, Box, makeStyles, Tab, Tabs, Typography, useTheme} from "@material-ui/core";
 import PropTypes from "prop-types";
+import Completion from "./ProcessSteps/Completion";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -91,7 +92,7 @@ const FullWidthTabs = () => {
                 onChangeIndex={handleChangeIndex}
             >
                 <TabPanel value={value} index={0} dir={theme.direction} className={classes.stepBox}>
-                    Item One
+                    <Completion />
                 </TabPanel>
                 <TabPanel value={value} index={1} dir={theme.direction} className={classes.stepBox}>
                     Item Two
