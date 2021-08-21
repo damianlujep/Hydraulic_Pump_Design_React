@@ -11,7 +11,7 @@ function App() {
     const grandAccess = (user) => {
         if (user.username === "damianlujep" && user.password === "password") {
             setCurrentUser(user);
-            setAuthorized(true);
+            setAuthorized(true);s
         }
     }
 
