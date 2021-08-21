@@ -14,6 +14,7 @@ import {ChevronLeft, Menu} from "@material-ui/icons";
 import clsx from "clsx";
 import {mainListItems, secondaryListItems} from "./listItems";
 import WorkspaceActionsBar from "./WorkspaceActionsBar";
+import WorkspaceMainBox from "./WorkspaceMainBox";
 
 
 const Workspace = () => {
@@ -93,10 +94,12 @@ const Workspace = () => {
     }));
 
     const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = React.useState(false);
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
+
     const handleDrawerClose = () => {
         setOpen(false);
     };
@@ -149,6 +152,7 @@ const Workspace = () => {
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
                 <WorkspaceActionsBar/>
+                <WorkspaceMainBox/>
             </main>
         </div>
     );
