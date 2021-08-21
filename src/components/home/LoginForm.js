@@ -11,7 +11,7 @@ import {
     TextField
 } from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
-import {User} from "../models/User";
+import {User} from "../../models/User";
 import {AccountCircle} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
 

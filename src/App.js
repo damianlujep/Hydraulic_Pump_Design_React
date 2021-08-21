@@ -1,8 +1,8 @@
 import {useState} from "react";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
-import Home from "./components/Home";
-import NewProject from "./components/NewProject";
-import Workspace from "./components/Workspace";
+import Home from "./components/home/Home";
+import NewProject from "./components/newproject/NewProject";
+import Workspace from "./components/workspace/Workspace";
 
 function App() {
     const [currentUser, setCurrentUser] = useState("");
