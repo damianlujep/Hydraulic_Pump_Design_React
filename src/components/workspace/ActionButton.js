@@ -7,6 +7,7 @@ const ActionButton = ({handleClick, open, text, buttonID, styledMenuID}) => {
         <>
             <Button
                 color="primary"
+                size="small"
                 id={buttonID}
                 aria-controls={styledMenuID}
                 aria-haspopup="true"

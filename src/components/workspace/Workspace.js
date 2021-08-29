@@ -10,7 +10,7 @@ import {
     Toolbar,
     Typography
 } from "@material-ui/core";
-import {ChevronLeft, Menu} from "@material-ui/icons";
+import {ChevronLeft, Edit, Menu} from "@material-ui/icons";
 import clsx from "clsx";
 import {mainListItems, secondaryListItems} from "./listItems";
 import WorkspaceActionsBar from "./WorkspaceActionsBar";
@@ -119,15 +119,18 @@ const Workspace = () => {
                         <Menu />
                     </IconButton>
                     <section className={classes.workspaceHeader}>
-                        <Typography variant="subtitle1" color="inherit">
+                        <Typography variant="subtitle2" color="inherit">
                             Analyst: Analyst name
                         </Typography>
-                        <Typography variant="subtitle1" color="inherit">
+                        <Typography variant="subtitle2" color="inherit">
                             My New Project Name
                         </Typography>
-                        <Typography variant="subtitle2" color="inherit">
-                           Options
-                        </Typography>
+                        <div style={{display: "flex", alignItems: "center"}}>
+                            <IconButton color="secondary" aria-label="Edit completion data">
+                                <Edit fontSize="small" style={{fill: "white"}}/>
+                            </IconButton>
+                            <Typography variant="subtitle2" >Edit user information</Typography>
+                        </div>
                     </section>
                 </Toolbar>
             </AppBar>
