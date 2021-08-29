@@ -1,15 +1,17 @@
 import React, {useState} from 'react';
 import {AppBar, Button, Dialog, IconButton, makeStyles, Slide, Toolbar, Typography} from "@material-ui/core";
 import {Close, Edit} from "@material-ui/icons";
-import NewProjectForm from "../../newproject/NewProjectForm";
+import CompletionForm from "./CompletionForm";
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
         position: 'relative',
+        maxHeight: '45px',
+        justifyContent: 'center'
     },
     title: {
         marginLeft: theme.spacing(2),
-        flex: 1,
+        flex: 1
     },
 }));
 
@@ -42,28 +44,17 @@ const CompletionDialog = () => {
 
             <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
                 <AppBar className={classes.appBar}>
-                    <Toolbar>
+                    <Toolbar style={{minHeight: "45px"}}>
                         <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
                             <Close />
                         </IconButton>
-                        <Typography variant="h6" className={classes.title}>
+                        <Typography variant="subtitle1" className={classes.title}>
                             Completion Data Form
                         </Typography>
-                        <Button autoFocus color="inherit" onClick={handleClose}>
-                            save
-                        </Button>
                     </Toolbar>
                 </AppBar>
-                <NewProjectForm/>
-                {/*<List>*/}
-                {/*    <ListItem button>*/}
-                {/*        <ListItemText primary="Phone ringtone" secondary="Titania" />*/}
-                {/*    </ListItem>*/}
-                {/*    <Divider />*/}
-                {/*    <ListItem button>*/}
-                {/*        <ListItemText primary="Default notification ringtone" secondary="Tethys" />*/}
-                {/*    </ListItem>*/}
-                {/*</List>*/}
+
+                <CompletionForm handleClose={handleClose}/>
             </Dialog>
         </div>
     );
