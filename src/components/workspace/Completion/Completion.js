@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {createStyles, makeStyles} from "@material-ui/core";
 import CompletionDialog from "./CompletionDialog";
 import DirectionalSurveyDialog from "./DirectionalSurveyDialog";
+import CompletionGridTable from "./CompletionGridTable";
 
 
 const Completion = () => {
+    const [completionDataInserted, setCompletionDataInserted] = useState(true);
 
     // const [lengthOfShots, setLengthOfShots] = useState(100);
     // const [averageShotDepth, setAverageShotDepth] = useState(100);
@@ -41,7 +43,7 @@ const Completion = () => {
     const styles = makeStyles((theme) =>
         createStyles({
             container: {
-                height: "calc(100vh - 150px - 48px - 8px - 48px)",
+                minHeight: "calc(100vh - 120px - 48px - 8px - 48px)",
                 display: "flex",
                 justifyContent: "space-evenly",
                 alignItems: "center"
@@ -90,9 +92,20 @@ const Completion = () => {
     //     return data;
     // }
 
+    const renderCompletionData = () => {
+        if (completionDataInserted){
+            return <CompletionGridTable/>
+        } else {
+            return <CompletionDialog/>
+        }
+    }
+
     return (
         <section className={classes.container}>
-            <CompletionDialog/>
+            {
+                renderCompletionData()
+            }
+
             <DirectionalSurveyDialog/>
         </section>
     );

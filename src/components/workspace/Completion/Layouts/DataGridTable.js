@@ -1,8 +1,14 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {createTheme, makeStyles} from "@material-ui/core";
 import {DataGrid} from "@material-ui/data-grid";
 
 const DataGridTable = () => {
+    const [editRowsModel, setEditRowsModel] = useState({});
+
+    const handleEditRowsModelChange = useCallback((model) => {
+        setEditRowsModel(model);
+    }, []);
+
     function validateNumbersColumnRendering(numberStr) {
         const numberValue = parseFloat(numberStr.value);
         if (!isNaN(numberValue)){
@@ -80,6 +86,8 @@ const DataGridTable = () => {
         },
         { defaultTheme },
     );
+
+    const classes2 =  useStyles();
 
     return (
         <div style={{width: '550px'}}>
