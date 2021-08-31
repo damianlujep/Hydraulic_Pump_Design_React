@@ -8,7 +8,7 @@ const WorkspaceMainBox = () => {
     const styles = makeStyles((theme) =>
         createStyles({
             paper: {
-                height: "calc(100vh - 150px - 8px)"
+                height: "calc(100vh - 120px - 8px)"
             }
         })
     );

@@ -70,8 +70,8 @@ const WorkspaceActionsBar = () => {
     };
 
     return (
-        <section style={{display: "flex", margin: "30px 24px 20px"}}>
-            <div style={{marginRight:"20px"}}>
+        <section style={{display: "flex", margin: "10px 24px 10px"}}>
+            <div style={{marginRight:"40px"}}>
                 <ActionButton
                     handleClick={handleClick}
                     open={isOpenedActions}
