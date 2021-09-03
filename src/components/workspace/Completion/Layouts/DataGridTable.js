@@ -2,12 +2,37 @@ import React, {useCallback, useState} from 'react';
 import {createTheme, makeStyles} from "@material-ui/core";
 import {DataGrid} from "@material-ui/data-grid";
 
+
 const DataGridTable = () => {
     const [editRowsModel, setEditRowsModel] = useState({});
 
+    // function useApiRef() {
+    //     const apiRef = useRef(null);
+    //     const _columns = useMemo(
+    //         () =>
+    //             columns.concat({
+    //                 field: "__HIDDEN__",
+    //                 width: 0,
+    //                 renderCell: (params) => {
+    //                     apiRef.current = params.api;
+    //                     return null;
+    //                 }
+    //             }),
+    //         [columns]
+    //     );
+    //
+    //     return { apiRef, columns: _columns };
+    // }
+
+    // const { apiRef, columns } = useApiRef();
+    //
     const handleEditRowsModelChange = useCallback((model) => {
         setEditRowsModel(model);
+        // console.log(apiRef.current.getRowModels());
+
     }, []);
+
+
 
     function validateNumbersColumnRendering(numberStr) {
         const numberValue = parseFloat(numberStr.value);
@@ -89,6 +114,26 @@ const DataGridTable = () => {
 
     const classes2 =  useStyles();
 
+    const [updatedRows, setUpdatedRows] = useState(rows);
+
+    const onRowEditCommit= (params) =>{
+        //Get edited row by id
+        const editedRow = params.api.getRow(params.id);
+        //update local object with rows
+        setUpdatedRows({
+            ...updatedRows,
+            [params.id - 1]: editedRow
+        });
+
+        //Get all current data with changes
+        const rowModels = params.api.getRowModels();
+        //Convert rowModels from Map to Array
+        const json = [];
+        Array.from(rowModels.values()).map(key => {
+            json.push(key);
+        });
+    }
+
     return (
         <div style={{width: '550px'}}>
             <DataGrid
@@ -104,6 +149,9 @@ const DataGridTable = () => {
                 disableColumnMenu={true}
                 headerHeight={30}
                 autoHeight={true}
+                onCellEditStop={onRowEditCommit}
+                // onCellEditCommit={onRowEditCommit}
+                // onRowEditCommit={onRowEditCommit}
             />
         </div>
     );
