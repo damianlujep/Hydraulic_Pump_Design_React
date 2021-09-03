@@ -17,15 +17,21 @@ import {
 import {CompletionData} from "../../../models/CompletionData";
 
 const initialDataModel = () => {
-    const data = new CompletionData();
-    data.numberProductionTubings = 1;
-    data.numberCasingPipes = 1;
-    data.casingID = 1;
-    data.tubingID = 1;
-    return data;
+    const savedDAta = sessionStorage.getItem("completion-data");
+
+    if (savedDAta !== null){
+        return JSON.parse(savedDAta);
+    } else {
+        const data = new CompletionData();
+        data.numberProductionTubings = 1;
+        data.numberCasingPipes = 1;
+        data.casingID = 1;
+        data.tubingID = 1;
+        return data;
+    }
 }
 
-const CompletionForm = ({handleClose, setCompletionDataInserted}) => {
+const CompletionForm = ({handleClose, setCompletionDataInserted, setValidCompletionData}) => {
 
     //Validation for form onSubmit(). Returns true if 0 errors
     const validate = (fieldValues = completionData) => {
@@ -212,6 +218,8 @@ const CompletionForm = ({handleClose, setCompletionDataInserted}) => {
             sessionStorage.setItem("completion-data", JSON.stringify(completionData));
             sessionStorage.setItem("completion-data-entered", JSON.stringify(true));
             setCompletionDataInserted(true);
+            setValidCompletionData(completionData)
+
             handleClose();
         }
     }

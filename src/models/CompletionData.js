@@ -34,15 +34,6 @@ export class CompletionData {
     ODTubing3;
     IDTubing3;
 
-    // tubingTop;
-    // tubingMiddle;
-    // tubingBottom;
-
-    // casingTop;
-    // casingMiddle;
-    // casingBottom;
-
-
     constructor() {
         this.lengthOfShots = "";
         this.averageShotDepth = "";
