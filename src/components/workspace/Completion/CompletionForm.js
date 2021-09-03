@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {useHistory} from "react-router-dom";
 import {
     Button,
     createStyles,
     FormGroup,
+    FormHelperText,
     Grid,
     InputAdornment,
     InputLabel,
@@ -14,31 +14,119 @@ import {
     Select,
     Typography
 } from "@material-ui/core";
+import {CompletionData} from "../../../models/CompletionData";
+
+const initialDataModel = () => {
+    const data = new CompletionData();
+    data.numberProductionTubings = 1;
+    data.numberCasingPipes = 1;
+    data.casingID = 1;
+    data.tubingID = 1;
+    return data;
+}
 
 const CompletionForm = ({handleClose}) => {
-    const history = useHistory();
 
-    const [productionTubingsNumber, setTubingsNumber] = useState(1);
-    const [casingPipesNumber, setCasingPipesNumber] = useState(1);
+    //Validation for form onSubmit(). Returns true if 0 errors
+    const validate = (fieldValues = completionData) => {
+        let temp = { ...errors }
 
-    const [casing, setCasing] = useState(1);
-    const [tubing, setTubing] = useState(1);
+        if ('lengthOfShots' in fieldValues)
+            temp.lengthOfShots = fieldValues.lengthOfShots > 0 ? "" : "Required field."
+        if ('averageShotDepth' in fieldValues)
+            temp.averageShotDepth = fieldValues.averageShotDepth > 0 ? "" : "Required field."
+        if ('pumpSettlementLength' in fieldValues)
+            temp.pumpSettlementLength = fieldValues.pumpSettlementLength > 0 ? "" : "Required field."
+        if ('pumpSettlementDepth' in fieldValues)
+            temp.pumpSettlementDepth = fieldValues.pumpSettlementDepth > 0 ? "" : "Required field."
 
-    const handleTubingNumberChange = (event) => {
-        setTubingsNumber(event.target.value);
-    };
+        if ('numberCasingPipes' in fieldValues)
+            temp.numberCasingPipes = fieldValues.numberCasingPipes >= 1 ? "" : "Required field."
+        if ('numberProductionTubings' in fieldValues)
+            temp.numberProductionTubings = fieldValues.numberProductionTubings >= 0 ? "" : "Required field."
 
-    const handleCasingNumberChange = (event) => {
-        setCasingPipesNumber(event.target.value);
-    };
+        if ('casingID' in fieldValues)
+            temp.numberCasingPipes = fieldValues.numberCasingPipes > 0 ? "" : "Required field."
+        if ('casingID' in fieldValues)
+            temp.numberProductionTubings = fieldValues.numberProductionTubings > 0 ? "" : "Required field."
 
-    const handleTubingChange = (event) => {
-        setTubing(event.target.value);
-    };
+        if ('casingLength1' in fieldValues)
+            temp.casingLength1 = fieldValues.casingLength1 > 0 ? "" : "Required field."
+        if ('ODCasing1' in fieldValues)
+            temp.ODCasing1 = fieldValues.ODCasing1 > 0 ? "" : "Required field."
+        if ('IDCasing1' in fieldValues)
+            temp.IDCasing1 = fieldValues.IDCasing1 > 0 ? "" : "Required field."
 
-    const handleCasingChange = (event) => {
-        setCasing(event.target.value);
-    };
+
+        if (fieldValues.numberCasingPipes === 2 || fieldValues.numberCasingPipes === 3){
+            if ('casingLength2' in fieldValues)
+                temp.casingLength2 = fieldValues.casingLength2 > 0 ? "" : "Required field."
+            if ('ODCasing2' in fieldValues)
+                temp.ODCasing2 = fieldValues.ODCasing2 > 0 ? "" : "Required field."
+            if ('IDCasing2' in fieldValues)
+                temp.IDCasing2 = fieldValues.IDCasing2 > 0 ? "" : "Required field."
+        } else {
+            temp.casingLength2 = "";
+            temp.ODCasing2 = "";
+            temp.IDCasing2 = "";
+        }
+
+        if (fieldValues.numberCasingPipes === 3){
+            if ('casingLength3' in fieldValues)
+                temp.casingLength3 = fieldValues.casingLength3 > 0 ? "" : "Required field."
+            if ('ODCasing3' in fieldValues)
+                temp.ODCasing3 = fieldValues.ODCasing3 > 0 ? "" : "Required field."
+            if ('IDCasing3' in fieldValues)
+                temp.IDCasing3 = fieldValues.IDCasing3 > 0 ? "" : "Required field."
+        } else {
+            temp.casingLength3 = "";
+            temp.ODCasing3 = "";
+            temp.IDCasing3 = "";
+        }
+
+        if ('tubingLength1' in fieldValues)
+            temp.tubingLength1 = fieldValues.tubingLength1 > 0 ? "" : "Required field."
+        if ('ODTubing1' in fieldValues)
+            temp.ODTubing1 = fieldValues.ODTubing1 > 0 ? "" : "Required field."
+        if ('IDTubing1' in fieldValues)
+            temp.IDTubing1 = fieldValues.IDTubing1 > 0 ? "" : "Required field."
+
+        if (fieldValues.numberProductionTubings === 2 || fieldValues.numberProductionTubings === 3){
+            if ('tubingLength2' in fieldValues)
+                temp.tubingLength2 = fieldValues.tubingLength2 > 0 ? "" : "Required field."
+            if ('ODTubing2' in fieldValues)
+                temp.ODTubing2 = fieldValues.ODTubing2 > 0 ? "" : "Required field."
+            if ('IDTubing2' in fieldValues)
+                temp.IDTubing2 = fieldValues.IDTubing2 > 0 ? "" : "Required field."
+        } else {
+            temp.tubingLength2 = "";
+            temp.ODTubing2 = "";
+            temp.IDTubing2 = "";
+        }
+
+        if (fieldValues.numberProductionTubings === 3){
+            if ('tubingLength3' in fieldValues)
+                temp.tubingLength3 = fieldValues.tubingLength3 > 0 ? "" : "Required field."
+            if ('ODTubing3' in fieldValues)
+                temp.ODTubing3 = fieldValues.ODTubing3 > 0 ? "" : "Required field."
+            if ('IDTubing1' in fieldValues)
+                temp.IDTubing3 = fieldValues.IDTubing3 > 0 ? "" : "Required field."
+        } else {
+            temp.tubingLength3 = "";
+            temp.ODTubing3 = "";
+            temp.IDTubing3 = "";
+        }
+
+        setErrors({
+            ...temp
+        })
+
+        if (fieldValues === completionData)
+            return Object.values(temp).every(x => x === "")
+    }
+
+    const [completionData, setCompletionData] = useState(initialDataModel);
+    const [errors, setErrors] = useState({});
 
     const styles = makeStyles((theme) =>
         createStyles({
@@ -102,408 +190,758 @@ const CompletionForm = ({handleClose}) => {
         })
     );
 
+    function handleCompletionFormChange(e) {
+        let value = e.target.value;
+
+        if (!isNaN(value) && value !== ""){
+            value = parseFloat(value)
+        }
+
+        setCompletionData({
+            ...completionData,
+            [e.target.name]: value
+        });
+    }
+
+    const submitCompletionFormHandler = (e) => {
+        e.preventDefault();
+        const validate1 = validate();
+        console.log(validate1)
+    }
+
     const classes = styles();
+    const maxDecimals = "0.001";
 
     return (
         <div className={classes.root}>
             <Paper square elevation={0} className={classes.paper}>
-                <Grid container
-                      direction="column"
-                      justifyContent="center"
-                      alignItems="center" style={{width: "1200px"}}>
 
-                    <Typography variant="h6" className={classes.text}>Hydraulic pumping completion</Typography>
+                <form action="#" method="POST" onSubmit={submitCompletionFormHandler} autoComplete="off">
 
-                    <Grid container direction="column" spacing={0} className={classes.inputGroups} style={{width: '650px'}}>
-                        <FormGroup row className={classes.customGroup} >
-                            <Grid item xs={8} style={{justifyContent: "center"}}>
-                                <InputLabel className={classes.customLabel}>Length at middle depth of shots, MD:</InputLabel>
-                            </Grid>
+                    <Grid container
+                          direction="column"
+                          justifyContent="center"
+                          alignItems="center" style={{width: "1200px"}}>
 
-                            <Grid item xs={4}>
-                                <OutlinedInput
-                                    id="outlined-adornment-weight"
-                                    endAdornment={<InputAdornment position="start">ft</InputAdornment>}
-                                    aria-describedby="outlined-weight-helper-text"
-                                    type="number"
-                                    className={classes.customInput}
-                                />
-                            </Grid>
-                        </FormGroup>
-                        <FormGroup row className={classes.customGroup} >
-                            <Grid item xs={8} style={{justifyContent: "center"}}>
-                                <InputLabel className={classes.customLabel}>Middle shooting depth, TVD:</InputLabel>
-                            </Grid>
+                        <Typography variant="h6" className={classes.text}>Hydraulic pumping completion</Typography>
 
-                            <Grid item xs={4}>
-                                <OutlinedInput
-                                    id="outlined-adornment-weight"
-                                    endAdornment={<InputAdornment position="start">ft</InputAdornment>}
-                                    aria-describedby="outlined-weight-helper-text"
-                                    type="number"
-                                    className={classes.customInput}
-                                />
-                            </Grid>
-                        </FormGroup>
-                        <FormGroup row className={classes.customGroup} >
-                            <Grid item xs={8} style={{justifyContent: "center"}}>
-                                <InputLabel className={classes.customLabel}>Pump settling length, MD:</InputLabel>
-                            </Grid>
-
-                            <Grid item xs={4}>
-                                <OutlinedInput
-                                    id="outlined-adornment-weight"
-                                    endAdornment={<InputAdornment position="start">ft</InputAdornment>}
-                                    aria-describedby="outlined-weight-helper-text"
-                                    type="number"
-                                    className={classes.customInput}
-                                />
-                            </Grid>
-                        </FormGroup>
-                        <FormGroup row className={classes.customGroup} >
-                            <Grid item xs={8} style={{justifyContent: "center"}}>
-                                <InputLabel className={classes.customLabel}>Pump settling depth, TVD:</InputLabel>
-                            </Grid>
-
-                            <Grid item xs={4}>
-                                <OutlinedInput
-                                    id="outlined-adornment-weight"
-                                    endAdornment={<InputAdornment position="start">ft</InputAdornment>}
-                                    aria-describedby="outlined-weight-helper-text"
-                                    type="number"
-                                    className={classes.customInput}
-                                />
-                            </Grid>
-                        </FormGroup>
-                    </Grid>
-
-                    <Grid container spacing={0} className={classes.inputGroups} style={{width:"650px", paddingBottom:"10px"}}>
-                        <Grid xs={6}>
+                        <Grid container direction="column" spacing={0} className={classes.inputGroups}
+                              style={{width: '650px'}}>
                             <FormGroup row className={classes.customGroup}>
-                                <InputLabel id="casing-number-label" style={{marginRight:"20px", fontWeight:"bold"}}>Number of casing pipes:</InputLabel>
-                                <Select
-                                    variant={"outlined"}
-                                    size={"small"}
-                                    labelId="casing-number-label"
-                                    id="casing-number-select"
-                                    value={productionTubingsNumber}
-                                    onChange={handleTubingNumberChange}
-                                    style={{height:"33px"}}
-                                >
-                                    <MenuItem value="1">1</MenuItem>
-                                    <MenuItem value="2">2</MenuItem>
-                                    <MenuItem value="3">3</MenuItem>
-                                </Select>
-                            </FormGroup>
-                        </Grid>
+                                <Grid item xs={8} style={{justifyContent: "center"}}>
+                                    <InputLabel className={classes.customLabel}>Length at middle depth of shots,
+                                        MD:</InputLabel>
+                                </Grid>
 
-                        <Grid xs={6}>
-                            <FormGroup row className={classes.customGroup} >
-                                <InputLabel id="tubing-number-label" style={{marginRight:"20px", fontWeight:"bold"}}>Number of production tubing:</InputLabel>
-                                <Select
-                                    variant={"outlined"}
-                                    labelId="tubing-number-label"
-                                    id="tubing-number-select"
-                                    value={casingPipesNumber}
-                                    onChange={handleCasingNumberChange}
-                                    style={{height:"33px"}}
-                                >
-                                    <MenuItem value="1">1</MenuItem>
-                                    <MenuItem value="2">2</MenuItem>
-                                    <MenuItem value="3">3</MenuItem>
-                                </Select>
-                            </FormGroup>
-                        </Grid>
-                    </Grid>
+                                <Grid item xs={4}>
+                                    <OutlinedInput
+                                        id="lengthOfShots"
+                                        endAdornment={<InputAdornment position="start">ft</InputAdornment>}
+                                        aria-describedby="outlined-weight-helper-text"
+                                        type="number"
+                                        className={classes.customInput}
+                                        inputProps={{step: maxDecimals, min: "0"}}
+                                        onChange={handleCompletionFormChange}
+                                        name="lengthOfShots"
+                                        value={completionData.lengthOfShots}
+                                        error={errors.lengthOfShots}
+                                    />
 
-                    <Grid container spacing={0} className={classes.inputGroups} style={{width:"970px", paddingBottom:"20px"}}>
-                        <Grid item xs={6}>
+                                    {errors.lengthOfShots && (
+                                        <FormHelperText error>
+                                            {errors.lengthOfShots}
+                                        </FormHelperText>
+                                    )}
+                                </Grid>
+                            </FormGroup>
                             <FormGroup row className={classes.customGroup}>
-                                <InputLabel id="casing-label" style={{marginRight:"20px", fontWeight:"bold"}}>Casing (Size [in] - [lbs / ft))</InputLabel>
-                                <Select
-                                    variant={"outlined"}
-                                    labelId="casing-label"
-                                    id="casing-select"
-                                    value={casing}
-                                    onChange={handleCasingChange}
-                                    style={{height:"33px"}}
-                                >
-                                    <MenuItem value="1">2 3/8' (2.041) - 4.0 UN</MenuItem>
-                                    <MenuItem value="2">3 3/8' (2.041) - 4.0 UN</MenuItem>
-                                    <MenuItem value="3">4 3/8' (2.041) - 4.0 UN</MenuItem>
-                                </Select>
+                                <Grid item xs={8} style={{justifyContent: "center"}}>
+                                    <InputLabel className={classes.customLabel}>Middle shooting depth, TVD:</InputLabel>
+                                </Grid>
+
+                                <Grid item xs={4}>
+                                    <OutlinedInput
+                                        id="averageShotDepth"
+                                        endAdornment={<InputAdornment position="start">ft</InputAdornment>}
+                                        aria-describedby="outlined-weight-helper-text"
+                                        type="number"
+                                        className={classes.customInput}
+                                        inputProps={{step: maxDecimals}}
+                                        onChange={handleCompletionFormChange}
+                                        name="averageShotDepth"
+                                        value={completionData.averageShotDepth}
+                                        error={errors.averageShotDepth}
+                                    />
+
+                                    {errors.averageShotDepth && (
+                                        <FormHelperText error>
+                                            {errors.averageShotDepth}
+                                        </FormHelperText>
+                                    )}
+                                </Grid>
                             </FormGroup>
-                        </Grid>
+                            <FormGroup row className={classes.customGroup}>
+                                <Grid item xs={8} style={{justifyContent: "center"}}>
+                                    <InputLabel className={classes.customLabel}>Pump settling length, MD:</InputLabel>
+                                </Grid>
 
-                        <Grid item xs={6}>
-                            <FormGroup row className={classes.customGroup} >
-                                <InputLabel id="tubing-label" style={{marginRight:"20px", fontWeight:"bold"}}> Tubing (Size [in] - [lbs / ft))</InputLabel>
-                                <Select
-                                    variant={"outlined"}
-                                    labelId="tubing-label"
-                                    id="tubing-select"
-                                    value={tubing}
-                                    onChange={handleTubingChange}
-                                    style={{height:"33px"}}
-                                >
-                                    <MenuItem value="1">5 1/2" (4.892) - 17.00</MenuItem>
-                                    <MenuItem value="2">6 1/2" (4.892) - 17.00</MenuItem>
-                                    <MenuItem value="3">7 1/2" (4.892) - 17.00</MenuItem>
-                                </Select>
-                            </FormGroup>
-                        </Grid>
-                    </Grid>
-
-                    <Grid container spacing={0} className={classes.inputGroups} style={{width:"970px"}}>
-                        <Grid item lg={6}>
-
-                            <Typography variant="subtitle2" className={classes.text} style={{textAlign:"center", marginBottom:"5px"}}>Top</Typography>
-                            <div style={{background:"#068BFF29", marginRight: "10px"}}>
-                                <FormGroup row className={classes.customGroup} >
-                                    <InputLabel className={classes.customLabel} style={{marginRight:"0px", paddingRight:"25px"}}>Casing length 1:</InputLabel>
+                                <Grid item xs={4}>
                                     <OutlinedInput
                                         id="outlined-adornment-weight"
                                         endAdornment={<InputAdornment position="start">ft</InputAdornment>}
                                         aria-describedby="outlined-weight-helper-text"
                                         type="number"
                                         className={classes.customInput}
-                                        style={{backgroundColor:"white"}}
+                                        inputProps={{step: maxDecimals}}
+                                        onChange={handleCompletionFormChange}
+                                        name="pumpSettlementLength"
+                                        value={completionData.pumpSettlementLength}
+                                        error={errors.pumpSettlementLength}
                                     />
-                                </FormGroup>
-                                <FormGroup row className={classes.customGroup} >
-                                    <InputLabel className={classes.customLabel} style={{marginRight:"0px", paddingRight:"25px"}}>Outer casing diameter 1:</InputLabel>
+
+                                    {errors.pumpSettlementLength && (
+                                        <FormHelperText error>
+                                            {errors.pumpSettlementLength}
+                                        </FormHelperText>
+                                    )}
+                                </Grid>
+                            </FormGroup>
+                            <FormGroup row className={classes.customGroup}>
+                                <Grid item xs={8} style={{justifyContent: "center"}}>
+                                    <InputLabel className={classes.customLabel}>Pump settling depth, TVD:</InputLabel>
+                                </Grid>
+
+                                <Grid item xs={4}>
                                     <OutlinedInput
                                         id="outlined-adornment-weight"
-                                        endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                        endAdornment={<InputAdornment position="start">ft</InputAdornment>}
                                         aria-describedby="outlined-weight-helper-text"
                                         type="number"
+                                        inputProps={{step: maxDecimals}}
+                                        onChange={handleCompletionFormChange}
                                         className={classes.customInput}
-                                        style={{backgroundColor:"white"}}
+                                        name="pumpSettlementDepth"
+                                        value={completionData.pumpSettlementDepth}
+                                        error={errors.pumpSettlementDepth}
                                     />
-                                </FormGroup>
+
+                                    {errors.pumpSettlementDepth && (
+                                        <FormHelperText error>
+                                            {errors.pumpSettlementDepth}
+                                        </FormHelperText>
+                                    )}
+                                </Grid>
+                            </FormGroup>
+                        </Grid>
+
+                        <Grid container spacing={0} className={classes.inputGroups}
+                              style={{width: "650px", paddingBottom: "10px"}}>
+                            <Grid xs={6}>
                                 <FormGroup row className={classes.customGroup}>
-                                    <InputLabel className={classes.customLabel} style={{marginRight:"0px", paddingRight:"25px"}}>Inner diameter of casing 1:</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-weight"
-                                        endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                        aria-describedby="outlined-weight-helper-text"
-                                        type="number"
-                                        className={classes.customInput}
-                                        style={{backgroundColor:"white"}}
-                                    />
-                                </FormGroup>
-                            </div>
+                                    <InputLabel id="casing-number-label"
+                                                style={{marginRight: "20px", fontWeight: "bold"}}>Number of casing
+                                        pipes:</InputLabel>
+                                    <Select
+                                        variant={"outlined"}
+                                        size={"small"}
+                                        labelId="casing-number-label"
+                                        id="casing-number-select"
+                                        onChange={handleCompletionFormChange}
+                                        style={{height: "33px"}}
+                                        name="numberCasingPipes"
+                                        value={completionData.numberCasingPipes}
+                                        error={errors.numberCasingPipes}
+                                    >
+                                        <MenuItem value="1">1</MenuItem>
+                                        <MenuItem value="2">2</MenuItem>
+                                        <MenuItem value="3">3</MenuItem>
+                                    </Select>
 
-                            <Typography variant="subtitle2" className={classes.text} style={{textAlign:"center", marginBottom:"5px"}}>Middle</Typography>
-                            <div style={{background:"#068BFF29", marginRight: "10px"}}>
-                                <FormGroup row className={classes.customGroup} >
-                                    <InputLabel className={classes.customLabel} style={{marginRight:"0px", paddingRight:"25px"}}>Casing length 2:</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-weight"
-                                        endAdornment={<InputAdornment position="start">ft</InputAdornment>}
-                                        aria-describedby="outlined-weight-helper-text"
-                                        type="number"
-                                        className={classes.customInput}
-                                        style={{backgroundColor:"white"}}
-                                    />
+                                    {errors.numberCasingPipes && (
+                                        <FormHelperText error>
+                                            {errors.numberCasingPipes}
+                                        </FormHelperText>
+                                    )}
                                 </FormGroup>
-                                <FormGroup row className={classes.customGroup} >
-                                    <InputLabel className={classes.customLabel} style={{marginRight:"0px", paddingRight:"25px"}}>Outer casing diameter 2:</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-weight"
-                                        endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                        aria-describedby="outlined-weight-helper-text"
-                                        type="number"
-                                        className={classes.customInput}
-                                        style={{backgroundColor:"white"}}
-                                    />
-                                </FormGroup>
-                                <FormGroup row className={classes.customGroup} >
-                                    <InputLabel className={classes.customLabel} style={{marginRight:"0px", paddingRight:"25px"}}>Inner diameter of casing 2:</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-weight"
-                                        endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                        aria-describedby="outlined-weight-helper-text"
-                                        type="number"
-                                        className={classes.customInput}
-                                        style={{backgroundColor:"white"}}
-                                    />
-                                </FormGroup>
-                            </div>
+                            </Grid>
 
-                            <Typography variant="subtitle2" className={classes.text} style={{textAlign:"center", marginBottom:"5px"}}>Bottom</Typography>
-                            <div style={{background:"#068BFF29", marginRight: "10px"}}>
-                                <FormGroup row className={classes.customGroup} >
-                                    <InputLabel className={classes.customLabel} style={{marginRight:"0px", paddingRight:"25px"}}>Casing length 3:</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-weight"
-                                        endAdornment={<InputAdornment position="start">ft</InputAdornment>}
-                                        aria-describedby="outlined-weight-helper-text"
-                                        type="number"
-                                        className={classes.customInput}
-                                        style={{backgroundColor:"white"}}
-                                    />
-                                </FormGroup>
-                                <FormGroup row className={classes.customGroup} >
-                                    <InputLabel className={classes.customLabel} style={{marginRight:"0px", paddingRight:"25px"}}>Outer casing diameter 3:</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-weight"
-                                        endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                        aria-describedby="outlined-weight-helper-text"
-                                        type="number"
-                                        className={classes.customInput}
-                                        style={{backgroundColor:"white"}}
-                                    />
-                                </FormGroup>
-                                <FormGroup row className={classes.customGroup} >
-                                    <InputLabel className={classes.customLabel} style={{marginRight:"0px", paddingRight:"25px"}}>Inner diameter of casing 3:</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-weight"
-                                        endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                        aria-describedby="outlined-weight-helper-text"
-                                        type="number"
-                                        className={classes.customInput}
-                                        style={{backgroundColor:"white"}}
-                                    />
-                                </FormGroup>
-                            </div>
+                            <Grid xs={6}>
+                                <FormGroup row className={classes.customGroup}>
+                                    <InputLabel id="tubing-number-label"
+                                                style={{marginRight: "20px", fontWeight: "bold"}}>Number of production
+                                        tubing:</InputLabel>
+                                    <Select
+                                        variant={"outlined"}
+                                        labelId="tubing-number-label"
+                                        id="tubing-number-select"
+                                        onChange={handleCompletionFormChange}
+                                        style={{height: "33px"}}
+                                        name="numberProductionTubings"
+                                        value={completionData.numberProductionTubings}
+                                        error={errors.numberProductionTubings}
+                                    >
+                                        <MenuItem value={1}>1</MenuItem>
+                                        <MenuItem value={2}>2</MenuItem>
+                                        <MenuItem value={3}>3</MenuItem>
+                                    </Select>
 
+                                    {errors.numberProductionTubings && (
+                                        <FormHelperText error>
+                                            {errors.numberProductionTubings}
+                                        </FormHelperText>
+                                    )}
+                                </FormGroup>
+                            </Grid>
                         </Grid>
 
-                        <Grid item lg={6}>
-                            <Typography variant="subtitle2" className={classes.text} style={{textAlign:"center", marginBottom:"5px"}}>Top</Typography>
-                            <div style={{background:"#FFAC0629", marginLeft: "10px"}}>
-                                <FormGroup row className={classes.customGroup}  >
-                                    <InputLabel className={classes.customLabel} style={{marginRight:"0px", paddingRight:"25px"}}>Tubing length 1:</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-weight"
-                                        endAdornment={<InputAdornment position="start">ft</InputAdornment>}
-                                        aria-describedby="outlined-weight-helper-text"
-                                        type="number"
-                                        className={classes.customInput}
-                                        style={{backgroundColor:"white"}}
-                                    />
-                                </FormGroup>
-                                <FormGroup row className={classes.customGroup} >
-                                    <InputLabel className={classes.customLabel} style={{marginRight:"0px", paddingRight:"25px"}}>Outer tubing diameter 1:</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-weight"
-                                        endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                        aria-describedby="outlined-weight-helper-text"
-                                        type="number"
-                                        className={classes.customInput}
-                                        style={{backgroundColor:"white"}}
-                                    />
-                                </FormGroup>
-                                <FormGroup row className={classes.customGroup} >
-                                    <InputLabel className={classes.customLabel} style={{marginRight:"0px", paddingRight:"25px"}}>Inner tubing diameter 1:</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-weight"
-                                        endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                        aria-describedby="outlined-weight-helper-text"
-                                        type="number"
-                                        className={classes.customInput}
-                                        style={{backgroundColor:"white"}}
-                                    />
-                                </FormGroup>
-                            </div>
+                        <Grid container spacing={0} className={classes.inputGroups}
+                              style={{width: "970px", paddingBottom: "20px"}}>
+                            <Grid item xs={6}>
+                                <FormGroup row className={classes.customGroup}>
+                                    <InputLabel id="casing-label" style={{marginRight: "20px", fontWeight: "bold"}}>Casing
+                                        (Size [in] - [lbs / ft))</InputLabel>
+                                    <Select
+                                        variant={"outlined"}
+                                        labelId="casing-label"
+                                        id="casing-select"
+                                        onChange={handleCompletionFormChange}
+                                        style={{height: "33px"}}
+                                        name="casingID"
+                                        value={completionData.casingID}
+                                        error={errors.casingID}
+                                    >
+                                        <MenuItem value={1}>2 3/8' (2.041) - 4.0 UN</MenuItem>
+                                        <MenuItem value={2}>3 3/8' (2.041) - 4.0 UN</MenuItem>
+                                        <MenuItem value={3}>4 3/8' (2.041) - 4.0 UN</MenuItem>
+                                    </Select>
 
-                            <Typography variant="subtitle2" className={classes.text} style={{textAlign:"center", marginBottom:"5px"}}>Middle</Typography>
-                            <div style={{background:"#FFAC0629", marginLeft: "10px"}}>
-                                <FormGroup row className={classes.customGroup}  >
-                                    <InputLabel className={classes.customLabel} style={{marginRight:"0px", paddingRight:"25px"}}>Tubing length 2:</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-weight"
-                                        endAdornment={<InputAdornment position="start">ft</InputAdornment>}
-                                        aria-describedby="outlined-weight-helper-text"
-                                        type="number"
-                                        className={classes.customInput}
-                                        style={{backgroundColor:"white"}}
-                                    />
+                                    {errors.casingID && (
+                                        <FormHelperText error>
+                                            {errors.casingID}
+                                        </FormHelperText>
+                                    )}
                                 </FormGroup>
-                                <FormGroup row className={classes.customGroup} >
-                                    <InputLabel className={classes.customLabel} style={{marginRight:"0px", paddingRight:"25px"}}>Outer tubing diameter 2:</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-weight"
-                                        endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                        aria-describedby="outlined-weight-helper-text"
-                                        type="number"
-                                        className={classes.customInput}
-                                        style={{backgroundColor:"white"}}
-                                    />
-                                </FormGroup>
-                                <FormGroup row className={classes.customGroup} >
-                                    <InputLabel className={classes.customLabel} style={{marginRight:"0px", paddingRight:"25px"}}>Inner tubing diameter 2:</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-weight"
-                                        endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                        aria-describedby="outlined-weight-helper-text"
-                                        type="number"
-                                        className={classes.customInput}
-                                        style={{backgroundColor:"white"}}
-                                    />
-                                </FormGroup>
-                            </div>
+                            </Grid>
 
-                            <Typography variant="subtitle2" className={classes.text} style={{textAlign:"center", marginBottom:"5px"}}>Bottom</Typography>
-                            <div style={{background:"#FFAC0629", marginLeft: "10px"}}>
-                                <FormGroup row className={classes.customGroup}  >
-                                    <InputLabel className={classes.customLabel} style={{marginRight:"0px", paddingRight:"25px"}}>Tubing length 3:</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-weight"
-                                        endAdornment={<InputAdornment position="start">ft</InputAdornment>}
-                                        aria-describedby="outlined-weight-helper-text"
-                                        type="number"
-                                        className={classes.customInput}
-                                        style={{backgroundColor:"white"}}
-                                    />
-                                </FormGroup>
-                                <FormGroup row className={classes.customGroup} >
-                                    <InputLabel className={classes.customLabel} style={{marginRight:"0px", paddingRight:"25px"}}>Outer tubing diameter 3:</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-weight"
-                                        endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                        aria-describedby="outlined-weight-helper-text"
-                                        type="number"
-                                        className={classes.customInput}
-                                        style={{backgroundColor:"white"}}
-                                    />
-                                </FormGroup>
-                                <FormGroup row className={classes.customGroup} >
-                                    <InputLabel className={classes.customLabel} style={{marginRight:"0px", paddingRight:"25px"}}>Inner tubing diameter 3:</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-weight"
-                                        endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                        aria-describedby="outlined-weight-helper-text"
-                                        type="number"
-                                        className={classes.customInput}
-                                        style={{backgroundColor:"white"}}
-                                    />
-                                </FormGroup>
-                            </div>
+                            <Grid item xs={6}>
+                                <FormGroup row className={classes.customGroup}>
+                                    <InputLabel id="tubing-label"
+                                                style={{marginRight: "20px", fontWeight: "bold"}}> Tubing (Size [in] -
+                                        [lbs / ft))</InputLabel>
+                                    <Select
+                                        variant={"outlined"}
+                                        labelId="tubing-label"
+                                        id="tubing-select"
+                                        onChange={handleCompletionFormChange}
+                                        style={{height: "33px"}}
+                                        name="tubingID"
+                                        value={completionData.tubingID}
+                                        error={errors.tubingID}
+                                    >
+                                        <MenuItem value="1">5 1/2" (4.892) - 17.00</MenuItem>
+                                        <MenuItem value="2">6 1/2" (4.892) - 17.00</MenuItem>
+                                        <MenuItem value="3">7 1/2" (4.892) - 17.00</MenuItem>
+                                    </Select>
 
+                                    {errors.tubingID && (
+                                        <FormHelperText error>
+                                            {errors.tubingID}
+                                        </FormHelperText>
+                                    )}
+                                </FormGroup>
+                            </Grid>
                         </Grid>
+
+                        <Grid container spacing={0} className={classes.inputGroups} style={{width: "970px"}}>
+                            <Grid item lg={6}>
+
+                                <Typography variant="subtitle2" className={classes.text}
+                                            style={{textAlign: "center", marginBottom: "5px"}}>Top</Typography>
+                                <div style={{background: "#068BFF29", marginRight: "10px"}}>
+                                    <FormGroup row className={classes.customGroup}>
+                                        <InputLabel className={classes.customLabel}
+                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Casing length
+                                            1:</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-weight"
+                                            endAdornment={<InputAdornment position="start">ft</InputAdornment>}
+                                            aria-describedby="outlined-weight-helper-text"
+                                            type="number"
+                                            className={classes.customInput}
+                                            inputProps={{step: maxDecimals}}
+                                            onChange={handleCompletionFormChange}
+                                            style={{backgroundColor: "white"}}
+                                            name="casingLength1"
+                                            value={completionData.casingLength1}
+                                            error={errors.casingLength1}
+                                        />
+
+                                        {errors.casingLength1 && (
+                                            <FormHelperText error>
+                                                {errors.casingLength1}
+                                            </FormHelperText>
+                                        )}
+                                    </FormGroup>
+                                    <FormGroup row className={classes.customGroup}>
+                                        <InputLabel className={classes.customLabel}
+                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Outer casing
+                                            diameter 1:</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-weight"
+                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                            aria-describedby="outlined-weight-helper-text"
+                                            type="number"
+                                            className={classes.customInput}
+                                            inputProps={{step: maxDecimals}}
+                                            onChange={handleCompletionFormChange}
+                                            style={{backgroundColor: "white"}}
+                                            name="ODCasing1"
+                                            value={completionData.ODCasing1}
+                                            error={errors.ODCasing1}
+                                        />
+
+                                        {errors.ODCasing1 && (
+                                            <FormHelperText error>
+                                                {errors.ODCasing1}
+                                            </FormHelperText>
+                                        )}
+                                    </FormGroup>
+                                    <FormGroup row className={classes.customGroup}>
+                                        <InputLabel className={classes.customLabel}
+                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Inner diameter of
+                                            casing 1:</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-weight"
+                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                            aria-describedby="outlined-weight-helper-text"
+                                            type="number"
+                                            className={classes.customInput}
+                                            inputProps={{step: maxDecimals}}
+                                            onChange={handleCompletionFormChange}
+                                            style={{backgroundColor: "white"}}
+                                            name="IDCasing1"
+                                            value={completionData.IDCasing1}
+                                            error={errors.IDCasing1}
+                                        />
+                                        {errors.IDCasing1 && (
+                                            <FormHelperText error>
+                                                {errors.IDCasing1}
+                                            </FormHelperText>
+                                        )}
+                                    </FormGroup>
+                                </div>
+
+                                <Typography variant="subtitle2" className={classes.text}
+                                            style={{textAlign: "center", marginBottom: "5px"}}>Middle</Typography>
+                                <div style={{background: "#068BFF29", marginRight: "10px"}}>
+                                    <FormGroup row className={classes.customGroup}>
+                                        <InputLabel className={classes.customLabel}
+                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Casing length
+                                            2:</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-weight"
+                                            endAdornment={<InputAdornment position="start">ft</InputAdornment>}
+                                            aria-describedby="outlined-weight-helper-text"
+                                            type="number"
+                                            className={classes.customInput}
+                                            inputProps={{step: maxDecimals}}
+                                            onChange={handleCompletionFormChange}
+                                            style={{backgroundColor: "white"}}
+                                            name="casingLength2"
+                                            value={completionData.casingLength2}
+                                            error={errors.casingLength2}
+                                        />
+
+                                        {errors.casingLength2 && (
+                                            <FormHelperText error>
+                                                {errors.casingLength2}
+                                            </FormHelperText>
+                                        )}
+                                    </FormGroup>
+                                    <FormGroup row className={classes.customGroup}>
+                                        <InputLabel className={classes.customLabel}
+                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Outer casing
+                                            diameter 2:</InputLabel>
+                                        <OutlinedInput
+                                            id="ODCasing2"
+                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                            aria-describedby="outlined-weight-helper-text"
+                                            type="number"
+                                            className={classes.customInput}
+                                            inputProps={{step: maxDecimals}}
+                                            onChange={handleCompletionFormChange}
+                                            style={{backgroundColor: "white"}}
+                                            name="ODCasing2"
+                                            value={completionData.ODCasing2}
+                                            error={errors.ODCasing2}
+                                        />
+
+                                        {errors.ODCasing2 && (
+                                            <FormHelperText error>
+                                                {errors.ODCasing2}
+                                            </FormHelperText>
+                                        )}
+                                    </FormGroup>
+                                    <FormGroup row className={classes.customGroup}>
+                                        <InputLabel className={classes.customLabel}
+                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Inner diameter of
+                                            casing 2:</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-weight"
+                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                            aria-describedby="outlined-weight-helper-text"
+                                            type="number"
+                                            className={classes.customInput}
+                                            inputProps={{step: maxDecimals}}
+                                            onChange={handleCompletionFormChange}
+                                            style={{backgroundColor: "white"}}
+                                            name="IDCasing2"
+                                            value={completionData.IDCasing2}
+                                            error={errors.IDCasing2}
+                                        />
+
+                                        {errors.IDCasing2 && (
+                                            <FormHelperText error>
+                                                {errors.IDCasing2}
+                                            </FormHelperText>
+                                        )}
+                                    </FormGroup>
+                                </div>
+
+                                <Typography variant="subtitle2" className={classes.text}
+                                            style={{textAlign: "center", marginBottom: "5px"}}>Bottom</Typography>
+                                <div style={{background: "#068BFF29", marginRight: "10px"}}>
+                                    <FormGroup row className={classes.customGroup}>
+                                        <InputLabel className={classes.customLabel}
+                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Casing length
+                                            3:</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-weight"
+                                            endAdornment={<InputAdornment position="start">ft</InputAdornment>}
+                                            aria-describedby="outlined-weight-helper-text"
+                                            type="number"
+                                            className={classes.customInput}
+                                            inputProps={{step: maxDecimals}}
+                                            onChange={handleCompletionFormChange}
+                                            style={{backgroundColor: "white"}}
+                                            name="casingLength3"
+                                            value={completionData.casingLength3}
+                                            error={errors.casingLength3}
+                                        />
+
+                                        {errors.casingLength3 && (
+                                            <FormHelperText error>
+                                                {errors.casingLength3}
+                                            </FormHelperText>
+                                        )}
+                                    </FormGroup>
+                                    <FormGroup row className={classes.customGroup}>
+                                        <InputLabel className={classes.customLabel}
+                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Outer casing
+                                            diameter 3:</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-weight"
+                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                            aria-describedby="outlined-weight-helper-text"
+                                            type="number"
+                                            className={classes.customInput}
+                                            inputProps={{step: maxDecimals}}
+                                            onChange={handleCompletionFormChange}
+                                            style={{backgroundColor: "white"}}
+                                            name="ODCasing3"
+                                            value={completionData.ODCasing3}
+                                            error={errors.ODCasing3}
+                                        />
+
+                                        {errors.ODCasing3 && (
+                                            <FormHelperText error>
+                                                {errors.ODCasing3}
+                                            </FormHelperText>
+                                        )}
+                                    </FormGroup>
+                                    <FormGroup row className={classes.customGroup}>
+                                        <InputLabel className={classes.customLabel}
+                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Inner diameter of
+                                            casing 3:</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-weight"
+                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                            aria-describedby="outlined-weight-helper-text"
+                                            type="number"
+                                            className={classes.customInput}
+                                            inputProps={{step: maxDecimals}}
+                                            onChange={handleCompletionFormChange}
+                                            style={{backgroundColor: "white"}}
+                                            name="IDCasing3"
+                                            value={completionData.IDCasing3}
+                                            error={errors.IDCasing3}
+                                        />
+
+                                        {errors.IDCasing3 && (
+                                            <FormHelperText error>
+                                                {errors.IDCasing3}
+                                            </FormHelperText>
+                                        )}
+                                    </FormGroup>
+                                </div>
+
+                            </Grid>
+
+                            <Grid item lg={6}>
+                                <Typography variant="subtitle2" className={classes.text}
+                                            style={{textAlign: "center", marginBottom: "5px"}}>Top</Typography>
+                                <div style={{background: "#FFAC0629", marginLeft: "10px"}}>
+                                    <FormGroup row className={classes.customGroup}>
+                                        <InputLabel className={classes.customLabel}
+                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Tubing length
+                                            1:</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-weight"
+                                            endAdornment={<InputAdornment position="start">ft</InputAdornment>}
+                                            aria-describedby="outlined-weight-helper-text"
+                                            type="number"
+                                            className={classes.customInput}
+                                            inputProps={{step: maxDecimals}}
+                                            onChange={handleCompletionFormChange}
+                                            style={{backgroundColor: "white"}}
+                                            name="tubingLength1"
+                                            value={completionData.tubingLength1}
+                                            error={errors.tubingLength1}
+                                        />
+
+                                        {errors.tubingLength1 && (
+                                            <FormHelperText error>
+                                                {errors.tubingLength1}
+                                            </FormHelperText>
+                                        )}
+                                    </FormGroup>
+                                    <FormGroup row className={classes.customGroup}>
+                                        <InputLabel className={classes.customLabel}
+                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Outer tubing
+                                            diameter 1:</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-weight"
+                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                            aria-describedby="outlined-weight-helper-text"
+                                            type="number"
+                                            className={classes.customInput}
+                                            inputProps={{step: maxDecimals}}
+                                            onChange={handleCompletionFormChange}
+                                            style={{backgroundColor: "white"}}
+                                            name="ODTubing1"
+                                            value={completionData.ODTubing1}
+                                            error={errors.ODTubing1}
+                                        />
+
+                                        {errors.ODTubing1 && (
+                                            <FormHelperText error>
+                                                {errors.ODTubing1}
+                                            </FormHelperText>
+                                        )}
+                                    </FormGroup>
+                                    <FormGroup row className={classes.customGroup}>
+                                        <InputLabel className={classes.customLabel}
+                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Inner tubing
+                                            diameter 1:</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-weight"
+                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                            aria-describedby="outlined-weight-helper-text"
+                                            type="number"
+                                            className={classes.customInput}
+                                            inputProps={{step: maxDecimals}}
+                                            onChange={handleCompletionFormChange}
+                                            style={{backgroundColor: "white"}}
+                                            name="IDTubing1"
+                                            value={completionData.IDTubing1}
+                                            error={errors.IDTubing1}
+                                        />
+
+                                        {errors.IDTubing1 && (
+                                            <FormHelperText error>
+                                                {errors.IDTubing1}
+                                            </FormHelperText>
+                                        )}
+                                    </FormGroup>
+                                </div>
+
+                                <Typography variant="subtitle2" className={classes.text}
+                                            style={{textAlign: "center", marginBottom: "5px"}}>Middle</Typography>
+                                <div style={{background: "#FFAC0629", marginLeft: "10px"}}>
+                                    <FormGroup row className={classes.customGroup}>
+                                        <InputLabel className={classes.customLabel}
+                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Tubing length
+                                            2:</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-weight"
+                                            endAdornment={<InputAdornment position="start">ft</InputAdornment>}
+                                            aria-describedby="outlined-weight-helper-text"
+                                            type="number"
+                                            className={classes.customInput}
+                                            inputProps={{step: maxDecimals}}
+                                            onChange={handleCompletionFormChange}
+                                            style={{backgroundColor: "white"}}
+                                            name="tubingLength2"
+                                            value={completionData.tubingLength2}
+                                            error={errors.tubingLength2}
+                                        />
+
+                                        {errors.tubingLength2 && (
+                                            <FormHelperText error>
+                                                {errors.tubingLength2}
+                                            </FormHelperText>
+                                        )}
+                                    </FormGroup>
+                                    <FormGroup row className={classes.customGroup}>
+                                        <InputLabel className={classes.customLabel}
+                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Outer tubing
+                                            diameter 2:</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-weight"
+                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                            aria-describedby="outlined-weight-helper-text"
+                                            type="number"
+                                            className={classes.customInput}
+                                            inputProps={{step: maxDecimals}}
+                                            onChange={handleCompletionFormChange}
+                                            style={{backgroundColor: "white"}}
+                                            name="ODTubing2"
+                                            value={completionData.ODTubing2}
+                                            error={errors.ODTubing2}
+                                        />
+
+                                        {errors.ODTubing2 && (
+                                            <FormHelperText error>
+                                                {errors.ODTubing2}
+                                            </FormHelperText>
+                                        )}
+                                    </FormGroup>
+                                    <FormGroup row className={classes.customGroup}>
+                                        <InputLabel className={classes.customLabel}
+                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Inner tubing
+                                            diameter 2:</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-weight"
+                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                            aria-describedby="outlined-weight-helper-text"
+                                            type="number"
+                                            className={classes.customInput}
+                                            inputProps={{step: maxDecimals}}
+                                            onChange={handleCompletionFormChange}
+                                            style={{backgroundColor: "white"}}
+                                            name="IDTubing2"
+                                            value={completionData.IDTubing2}
+                                            error={errors.IDTubing2}
+                                        />
+
+                                        {errors.IDTubing2 && (
+                                            <FormHelperText error>
+                                                {errors.IDTubing2}
+                                            </FormHelperText>
+                                        )}
+                                    </FormGroup>
+                                </div>
+
+                                <Typography variant="subtitle2" className={classes.text}
+                                            style={{textAlign: "center", marginBottom: "5px"}}>Bottom</Typography>
+                                <div style={{background: "#FFAC0629", marginLeft: "10px"}}>
+                                    <FormGroup row className={classes.customGroup}>
+                                        <InputLabel className={classes.customLabel}
+                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Tubing length
+                                            3:</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-weight"
+                                            endAdornment={<InputAdornment position="start">ft</InputAdornment>}
+                                            aria-describedby="outlined-weight-helper-text"
+                                            type="number"
+                                            className={classes.customInput}
+                                            inputProps={{step: maxDecimals}}
+                                            onChange={handleCompletionFormChange}
+                                            style={{backgroundColor: "white"}}
+                                            name="tubingLength3"
+                                            value={completionData.tubingLength3}
+                                            error={errors.tubingLength3}
+                                        />
+
+                                        {errors.tubingLength3 && (
+                                            <FormHelperText error>
+                                                {errors.tubingLength3}
+                                            </FormHelperText>
+                                        )}
+                                    </FormGroup>
+                                    <FormGroup row className={classes.customGroup}>
+                                        <InputLabel className={classes.customLabel}
+                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Outer tubing
+                                            diameter 3:</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-weight"
+                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                            aria-describedby="outlined-weight-helper-text"
+                                            type="number"
+                                            className={classes.customInput}
+                                            inputProps={{step: maxDecimals}}
+                                            onChange={handleCompletionFormChange}
+                                            style={{backgroundColor: "white"}}
+                                            name="ODTubing3"
+                                            value={completionData.ODTubing3}
+                                            error={errors.ODTubing3}
+                                        />
+
+                                        {errors.ODTubing3 && (
+                                            <FormHelperText error>
+                                                {errors.ODTubing3}
+                                            </FormHelperText>
+                                        )}
+                                    </FormGroup>
+                                    <FormGroup row className={classes.customGroup}>
+                                        <InputLabel className={classes.customLabel}
+                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Inner tubing
+                                            diameter 3:</InputLabel>
+                                        <OutlinedInput
+                                            id="outlined-adornment-weight"
+                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                            aria-describedby="outlined-weight-helper-text"
+                                            type="number"
+                                            className={classes.customInput}
+                                            inputProps={{step: maxDecimals}}
+                                            onChange={handleCompletionFormChange}
+                                            style={{backgroundColor: "white"}}
+                                            name="IDTubing3"
+                                            value={completionData.IDTubing3}
+                                            error={errors.IDTubing3}
+                                        />
+
+                                        {errors.IDTubing3 && (
+                                            <FormHelperText error>
+                                                {errors.IDTubing3}
+                                            </FormHelperText>
+                                        )}
+                                    </FormGroup>
+                                </div>
+                            </Grid>
+                        </Grid>
+
+                        <section className={classes.buttons}>
+                            <Button className={classes.buttonCreate}
+                                    variant="contained" color="primary"
+                                    size="large"
+                                    type="submit"
+                            >
+                                Save
+                            </Button>
+                            <Button className={classes.buttonCancel}
+                                    variant="contained"
+                                    color="secondary"
+                                    size="small"
+                                    onClick={handleClose}>
+                                Cancel
+                            </Button>
+                        </section>
                     </Grid>
 
-                    <section className={classes.buttons}>
-                        <Button className={classes.buttonCreate}
-                                variant="contained" color="primary"
-                                size="large"
-                        >
-                            Save
-                        </Button>
-                        <Button className={classes.buttonCancel}
-                                variant="contained"
-                                color="secondary"
-                                size="small"
-                                onClick={handleClose}>
-                            Cancel
-                        </Button>
-                    </section>
+                </form>
 
-                </Grid>
             </Paper>
-
         </div>
     );
 };
