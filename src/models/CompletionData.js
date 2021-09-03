@@ -50,8 +50,8 @@ export class CompletionData {
         this.pumpSettlementDepth= "";
         this.numberCasingPipes = "";
         this.numberProductionTubings = "";
-        this.casing = "";
-        this.tubing = "";
+        this.casingID = "";
+        this.tubingID = "";
         this.casingLength1 = "";
         this.ODCasing1 = "";
         this.IDCasing1 = "";

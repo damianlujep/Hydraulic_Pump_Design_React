@@ -25,7 +25,7 @@ const initialDataModel = () => {
     return data;
 }
 
-const CompletionForm = ({handleClose}) => {
+const CompletionForm = ({handleClose, setCompletionDataInserted}) => {
 
     //Validation for form onSubmit(). Returns true if 0 errors
     const validate = (fieldValues = completionData) => {
@@ -46,9 +46,9 @@ const CompletionForm = ({handleClose}) => {
             temp.numberProductionTubings = fieldValues.numberProductionTubings >= 0 ? "" : "Required field."
 
         if ('casingID' in fieldValues)
-            temp.numberCasingPipes = fieldValues.numberCasingPipes > 0 ? "" : "Required field."
-        if ('casingID' in fieldValues)
-            temp.numberProductionTubings = fieldValues.numberProductionTubings > 0 ? "" : "Required field."
+            temp.casingID = fieldValues.casingID > 0 ? "" : "Required field."
+        if ('tubingID' in fieldValues)
+            temp.tubingID = fieldValues.tubingID > 0 ? "" : "Required field."
 
         if ('casingLength1' in fieldValues)
             temp.casingLength1 = fieldValues.casingLength1 > 0 ? "" : "Required field."
@@ -157,7 +157,7 @@ const CompletionForm = ({handleClose}) => {
             customInput:{
                 height: "33px",
                 width: "130px",
-                paddingRight:"0px"
+                paddingRight:"8px"
             },
             inputGroups: {
                 paddingBottom: "40px",
@@ -205,8 +205,15 @@ const CompletionForm = ({handleClose}) => {
 
     const submitCompletionFormHandler = (e) => {
         e.preventDefault();
-        const validate1 = validate();
-        console.log(validate1)
+        const areInputValid = validate();
+
+        //Save no errors, save data in session and close form
+        if (areInputValid){
+            sessionStorage.setItem("completion-data", JSON.stringify(completionData));
+            sessionStorage.setItem("completion-data-entered", JSON.stringify(true));
+            setCompletionDataInserted(true);
+            handleClose();
+        }
     }
 
     const classes = styles();

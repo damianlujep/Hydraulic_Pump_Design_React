@@ -19,7 +19,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const CompletionDialog = () => {
+const CompletionDialog = ({setCompletionDataInserted}) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
 
@@ -54,7 +54,7 @@ const CompletionDialog = () => {
                     </Toolbar>
                 </AppBar>
 
-                <CompletionForm handleClose={handleClose}/>
+                <CompletionForm handleClose={handleClose} setCompletionDataInserted={setCompletionDataInserted}/>
             </Dialog>
         </div>
     );

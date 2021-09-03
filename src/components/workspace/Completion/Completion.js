@@ -4,42 +4,17 @@ import CompletionDialog from "./CompletionDialog";
 import DirectionalSurveyDialog from "./DirectionalSurveyDialog";
 import CompletionGridTable from "./CompletionGridTable";
 
+const getSessionStorageOrDefault = (key, defaultValue) => {
+    const stored = sessionStorage.getItem(key);
+    if (!stored) {
+        return defaultValue;
+    }
+    return JSON.parse(stored);
+}
 
 const Completion = () => {
-    const [completionDataInserted, setCompletionDataInserted] = useState(true);
+    const [completionDataInserted, setCompletionDataInserted] = useState(getSessionStorageOrDefault('completion-data-entered', false));
 
-    // const [lengthOfShots, setLengthOfShots] = useState(100);
-    // const [averageShotDepth, setAverageShotDepth] = useState(100);
-    // const [pumpSettlementLength, setPumpSettlementLength] = useState(555);
-    // const [pumpSettlementDepth, setPumpSettlementDepth] = useState(555);
-    //
-    // const [numberProductionTubings, setNumberProductionTubings] = useState(3);
-    // const [numberCasingPipes, setNumberCasingPipes] = useState(3);
-    //
-    // const [tubingLength1, setTubingLength1] = useState(100);
-    // const [ODTubing1, setODTubing1] = useState(0);
-    // const [IDTubing1, setIDTubing1] = useState(0);
-    //
-    // const [tubingLength2, setTubingLength2] = useState(0);
-    // const [ODTubing2, setODTubing2] = useState(0);
-    // const [IDTubing2, setIDTubing2] = useState(0);
-    //
-    // const [tubingLength3, setTubingLength3] = useState(0);
-    // const [ODTubing3, setODTubing3] = useState(0);
-    // const [IDTubing3, setIDTubing3] = useState(0);
-    //
-    // const [casingLength1, setCasingLength1] = useState(0);
-    // const [ODCasing1, setODCasing1] = useState(0);
-    // const [IDCasing1, setIDCasing1] = useState(0);
-    //
-    // const [casingLength2, setCasingLength2] = useState(0);
-    // const [ODCasing2, setODCasing2] = useState(0);
-    // const [IDCasing2, setIDCasing2] = useState(0);
-    //
-    // const [casingLength3, setCasingLength3] = useState(200);
-    // const [ODCasing3, setODCasing3] = useState(0);
-    // const [IDCasing3, setIDCasing3] = useState(0);
-    //
     const styles = makeStyles((theme) =>
         createStyles({
             container: {
@@ -96,7 +71,7 @@ const Completion = () => {
         if (completionDataInserted){
             return <CompletionGridTable/>
         } else {
-            return <CompletionDialog/>
+            return <CompletionDialog setCompletionDataInserted={setCompletionDataInserted}/>
         }
     }
 
