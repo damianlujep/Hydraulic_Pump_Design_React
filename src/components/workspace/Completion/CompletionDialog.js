@@ -19,7 +19,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const CompletionDialog = () => {
+const CompletionDialog = ({buttonLabel, appBarLabel, setCompletionDataInserted, setValidCompletionData}) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
 
@@ -39,7 +39,7 @@ const CompletionDialog = () => {
                 startIcon={<Edit />}
                 onClick={handleClickOpen}
             >
-                Insert Completion Data
+                {buttonLabel}
             </Button>
 
             <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
@@ -49,12 +49,12 @@ const CompletionDialog = () => {
                             <Close />
                         </IconButton>
                         <Typography variant="subtitle1" className={classes.title}>
-                            Completion Data Form
+                            {appBarLabel}
                         </Typography>
                     </Toolbar>
                 </AppBar>
 
-                <CompletionForm handleClose={handleClose}/>
+                <CompletionForm handleClose={handleClose} setCompletionDataInserted={setCompletionDataInserted} setValidCompletionData={setValidCompletionData}/>
             </Dialog>
         </div>
     );

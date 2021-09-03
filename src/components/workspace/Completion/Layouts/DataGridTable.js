@@ -6,33 +6,9 @@ import {DataGrid} from "@material-ui/data-grid";
 const DataGridTable = () => {
     const [editRowsModel, setEditRowsModel] = useState({});
 
-    // function useApiRef() {
-    //     const apiRef = useRef(null);
-    //     const _columns = useMemo(
-    //         () =>
-    //             columns.concat({
-    //                 field: "__HIDDEN__",
-    //                 width: 0,
-    //                 renderCell: (params) => {
-    //                     apiRef.current = params.api;
-    //                     return null;
-    //                 }
-    //             }),
-    //         [columns]
-    //     );
-    //
-    //     return { apiRef, columns: _columns };
-    // }
-
-    // const { apiRef, columns } = useApiRef();
-    //
     const handleEditRowsModelChange = useCallback((model) => {
         setEditRowsModel(model);
-        // console.log(apiRef.current.getRowModels());
-
     }, []);
-
-
 
     function validateNumbersColumnRendering(numberStr) {
         const numberValue = parseFloat(numberStr.value);

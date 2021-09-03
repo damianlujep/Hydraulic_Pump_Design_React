@@ -34,15 +34,6 @@ export class CompletionData {
     ODTubing3;
     IDTubing3;
 
-    // tubingTop;
-    // tubingMiddle;
-    // tubingBottom;
-
-    // casingTop;
-    // casingMiddle;
-    // casingBottom;
-
-
     constructor() {
         this.lengthOfShots = "";
         this.averageShotDepth = "";
@@ -50,8 +41,8 @@ export class CompletionData {
         this.pumpSettlementDepth= "";
         this.numberCasingPipes = "";
         this.numberProductionTubings = "";
-        this.casing = "";
-        this.tubing = "";
+        this.casingID = "";
+        this.tubingID = "";
         this.casingLength1 = "";
         this.ODCasing1 = "";
         this.IDCasing1 = "";
