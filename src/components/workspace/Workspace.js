@@ -15,9 +15,12 @@ import clsx from "clsx";
 import {mainListItems, secondaryListItems} from "./listItems";
 import WorkspaceActionsBar from "./WorkspaceActionsBar";
 import WorkspaceMainBox from "./WorkspaceMainBox";
+import {useHistory} from "react-router-dom";
 
 
-const Workspace = () => {
+const Workspace = ({username}) => {
+    const projectInfoData = JSON.parse(sessionStorage.getItem("new-project-info-data"));
+    const history = useHistory();
     const drawerWidth = 200;
 
     const useStyles = makeStyles((theme) => ({
@@ -104,6 +107,11 @@ const Workspace = () => {
         setOpen(false);
     };
 
+    const editUserInfoButtonHandler = () => {
+        console.log("click")
+        history.push("/newProject");
+    }
+
     return (
         <div className={classes.root}>
             <CssBaseline />
@@ -120,13 +128,17 @@ const Workspace = () => {
                     </IconButton>
                     <section className={classes.workspaceHeader}>
                         <Typography variant="subtitle2" color="inherit">
-                            Analyst: Analyst name
+                            Analyst: {projectInfoData.analystName}
                         </Typography>
                         <Typography variant="subtitle2" color="inherit">
-                            My New Project Name
+                            {projectInfoData.newProjectName}
                         </Typography>
                         <div style={{display: "flex", alignItems: "center"}}>
-                            <IconButton color="secondary" aria-label="Edit completion data">
+                            <IconButton
+                                color="secondary"
+                                aria-label="Edit completion data"
+                                onClick={editUserInfoButtonHandler}
+                            >
                                 <Edit fontSize="small" style={{fill: "white"}}/>
                             </IconButton>
                             <Typography variant="subtitle2" >Edit user information</Typography>

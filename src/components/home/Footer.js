@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Container, createStyles, makeStyles, Paper, Typography} from "@material-ui/core";
+import {Box, createStyles, makeStyles, Typography} from "@material-ui/core";
 
 const Footer = () => {
     const styles = makeStyles((theme) =>

@@ -3,15 +3,17 @@ import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Home from "./components/home/Home";
 import NewProject from "./components/newproject/NewProject";
 import Workspace from "./components/workspace/Workspace";
+import {getSessionStorageOrDefault} from "./components/service/SessionStorageService";
 
 function App() {
-    const [currentUser, setCurrentUser] = useState("");
-    const [authorized, setAuthorized] = useState(false);
+    const [username, setUsername] = useState(getSessionStorageOrDefault("username", ""));
+    const [authorized, setAuthorized] = useState(getSessionStorageOrDefault("authorized", false));
 
     const grandAccess = (user) => {
         if (user.username === "damianlujep" && user.password === "password") {
-            setCurrentUser(user);
+            setUsername(user.username);
             setAuthorized(true);
+            sessionStorage.setItem("authorized", JSON.stringify(true));
         }
     }
 
@@ -27,12 +29,12 @@ function App() {
                 <Route
                     exact
                     path="/newProject"
-                    component={() => <NewProject authorized={authorized} username={currentUser.username}/>}
+                    component={() => <NewProject authorized={authorized} username={username}/>}
                 />
                 <Route
                     exact
-                    path={`/${currentUser.username}/workspace`}
-                    component={() => <Workspace authorized={authorized} username={currentUser.username}/>}
+                    path={`/${username}/workspace`}
+                    component={() => <Workspace authorized={authorized} username={username}/>}
                 />
             </Switch>
         </BrowserRouter>

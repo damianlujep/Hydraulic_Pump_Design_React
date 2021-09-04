@@ -86,18 +86,18 @@ const TableNumerAndUnit = () => {
         }
     });
 
-    const classes2 = useStyles();
+    const classes = useStyles();
 
     return (
         <div>
             <TableContainer style={{width: tableWidth}} component={Paper}>
-                <Table size="small" className={classes2.table} aria-label="customized table">
+                <Table size="small" className={classes.table} aria-label="customized table">
                     <TableBody>
                         {rows.map((row) => (
                             <StyledTableRow key={row.name}>
-                                <StyledTableCell align="normal" className={classes2.label}>{row.name}</StyledTableCell>
-                                <StyledTableCell align="right" className={classes2.number}>{row.calories}</StyledTableCell>
-                                <StyledTableCell align="left" className={classes2.unit}>{row.fat}</StyledTableCell>
+                                <StyledTableCell align="normal" className={classes.label}>{row.name}</StyledTableCell>
+                                <StyledTableCell align="right" className={classes.number}>{row.calories}</StyledTableCell>
+                                <StyledTableCell align="left" className={classes.unit}>{row.fat}</StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>
@@ -113,25 +113,5 @@ const TableNumerAndUnit = () => {
         </div>
     );
 };
-
-{/*<div>*/}
-{/*    {*/}
-{/*        shotsAndDepthData.map((el, index) => <Typography variant="body1" key={index}>{el}</Typography>)*/}
-{/*    }*/}
-{/*    <hr/>*/}
-{/*    {*/}
-{/*        printTubingOrCasing("Tubing", numberProductionTubings, tubingData)*/}
-{/*    }*/}
-{/*    <hr/>*/}
-{/*    {*/}
-{/*        printTubingOrCasing("Casing", numberCasingPipes, casingData)*/}
-{/*    }*/}
-{/*    <div className={classes.editCompletionButton}>*/}
-{/*        <IconButton color="primary" aria-label="Edit completion data" >*/}
-{/*            <Edit />*/}
-{/*        </IconButton>*/}
-{/*        <Typography variant="body1" color="primary">Edit completion data</Typography>*/}
-{/*    </div>*/}
-{/*</div>*/}
 
 export default TableNumerAndUnit;
