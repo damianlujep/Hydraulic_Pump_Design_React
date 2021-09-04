@@ -24,12 +24,12 @@ const initialDataModel = () => {
     } else {
         const data = new NewProjectInfoData();
         data.wellType = "Directional";
-        console.log(data.date)
+        data.date = (new Date()).toISOString().split('T')[0];
         return data;
     }
 }
 
-const NewProjectForm = ({username}) => {
+const NewProjectForm = ({actionButtonLabel, username, newProjectDataInserted, setNewProjectDataInserted, setValidNewProjectData}) => {
     const history = useHistory();
 
     const validate = (fieldValues = newProjectInfoData) => {
@@ -71,13 +71,11 @@ const NewProjectForm = ({username}) => {
     const [newProjectInfoData, setNewProjectInfoData] = useState(initialDataModel);
     const [errors, setErrors] = useState({});
 
-    const cancelButtonHandler = (event) => {
-      history.push("/");
-    }
+    const renderDynamicLabelButton = () => (newProjectDataInserted) ? "Edit new project data" :actionButtonLabel;
 
-    const createProjectHandler = () => {
-      history.push(`/${username}/workspace`)
-    }
+    const cancelButtonHandler = () => (newProjectDataInserted) ? redirectToWorkspace() : history.push("/");
+
+    const redirectToWorkspace = () => history.push(`/${username}/workspace`);
 
     const styles = makeStyles((theme) =>
         createStyles({
@@ -150,9 +148,9 @@ const NewProjectForm = ({username}) => {
         if (areInputsValid){
             sessionStorage.setItem("new-project-info-data", JSON.stringify(newProjectInfoData));
             sessionStorage.setItem("new-project-info-data-entered", JSON.stringify(true));
-            createProjectHandler();
-            // setCompletionDataInserted(true);
-            // setValidCompletionData(completionData)
+            setNewProjectDataInserted(true);
+            setValidNewProjectData(newProjectInfoData);
+            redirectToWorkspace();
         }
     }
 
@@ -328,7 +326,9 @@ const NewProjectForm = ({username}) => {
                                 size="large"
                                 type="submit"
                         >
-                            Create new project
+                            {
+                                renderDynamicLabelButton()
+                            }
                         </Button>
                         <Button className={classes.buttonCancel}
                                 variant="contained"
