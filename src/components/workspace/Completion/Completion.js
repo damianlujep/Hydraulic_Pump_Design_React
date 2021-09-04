@@ -3,14 +3,7 @@ import {createStyles, makeStyles} from "@material-ui/core";
 import CompletionDialog from "./CompletionDialog";
 import DirectionalSurveyDialog from "./DirectionalSurveyDialog";
 import CompletionGridTable from "./CompletionGridTable";
-
-const getSessionStorageOrDefault = (key, defaultValue) => {
-    const stored = sessionStorage.getItem(key);
-    if (!stored) {
-        return defaultValue;
-    }
-    return JSON.parse(stored);
-}
+import {getSessionStorageOrDefault} from "../../service/SessionStorageService";
 
 const Completion = () => {
     const [completionDataInserted, setCompletionDataInserted] = useState(getSessionStorageOrDefault('completion-data-entered', false));

@@ -18,7 +18,8 @@ import WorkspaceMainBox from "./WorkspaceMainBox";
 import {useHistory} from "react-router-dom";
 
 
-const Workspace = () => {
+const Workspace = ({username}) => {
+    const projectInfoData = JSON.parse(sessionStorage.getItem("new-project-info-data"));
     const history = useHistory();
     const drawerWidth = 200;
 
@@ -127,10 +128,10 @@ const Workspace = () => {
                     </IconButton>
                     <section className={classes.workspaceHeader}>
                         <Typography variant="subtitle2" color="inherit">
-                            Analyst: Analyst name
+                            Analyst: {projectInfoData.analystName}
                         </Typography>
                         <Typography variant="subtitle2" color="inherit">
-                            My New Project Name
+                            {projectInfoData.newProjectName}
                         </Typography>
                         <div style={{display: "flex", alignItems: "center"}}>
                             <IconButton

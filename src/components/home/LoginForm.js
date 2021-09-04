@@ -5,7 +5,6 @@ import {
     createStyles,
     FormGroup,
     InputAdornment,
-    InputLabel,
     makeStyles,
     Paper,
     TextField
@@ -26,8 +25,6 @@ const LoginForm = ({addCurrentUser}) => {
         const tempErrors = [];
         e.preventDefault();
 
-        console.log(username, password);
-
         if (username.trim() !== "damianlujep") {
             tempErrors.push("Incorrect username");
         }
@@ -43,6 +40,7 @@ const LoginForm = ({addCurrentUser}) => {
             addCurrentUser(newUser);
             setErrors([]);
 
+            sessionStorage.setItem("username", JSON.stringify(username));
             history.push("/newProject");
         }
     }
