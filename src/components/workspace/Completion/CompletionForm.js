@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Button,
     createStyles,
@@ -219,13 +219,54 @@ const CompletionForm = ({handleClose, setCompletionDataInserted, setValidComplet
             sessionStorage.setItem("completion-data-entered", JSON.stringify(true));
             setCompletionDataInserted(true);
             setValidCompletionData(completionData)
-
             handleClose();
         }
     }
 
     const classes = styles();
     const maxDecimals = "0.001";
+
+    const [casingTMBDisplay, setCasingTMBDisplay] = useState({middle:{display:"none"}, bottom:{display:"none"}});
+    const [tubingTMBDisplay, setTubingTMBDisplay] = useState({middle:{display:"none"}, bottom:{display:"none"}});
+
+    //Dynamic casing # render
+    useEffect(() => {
+        const numberCasingPipes = completionData.numberCasingPipes;
+
+        if (numberCasingPipes === 2){
+            setCasingTMBDisplay({
+                middle:{display:"block"}, bottom:{display:"none"}
+            });
+        } else if (numberCasingPipes === 3){
+            setCasingTMBDisplay({
+                middle:{display:"block"}, bottom:{display:"block"}
+            });
+        } else {
+            setCasingTMBDisplay({
+                middle:{display:"none"}, bottom:{display:"none"}
+            });
+        }
+    }, [completionData.numberCasingPipes]);
+
+    //Dynamic tubing # render
+    useEffect(() => {
+        const numberProductionTubings = completionData.numberProductionTubings;
+
+        if (numberProductionTubings === 2){
+            setTubingTMBDisplay({
+                middle:{display:"block"}, bottom:{display:"none"}
+            });
+        } else if (numberProductionTubings === 3){
+            setTubingTMBDisplay({
+                middle:{display:"block"}, bottom:{display:"block"}
+            });
+        } else {
+            setTubingTMBDisplay({
+                middle:{display:"none"}, bottom:{display:"none"}
+            });
+        }
+    }, [completionData.numberProductionTubings]);
+
 
     return (
         <div className={classes.root}>
@@ -469,470 +510,488 @@ const CompletionForm = ({handleClose, setCompletionDataInserted, setValidComplet
 
                         <Grid container spacing={0} className={classes.inputGroups} style={{width: "970px"}}>
                             <Grid item lg={6}>
+                                {/*Casing Top*/}
+                                <section>
+                                    <Typography variant="subtitle2" className={classes.text}
+                                                style={{textAlign: "center", marginBottom: "5px"}}>Top</Typography>
+                                    <div style={{background: "#068BFF29", marginRight: "10px"}}>
+                                        <FormGroup row className={classes.customGroup}>
+                                            <InputLabel className={classes.customLabel}
+                                                        style={{marginRight: "0px", paddingRight: "25px"}}>Casing length
+                                                1:</InputLabel>
+                                            <OutlinedInput
+                                                id="outlined-adornment-weight"
+                                                endAdornment={<InputAdornment position="start">ft</InputAdornment>}
+                                                aria-describedby="outlined-weight-helper-text"
+                                                type="number"
+                                                className={classes.customInput}
+                                                inputProps={{step: maxDecimals}}
+                                                onChange={handleCompletionFormChange}
+                                                style={{backgroundColor: "white"}}
+                                                name="casingLength1"
+                                                value={completionData.casingLength1}
+                                                error={errors.casingLength1}
+                                            />
 
-                                <Typography variant="subtitle2" className={classes.text}
-                                            style={{textAlign: "center", marginBottom: "5px"}}>Top</Typography>
-                                <div style={{background: "#068BFF29", marginRight: "10px"}}>
-                                    <FormGroup row className={classes.customGroup}>
-                                        <InputLabel className={classes.customLabel}
-                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Casing length
-                                            1:</InputLabel>
-                                        <OutlinedInput
-                                            id="outlined-adornment-weight"
-                                            endAdornment={<InputAdornment position="start">ft</InputAdornment>}
-                                            aria-describedby="outlined-weight-helper-text"
-                                            type="number"
-                                            className={classes.customInput}
-                                            inputProps={{step: maxDecimals}}
-                                            onChange={handleCompletionFormChange}
-                                            style={{backgroundColor: "white"}}
-                                            name="casingLength1"
-                                            value={completionData.casingLength1}
-                                            error={errors.casingLength1}
-                                        />
+                                            {errors.casingLength1 && (
+                                                <FormHelperText error>
+                                                    {errors.casingLength1}
+                                                </FormHelperText>
+                                            )}
+                                        </FormGroup>
+                                        <FormGroup row className={classes.customGroup}>
+                                            <InputLabel className={classes.customLabel}
+                                                        style={{marginRight: "0px", paddingRight: "25px"}}>Outer casing
+                                                diameter 1:</InputLabel>
+                                            <OutlinedInput
+                                                id="outlined-adornment-weight"
+                                                endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                                aria-describedby="outlined-weight-helper-text"
+                                                type="number"
+                                                className={classes.customInput}
+                                                inputProps={{step: maxDecimals}}
+                                                onChange={handleCompletionFormChange}
+                                                style={{backgroundColor: "white"}}
+                                                name="ODCasing1"
+                                                value={completionData.ODCasing1}
+                                                error={errors.ODCasing1}
+                                            />
 
-                                        {errors.casingLength1 && (
-                                            <FormHelperText error>
-                                                {errors.casingLength1}
-                                            </FormHelperText>
-                                        )}
-                                    </FormGroup>
-                                    <FormGroup row className={classes.customGroup}>
-                                        <InputLabel className={classes.customLabel}
-                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Outer casing
-                                            diameter 1:</InputLabel>
-                                        <OutlinedInput
-                                            id="outlined-adornment-weight"
-                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                            aria-describedby="outlined-weight-helper-text"
-                                            type="number"
-                                            className={classes.customInput}
-                                            inputProps={{step: maxDecimals}}
-                                            onChange={handleCompletionFormChange}
-                                            style={{backgroundColor: "white"}}
-                                            name="ODCasing1"
-                                            value={completionData.ODCasing1}
-                                            error={errors.ODCasing1}
-                                        />
+                                            {errors.ODCasing1 && (
+                                                <FormHelperText error>
+                                                    {errors.ODCasing1}
+                                                </FormHelperText>
+                                            )}
+                                        </FormGroup>
+                                        <FormGroup row className={classes.customGroup}>
+                                            <InputLabel className={classes.customLabel}
+                                                        style={{marginRight: "0px", paddingRight: "25px"}}>Inner diameter of
+                                                casing 1:</InputLabel>
+                                            <OutlinedInput
+                                                id="outlined-adornment-weight"
+                                                endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                                aria-describedby="outlined-weight-helper-text"
+                                                type="number"
+                                                className={classes.customInput}
+                                                inputProps={{step: maxDecimals}}
+                                                onChange={handleCompletionFormChange}
+                                                style={{backgroundColor: "white"}}
+                                                name="IDCasing1"
+                                                value={completionData.IDCasing1}
+                                                error={errors.IDCasing1}
+                                            />
+                                            {errors.IDCasing1 && (
+                                                <FormHelperText error>
+                                                    {errors.IDCasing1}
+                                                </FormHelperText>
+                                            )}
+                                        </FormGroup>
+                                    </div>
+                                </section>
 
-                                        {errors.ODCasing1 && (
-                                            <FormHelperText error>
-                                                {errors.ODCasing1}
-                                            </FormHelperText>
-                                        )}
-                                    </FormGroup>
-                                    <FormGroup row className={classes.customGroup}>
-                                        <InputLabel className={classes.customLabel}
-                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Inner diameter of
-                                            casing 1:</InputLabel>
-                                        <OutlinedInput
-                                            id="outlined-adornment-weight"
-                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                            aria-describedby="outlined-weight-helper-text"
-                                            type="number"
-                                            className={classes.customInput}
-                                            inputProps={{step: maxDecimals}}
-                                            onChange={handleCompletionFormChange}
-                                            style={{backgroundColor: "white"}}
-                                            name="IDCasing1"
-                                            value={completionData.IDCasing1}
-                                            error={errors.IDCasing1}
-                                        />
-                                        {errors.IDCasing1 && (
-                                            <FormHelperText error>
-                                                {errors.IDCasing1}
-                                            </FormHelperText>
-                                        )}
-                                    </FormGroup>
-                                </div>
+                                {/*Casing Middle*/}
+                                <section style={casingTMBDisplay.middle}>
+                                    <Typography variant="subtitle2" className={classes.text}
+                                                style={{textAlign: "center", marginBottom: "5px"}}>Middle</Typography>
+                                    <div style={{background: "#068BFF29", marginRight: "10px"}}>
+                                        <FormGroup row className={classes.customGroup}>
+                                            <InputLabel className={classes.customLabel}
+                                                        style={{marginRight: "0px", paddingRight: "25px"}}>Casing length
+                                                2:</InputLabel>
+                                            <OutlinedInput
+                                                id="outlined-adornment-weight"
+                                                endAdornment={<InputAdornment position="start">ft</InputAdornment>}
+                                                aria-describedby="outlined-weight-helper-text"
+                                                type="number"
+                                                className={classes.customInput}
+                                                inputProps={{step: maxDecimals}}
+                                                onChange={handleCompletionFormChange}
+                                                style={{backgroundColor: "white"}}
+                                                name="casingLength2"
+                                                value={completionData.casingLength2}
+                                                error={errors.casingLength2}
+                                            />
 
-                                <Typography variant="subtitle2" className={classes.text}
-                                            style={{textAlign: "center", marginBottom: "5px"}}>Middle</Typography>
-                                <div style={{background: "#068BFF29", marginRight: "10px"}}>
-                                    <FormGroup row className={classes.customGroup}>
-                                        <InputLabel className={classes.customLabel}
-                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Casing length
-                                            2:</InputLabel>
-                                        <OutlinedInput
-                                            id="outlined-adornment-weight"
-                                            endAdornment={<InputAdornment position="start">ft</InputAdornment>}
-                                            aria-describedby="outlined-weight-helper-text"
-                                            type="number"
-                                            className={classes.customInput}
-                                            inputProps={{step: maxDecimals}}
-                                            onChange={handleCompletionFormChange}
-                                            style={{backgroundColor: "white"}}
-                                            name="casingLength2"
-                                            value={completionData.casingLength2}
-                                            error={errors.casingLength2}
-                                        />
+                                            {errors.casingLength2 && (
+                                                <FormHelperText error>
+                                                    {errors.casingLength2}
+                                                </FormHelperText>
+                                            )}
+                                        </FormGroup>
+                                        <FormGroup row className={classes.customGroup}>
+                                            <InputLabel className={classes.customLabel}
+                                                        style={{marginRight: "0px", paddingRight: "25px"}}>Outer casing
+                                                diameter 2:</InputLabel>
+                                            <OutlinedInput
+                                                id="ODCasing2"
+                                                endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                                aria-describedby="outlined-weight-helper-text"
+                                                type="number"
+                                                className={classes.customInput}
+                                                inputProps={{step: maxDecimals}}
+                                                onChange={handleCompletionFormChange}
+                                                style={{backgroundColor: "white"}}
+                                                name="ODCasing2"
+                                                value={completionData.ODCasing2}
+                                                error={errors.ODCasing2}
+                                            />
 
-                                        {errors.casingLength2 && (
-                                            <FormHelperText error>
-                                                {errors.casingLength2}
-                                            </FormHelperText>
-                                        )}
-                                    </FormGroup>
-                                    <FormGroup row className={classes.customGroup}>
-                                        <InputLabel className={classes.customLabel}
-                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Outer casing
-                                            diameter 2:</InputLabel>
-                                        <OutlinedInput
-                                            id="ODCasing2"
-                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                            aria-describedby="outlined-weight-helper-text"
-                                            type="number"
-                                            className={classes.customInput}
-                                            inputProps={{step: maxDecimals}}
-                                            onChange={handleCompletionFormChange}
-                                            style={{backgroundColor: "white"}}
-                                            name="ODCasing2"
-                                            value={completionData.ODCasing2}
-                                            error={errors.ODCasing2}
-                                        />
+                                            {errors.ODCasing2 && (
+                                                <FormHelperText error>
+                                                    {errors.ODCasing2}
+                                                </FormHelperText>
+                                            )}
+                                        </FormGroup>
+                                        <FormGroup row className={classes.customGroup}>
+                                            <InputLabel className={classes.customLabel}
+                                                        style={{marginRight: "0px", paddingRight: "25px"}}>Inner diameter of
+                                                casing 2:</InputLabel>
+                                            <OutlinedInput
+                                                id="outlined-adornment-weight"
+                                                endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                                aria-describedby="outlined-weight-helper-text"
+                                                type="number"
+                                                className={classes.customInput}
+                                                inputProps={{step: maxDecimals}}
+                                                onChange={handleCompletionFormChange}
+                                                style={{backgroundColor: "white"}}
+                                                name="IDCasing2"
+                                                value={completionData.IDCasing2}
+                                                error={errors.IDCasing2}
+                                            />
 
-                                        {errors.ODCasing2 && (
-                                            <FormHelperText error>
-                                                {errors.ODCasing2}
-                                            </FormHelperText>
-                                        )}
-                                    </FormGroup>
-                                    <FormGroup row className={classes.customGroup}>
-                                        <InputLabel className={classes.customLabel}
-                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Inner diameter of
-                                            casing 2:</InputLabel>
-                                        <OutlinedInput
-                                            id="outlined-adornment-weight"
-                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                            aria-describedby="outlined-weight-helper-text"
-                                            type="number"
-                                            className={classes.customInput}
-                                            inputProps={{step: maxDecimals}}
-                                            onChange={handleCompletionFormChange}
-                                            style={{backgroundColor: "white"}}
-                                            name="IDCasing2"
-                                            value={completionData.IDCasing2}
-                                            error={errors.IDCasing2}
-                                        />
+                                            {errors.IDCasing2 && (
+                                                <FormHelperText error>
+                                                    {errors.IDCasing2}
+                                                </FormHelperText>
+                                            )}
+                                        </FormGroup>
+                                    </div>
+                                </section>
 
-                                        {errors.IDCasing2 && (
-                                            <FormHelperText error>
-                                                {errors.IDCasing2}
-                                            </FormHelperText>
-                                        )}
-                                    </FormGroup>
-                                </div>
+                                {/*Casing Bottom*/}
+                                <section style={casingTMBDisplay.bottom}>
+                                    <Typography variant="subtitle2" className={classes.text}
+                                                style={{textAlign: "center", marginBottom: "5px"}}>Bottom</Typography>
+                                    <div style={{background: "#068BFF29", marginRight: "10px"}}>
+                                        <FormGroup row className={classes.customGroup}>
+                                            <InputLabel className={classes.customLabel}
+                                                        style={{marginRight: "0px", paddingRight: "25px"}}>Casing length
+                                                3:</InputLabel>
+                                            <OutlinedInput
+                                                id="outlined-adornment-weight"
+                                                endAdornment={<InputAdornment position="start">ft</InputAdornment>}
+                                                aria-describedby="outlined-weight-helper-text"
+                                                type="number"
+                                                className={classes.customInput}
+                                                inputProps={{step: maxDecimals}}
+                                                onChange={handleCompletionFormChange}
+                                                style={{backgroundColor: "white"}}
+                                                name="casingLength3"
+                                                value={completionData.casingLength3}
+                                                error={errors.casingLength3}
+                                            />
 
-                                <Typography variant="subtitle2" className={classes.text}
-                                            style={{textAlign: "center", marginBottom: "5px"}}>Bottom</Typography>
-                                <div style={{background: "#068BFF29", marginRight: "10px"}}>
-                                    <FormGroup row className={classes.customGroup}>
-                                        <InputLabel className={classes.customLabel}
-                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Casing length
-                                            3:</InputLabel>
-                                        <OutlinedInput
-                                            id="outlined-adornment-weight"
-                                            endAdornment={<InputAdornment position="start">ft</InputAdornment>}
-                                            aria-describedby="outlined-weight-helper-text"
-                                            type="number"
-                                            className={classes.customInput}
-                                            inputProps={{step: maxDecimals}}
-                                            onChange={handleCompletionFormChange}
-                                            style={{backgroundColor: "white"}}
-                                            name="casingLength3"
-                                            value={completionData.casingLength3}
-                                            error={errors.casingLength3}
-                                        />
+                                            {errors.casingLength3 && (
+                                                <FormHelperText error>
+                                                    {errors.casingLength3}
+                                                </FormHelperText>
+                                            )}
+                                        </FormGroup>
+                                        <FormGroup row className={classes.customGroup}>
+                                            <InputLabel className={classes.customLabel}
+                                                        style={{marginRight: "0px", paddingRight: "25px"}}>Outer casing
+                                                diameter 3:</InputLabel>
+                                            <OutlinedInput
+                                                id="outlined-adornment-weight"
+                                                endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                                aria-describedby="outlined-weight-helper-text"
+                                                type="number"
+                                                className={classes.customInput}
+                                                inputProps={{step: maxDecimals}}
+                                                onChange={handleCompletionFormChange}
+                                                style={{backgroundColor: "white"}}
+                                                name="ODCasing3"
+                                                value={completionData.ODCasing3}
+                                                error={errors.ODCasing3}
+                                            />
 
-                                        {errors.casingLength3 && (
-                                            <FormHelperText error>
-                                                {errors.casingLength3}
-                                            </FormHelperText>
-                                        )}
-                                    </FormGroup>
-                                    <FormGroup row className={classes.customGroup}>
-                                        <InputLabel className={classes.customLabel}
-                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Outer casing
-                                            diameter 3:</InputLabel>
-                                        <OutlinedInput
-                                            id="outlined-adornment-weight"
-                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                            aria-describedby="outlined-weight-helper-text"
-                                            type="number"
-                                            className={classes.customInput}
-                                            inputProps={{step: maxDecimals}}
-                                            onChange={handleCompletionFormChange}
-                                            style={{backgroundColor: "white"}}
-                                            name="ODCasing3"
-                                            value={completionData.ODCasing3}
-                                            error={errors.ODCasing3}
-                                        />
+                                            {errors.ODCasing3 && (
+                                                <FormHelperText error>
+                                                    {errors.ODCasing3}
+                                                </FormHelperText>
+                                            )}
+                                        </FormGroup>
+                                        <FormGroup row className={classes.customGroup}>
+                                            <InputLabel className={classes.customLabel}
+                                                        style={{marginRight: "0px", paddingRight: "25px"}}>Inner diameter of
+                                                casing 3:</InputLabel>
+                                            <OutlinedInput
+                                                id="outlined-adornment-weight"
+                                                endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                                aria-describedby="outlined-weight-helper-text"
+                                                type="number"
+                                                className={classes.customInput}
+                                                inputProps={{step: maxDecimals}}
+                                                onChange={handleCompletionFormChange}
+                                                style={{backgroundColor: "white"}}
+                                                name="IDCasing3"
+                                                value={completionData.IDCasing3}
+                                                error={errors.IDCasing3}
+                                            />
 
-                                        {errors.ODCasing3 && (
-                                            <FormHelperText error>
-                                                {errors.ODCasing3}
-                                            </FormHelperText>
-                                        )}
-                                    </FormGroup>
-                                    <FormGroup row className={classes.customGroup}>
-                                        <InputLabel className={classes.customLabel}
-                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Inner diameter of
-                                            casing 3:</InputLabel>
-                                        <OutlinedInput
-                                            id="outlined-adornment-weight"
-                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                            aria-describedby="outlined-weight-helper-text"
-                                            type="number"
-                                            className={classes.customInput}
-                                            inputProps={{step: maxDecimals}}
-                                            onChange={handleCompletionFormChange}
-                                            style={{backgroundColor: "white"}}
-                                            name="IDCasing3"
-                                            value={completionData.IDCasing3}
-                                            error={errors.IDCasing3}
-                                        />
-
-                                        {errors.IDCasing3 && (
-                                            <FormHelperText error>
-                                                {errors.IDCasing3}
-                                            </FormHelperText>
-                                        )}
-                                    </FormGroup>
-                                </div>
+                                            {errors.IDCasing3 && (
+                                                <FormHelperText error>
+                                                    {errors.IDCasing3}
+                                                </FormHelperText>
+                                            )}
+                                        </FormGroup>
+                                    </div>
+                                </section>
 
                             </Grid>
 
                             <Grid item lg={6}>
-                                <Typography variant="subtitle2" className={classes.text}
-                                            style={{textAlign: "center", marginBottom: "5px"}}>Top</Typography>
-                                <div style={{background: "#FFAC0629", marginLeft: "10px"}}>
-                                    <FormGroup row className={classes.customGroup}>
-                                        <InputLabel className={classes.customLabel}
-                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Tubing length
-                                            1:</InputLabel>
-                                        <OutlinedInput
-                                            id="outlined-adornment-weight"
-                                            endAdornment={<InputAdornment position="start">ft</InputAdornment>}
-                                            aria-describedby="outlined-weight-helper-text"
-                                            type="number"
-                                            className={classes.customInput}
-                                            inputProps={{step: maxDecimals}}
-                                            onChange={handleCompletionFormChange}
-                                            style={{backgroundColor: "white"}}
-                                            name="tubingLength1"
-                                            value={completionData.tubingLength1}
-                                            error={errors.tubingLength1}
-                                        />
+                                {/*Tubing Bottom*/}
+                                <section>
+                                    <Typography variant="subtitle2" className={classes.text}
+                                                style={{textAlign: "center", marginBottom: "5px"}}>Top</Typography>
+                                    <div style={{background: "#FFAC0629", marginLeft: "10px"}}>
+                                        <FormGroup row className={classes.customGroup}>
+                                            <InputLabel className={classes.customLabel}
+                                                        style={{marginRight: "0px", paddingRight: "25px"}}>Tubing length
+                                                1:</InputLabel>
+                                            <OutlinedInput
+                                                id="outlined-adornment-weight"
+                                                endAdornment={<InputAdornment position="start">ft</InputAdornment>}
+                                                aria-describedby="outlined-weight-helper-text"
+                                                type="number"
+                                                className={classes.customInput}
+                                                inputProps={{step: maxDecimals}}
+                                                onChange={handleCompletionFormChange}
+                                                style={{backgroundColor: "white"}}
+                                                name="tubingLength1"
+                                                value={completionData.tubingLength1}
+                                                error={errors.tubingLength1}
+                                            />
 
-                                        {errors.tubingLength1 && (
-                                            <FormHelperText error>
-                                                {errors.tubingLength1}
-                                            </FormHelperText>
-                                        )}
-                                    </FormGroup>
-                                    <FormGroup row className={classes.customGroup}>
-                                        <InputLabel className={classes.customLabel}
-                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Outer tubing
-                                            diameter 1:</InputLabel>
-                                        <OutlinedInput
-                                            id="outlined-adornment-weight"
-                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                            aria-describedby="outlined-weight-helper-text"
-                                            type="number"
-                                            className={classes.customInput}
-                                            inputProps={{step: maxDecimals}}
-                                            onChange={handleCompletionFormChange}
-                                            style={{backgroundColor: "white"}}
-                                            name="ODTubing1"
-                                            value={completionData.ODTubing1}
-                                            error={errors.ODTubing1}
-                                        />
+                                            {errors.tubingLength1 && (
+                                                <FormHelperText error>
+                                                    {errors.tubingLength1}
+                                                </FormHelperText>
+                                            )}
+                                        </FormGroup>
+                                        <FormGroup row className={classes.customGroup}>
+                                            <InputLabel className={classes.customLabel}
+                                                        style={{marginRight: "0px", paddingRight: "25px"}}>Outer tubing
+                                                diameter 1:</InputLabel>
+                                            <OutlinedInput
+                                                id="outlined-adornment-weight"
+                                                endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                                aria-describedby="outlined-weight-helper-text"
+                                                type="number"
+                                                className={classes.customInput}
+                                                inputProps={{step: maxDecimals}}
+                                                onChange={handleCompletionFormChange}
+                                                style={{backgroundColor: "white"}}
+                                                name="ODTubing1"
+                                                value={completionData.ODTubing1}
+                                                error={errors.ODTubing1}
+                                            />
 
-                                        {errors.ODTubing1 && (
-                                            <FormHelperText error>
-                                                {errors.ODTubing1}
-                                            </FormHelperText>
-                                        )}
-                                    </FormGroup>
-                                    <FormGroup row className={classes.customGroup}>
-                                        <InputLabel className={classes.customLabel}
-                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Inner tubing
-                                            diameter 1:</InputLabel>
-                                        <OutlinedInput
-                                            id="outlined-adornment-weight"
-                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                            aria-describedby="outlined-weight-helper-text"
-                                            type="number"
-                                            className={classes.customInput}
-                                            inputProps={{step: maxDecimals}}
-                                            onChange={handleCompletionFormChange}
-                                            style={{backgroundColor: "white"}}
-                                            name="IDTubing1"
-                                            value={completionData.IDTubing1}
-                                            error={errors.IDTubing1}
-                                        />
+                                            {errors.ODTubing1 && (
+                                                <FormHelperText error>
+                                                    {errors.ODTubing1}
+                                                </FormHelperText>
+                                            )}
+                                        </FormGroup>
+                                        <FormGroup row className={classes.customGroup}>
+                                            <InputLabel className={classes.customLabel}
+                                                        style={{marginRight: "0px", paddingRight: "25px"}}>Inner tubing
+                                                diameter 1:</InputLabel>
+                                            <OutlinedInput
+                                                id="outlined-adornment-weight"
+                                                endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                                aria-describedby="outlined-weight-helper-text"
+                                                type="number"
+                                                className={classes.customInput}
+                                                inputProps={{step: maxDecimals}}
+                                                onChange={handleCompletionFormChange}
+                                                style={{backgroundColor: "white"}}
+                                                name="IDTubing1"
+                                                value={completionData.IDTubing1}
+                                                error={errors.IDTubing1}
+                                            />
 
-                                        {errors.IDTubing1 && (
-                                            <FormHelperText error>
-                                                {errors.IDTubing1}
-                                            </FormHelperText>
-                                        )}
-                                    </FormGroup>
-                                </div>
+                                            {errors.IDTubing1 && (
+                                                <FormHelperText error>
+                                                    {errors.IDTubing1}
+                                                </FormHelperText>
+                                            )}
+                                        </FormGroup>
+                                    </div>
+                                </section>
 
-                                <Typography variant="subtitle2" className={classes.text}
-                                            style={{textAlign: "center", marginBottom: "5px"}}>Middle</Typography>
-                                <div style={{background: "#FFAC0629", marginLeft: "10px"}}>
-                                    <FormGroup row className={classes.customGroup}>
-                                        <InputLabel className={classes.customLabel}
-                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Tubing length
-                                            2:</InputLabel>
-                                        <OutlinedInput
-                                            id="outlined-adornment-weight"
-                                            endAdornment={<InputAdornment position="start">ft</InputAdornment>}
-                                            aria-describedby="outlined-weight-helper-text"
-                                            type="number"
-                                            className={classes.customInput}
-                                            inputProps={{step: maxDecimals}}
-                                            onChange={handleCompletionFormChange}
-                                            style={{backgroundColor: "white"}}
-                                            name="tubingLength2"
-                                            value={completionData.tubingLength2}
-                                            error={errors.tubingLength2}
-                                        />
+                                {/*Tubing Middle*/}
+                                <section style={tubingTMBDisplay.middle}>
+                                    <Typography variant="subtitle2" className={classes.text}
+                                                style={{textAlign: "center", marginBottom: "5px"}}>Middle</Typography>
+                                    <div style={{background: "#FFAC0629", marginLeft: "10px"}}>
+                                        <FormGroup row className={classes.customGroup}>
+                                            <InputLabel className={classes.customLabel}
+                                                        style={{marginRight: "0px", paddingRight: "25px"}}>Tubing length
+                                                2:</InputLabel>
+                                            <OutlinedInput
+                                                id="outlined-adornment-weight"
+                                                endAdornment={<InputAdornment position="start">ft</InputAdornment>}
+                                                aria-describedby="outlined-weight-helper-text"
+                                                type="number"
+                                                className={classes.customInput}
+                                                inputProps={{step: maxDecimals}}
+                                                onChange={handleCompletionFormChange}
+                                                style={{backgroundColor: "white"}}
+                                                name="tubingLength2"
+                                                value={completionData.tubingLength2}
+                                                error={errors.tubingLength2}
+                                            />
 
-                                        {errors.tubingLength2 && (
-                                            <FormHelperText error>
-                                                {errors.tubingLength2}
-                                            </FormHelperText>
-                                        )}
-                                    </FormGroup>
-                                    <FormGroup row className={classes.customGroup}>
-                                        <InputLabel className={classes.customLabel}
-                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Outer tubing
-                                            diameter 2:</InputLabel>
-                                        <OutlinedInput
-                                            id="outlined-adornment-weight"
-                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                            aria-describedby="outlined-weight-helper-text"
-                                            type="number"
-                                            className={classes.customInput}
-                                            inputProps={{step: maxDecimals}}
-                                            onChange={handleCompletionFormChange}
-                                            style={{backgroundColor: "white"}}
-                                            name="ODTubing2"
-                                            value={completionData.ODTubing2}
-                                            error={errors.ODTubing2}
-                                        />
+                                            {errors.tubingLength2 && (
+                                                <FormHelperText error>
+                                                    {errors.tubingLength2}
+                                                </FormHelperText>
+                                            )}
+                                        </FormGroup>
+                                        <FormGroup row className={classes.customGroup}>
+                                            <InputLabel className={classes.customLabel}
+                                                        style={{marginRight: "0px", paddingRight: "25px"}}>Outer tubing
+                                                diameter 2:</InputLabel>
+                                            <OutlinedInput
+                                                id="outlined-adornment-weight"
+                                                endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                                aria-describedby="outlined-weight-helper-text"
+                                                type="number"
+                                                className={classes.customInput}
+                                                inputProps={{step: maxDecimals}}
+                                                onChange={handleCompletionFormChange}
+                                                style={{backgroundColor: "white"}}
+                                                name="ODTubing2"
+                                                value={completionData.ODTubing2}
+                                                error={errors.ODTubing2}
+                                            />
 
-                                        {errors.ODTubing2 && (
-                                            <FormHelperText error>
-                                                {errors.ODTubing2}
-                                            </FormHelperText>
-                                        )}
-                                    </FormGroup>
-                                    <FormGroup row className={classes.customGroup}>
-                                        <InputLabel className={classes.customLabel}
-                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Inner tubing
-                                            diameter 2:</InputLabel>
-                                        <OutlinedInput
-                                            id="outlined-adornment-weight"
-                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                            aria-describedby="outlined-weight-helper-text"
-                                            type="number"
-                                            className={classes.customInput}
-                                            inputProps={{step: maxDecimals}}
-                                            onChange={handleCompletionFormChange}
-                                            style={{backgroundColor: "white"}}
-                                            name="IDTubing2"
-                                            value={completionData.IDTubing2}
-                                            error={errors.IDTubing2}
-                                        />
+                                            {errors.ODTubing2 && (
+                                                <FormHelperText error>
+                                                    {errors.ODTubing2}
+                                                </FormHelperText>
+                                            )}
+                                        </FormGroup>
+                                        <FormGroup row className={classes.customGroup}>
+                                            <InputLabel className={classes.customLabel}
+                                                        style={{marginRight: "0px", paddingRight: "25px"}}>Inner tubing
+                                                diameter 2:</InputLabel>
+                                            <OutlinedInput
+                                                id="outlined-adornment-weight"
+                                                endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                                aria-describedby="outlined-weight-helper-text"
+                                                type="number"
+                                                className={classes.customInput}
+                                                inputProps={{step: maxDecimals}}
+                                                onChange={handleCompletionFormChange}
+                                                style={{backgroundColor: "white"}}
+                                                name="IDTubing2"
+                                                value={completionData.IDTubing2}
+                                                error={errors.IDTubing2}
+                                            />
 
-                                        {errors.IDTubing2 && (
-                                            <FormHelperText error>
-                                                {errors.IDTubing2}
-                                            </FormHelperText>
-                                        )}
-                                    </FormGroup>
-                                </div>
+                                            {errors.IDTubing2 && (
+                                                <FormHelperText error>
+                                                    {errors.IDTubing2}
+                                                </FormHelperText>
+                                            )}
+                                        </FormGroup>
+                                    </div>
+                                </section>
 
-                                <Typography variant="subtitle2" className={classes.text}
-                                            style={{textAlign: "center", marginBottom: "5px"}}>Bottom</Typography>
-                                <div style={{background: "#FFAC0629", marginLeft: "10px"}}>
-                                    <FormGroup row className={classes.customGroup}>
-                                        <InputLabel className={classes.customLabel}
-                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Tubing length
-                                            3:</InputLabel>
-                                        <OutlinedInput
-                                            id="outlined-adornment-weight"
-                                            endAdornment={<InputAdornment position="start">ft</InputAdornment>}
-                                            aria-describedby="outlined-weight-helper-text"
-                                            type="number"
-                                            className={classes.customInput}
-                                            inputProps={{step: maxDecimals}}
-                                            onChange={handleCompletionFormChange}
-                                            style={{backgroundColor: "white"}}
-                                            name="tubingLength3"
-                                            value={completionData.tubingLength3}
-                                            error={errors.tubingLength3}
-                                        />
+                                {/*Tubing Bottom*/}
+                                <section style={tubingTMBDisplay.bottom}>
+                                    <Typography variant="subtitle2" className={classes.text}
+                                                style={{textAlign: "center", marginBottom: "5px"}}>Bottom</Typography>
+                                    <div style={{background: "#FFAC0629", marginLeft: "10px"}}>
+                                        <FormGroup row className={classes.customGroup}>
+                                            <InputLabel className={classes.customLabel}
+                                                        style={{marginRight: "0px", paddingRight: "25px"}}>Tubing length
+                                                3:</InputLabel>
+                                            <OutlinedInput
+                                                id="outlined-adornment-weight"
+                                                endAdornment={<InputAdornment position="start">ft</InputAdornment>}
+                                                aria-describedby="outlined-weight-helper-text"
+                                                type="number"
+                                                className={classes.customInput}
+                                                inputProps={{step: maxDecimals}}
+                                                onChange={handleCompletionFormChange}
+                                                style={{backgroundColor: "white"}}
+                                                name="tubingLength3"
+                                                value={completionData.tubingLength3}
+                                                error={errors.tubingLength3}
+                                            />
 
-                                        {errors.tubingLength3 && (
-                                            <FormHelperText error>
-                                                {errors.tubingLength3}
-                                            </FormHelperText>
-                                        )}
-                                    </FormGroup>
-                                    <FormGroup row className={classes.customGroup}>
-                                        <InputLabel className={classes.customLabel}
-                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Outer tubing
-                                            diameter 3:</InputLabel>
-                                        <OutlinedInput
-                                            id="outlined-adornment-weight"
-                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                            aria-describedby="outlined-weight-helper-text"
-                                            type="number"
-                                            className={classes.customInput}
-                                            inputProps={{step: maxDecimals}}
-                                            onChange={handleCompletionFormChange}
-                                            style={{backgroundColor: "white"}}
-                                            name="ODTubing3"
-                                            value={completionData.ODTubing3}
-                                            error={errors.ODTubing3}
-                                        />
+                                            {errors.tubingLength3 && (
+                                                <FormHelperText error>
+                                                    {errors.tubingLength3}
+                                                </FormHelperText>
+                                            )}
+                                        </FormGroup>
+                                        <FormGroup row className={classes.customGroup}>
+                                            <InputLabel className={classes.customLabel}
+                                                        style={{marginRight: "0px", paddingRight: "25px"}}>Outer tubing
+                                                diameter 3:</InputLabel>
+                                            <OutlinedInput
+                                                id="outlined-adornment-weight"
+                                                endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                                aria-describedby="outlined-weight-helper-text"
+                                                type="number"
+                                                className={classes.customInput}
+                                                inputProps={{step: maxDecimals}}
+                                                onChange={handleCompletionFormChange}
+                                                style={{backgroundColor: "white"}}
+                                                name="ODTubing3"
+                                                value={completionData.ODTubing3}
+                                                error={errors.ODTubing3}
+                                            />
 
-                                        {errors.ODTubing3 && (
-                                            <FormHelperText error>
-                                                {errors.ODTubing3}
-                                            </FormHelperText>
-                                        )}
-                                    </FormGroup>
-                                    <FormGroup row className={classes.customGroup}>
-                                        <InputLabel className={classes.customLabel}
-                                                    style={{marginRight: "0px", paddingRight: "25px"}}>Inner tubing
-                                            diameter 3:</InputLabel>
-                                        <OutlinedInput
-                                            id="outlined-adornment-weight"
-                                            endAdornment={<InputAdornment position="start">in</InputAdornment>}
-                                            aria-describedby="outlined-weight-helper-text"
-                                            type="number"
-                                            className={classes.customInput}
-                                            inputProps={{step: maxDecimals}}
-                                            onChange={handleCompletionFormChange}
-                                            style={{backgroundColor: "white"}}
-                                            name="IDTubing3"
-                                            value={completionData.IDTubing3}
-                                            error={errors.IDTubing3}
-                                        />
+                                            {errors.ODTubing3 && (
+                                                <FormHelperText error>
+                                                    {errors.ODTubing3}
+                                                </FormHelperText>
+                                            )}
+                                        </FormGroup>
+                                        <FormGroup row className={classes.customGroup}>
+                                            <InputLabel className={classes.customLabel}
+                                                        style={{marginRight: "0px", paddingRight: "25px"}}>Inner tubing
+                                                diameter 3:</InputLabel>
+                                            <OutlinedInput
+                                                id="outlined-adornment-weight"
+                                                endAdornment={<InputAdornment position="start">in</InputAdornment>}
+                                                aria-describedby="outlined-weight-helper-text"
+                                                type="number"
+                                                className={classes.customInput}
+                                                inputProps={{step: maxDecimals}}
+                                                onChange={handleCompletionFormChange}
+                                                style={{backgroundColor: "white"}}
+                                                name="IDTubing3"
+                                                value={completionData.IDTubing3}
+                                                error={errors.IDTubing3}
+                                            />
 
-                                        {errors.IDTubing3 && (
-                                            <FormHelperText error>
-                                                {errors.IDTubing3}
-                                            </FormHelperText>
-                                        )}
-                                    </FormGroup>
-                                </div>
+                                            {errors.IDTubing3 && (
+                                                <FormHelperText error>
+                                                    {errors.IDTubing3}
+                                                </FormHelperText>
+                                            )}
+                                        </FormGroup>
+                                    </div>
+                                </section>
+
                             </Grid>
                         </Grid>
 
