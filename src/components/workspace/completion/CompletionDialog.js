@@ -19,7 +19,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const CompletionDialog = ({buttonLabel, appBarLabel, setCompletionDataInserted, setValidCompletionData}) => {
+const CompletionDialog = ({buttonLabel, appBarLabel, setCompletionDataInserted, setValidCompletionData, tubingList, casingList}) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
 
@@ -58,6 +58,8 @@ const CompletionDialog = ({buttonLabel, appBarLabel, setCompletionDataInserted, 
                     handleClose={handleClose}
                     setCompletionDataInserted={setCompletionDataInserted}
                     setValidCompletionData={setValidCompletionData}
+                    tubingList={tubingList}
+                    casingList={casingList}
                 />
             </Dialog>
         </div>

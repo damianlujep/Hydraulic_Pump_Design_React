@@ -13,8 +13,9 @@ import {Alert} from "@material-ui/lab";
 import {User} from "../../models/User";
 import {AccountCircle} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
+import base64 from "base-64";
 
-const LoginForm = ({addCurrentUser}) => {
+const LoginForm = ({grandAccess}) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState([]);
@@ -25,24 +26,25 @@ const LoginForm = ({addCurrentUser}) => {
         const tempErrors = [];
         e.preventDefault();
 
-        if (username.trim() !== "damianlujep") {
-            tempErrors.push("Incorrect username");
-        }
-
-        if (password.trim() !== "password") {
-            tempErrors.push("Incorrect password")
-        }
-
-        setErrors(tempErrors);
-
-        if (tempErrors.length === 0){
-            const newUser = new User(username, password, "email@test.com");
-            addCurrentUser(newUser);
-            setErrors([]);
-
-            sessionStorage.setItem("username", JSON.stringify(username));
-            history.push("/newProject");
-        }
+        //Authentication thought API
+        fetch(`http://localhost:8080/api/users/search/validateUser?username=${username}&password=${password}`, {
+            headers: {
+                'Authorization': 'Basic ' + base64.encode(`${username}:${password}`),
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(data => data.json())
+            .then(data => {
+                grandAccess(new User(data.username, data.password, data.email));
+                setErrors([]);
+                sessionStorage.setItem("username", JSON.stringify(username));
+                sessionStorage.setItem("user", JSON.stringify(data));
+                history.push("/newProject");
+            })
+            .catch(() => {
+                tempErrors.push("Incorrect username or password");
+                setErrors(tempErrors);
+            });
     }
 
     const styles = makeStyles((theme) =>

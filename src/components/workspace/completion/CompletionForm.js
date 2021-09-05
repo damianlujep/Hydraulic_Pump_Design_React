@@ -31,7 +31,7 @@ const initialDataModel = () => {
     }
 }
 
-const CompletionForm = ({handleClose, setCompletionDataInserted, setValidCompletionData}) => {
+const CompletionForm = ({handleClose, setCompletionDataInserted, setValidCompletionData, tubingList, casingList}) => {
 
     //Validation for form onSubmit(). Returns true if 0 errors
     const validate = (fieldValues = completionData) => {

@@ -9,12 +9,10 @@ function App() {
     const [username, setUsername] = useState(getSessionStorageOrDefault("username", ""));
     const [authorized, setAuthorized] = useState(getSessionStorageOrDefault("authorized", false));
 
-    const grandAccess = (user) => {
-        if (user.username === "damianlujep" && user.password === "password") {
-            setUsername(user.username);
-            setAuthorized(true);
-            sessionStorage.setItem("authorized", JSON.stringify(true));
-        }
+    const grandAccess = (user) =>{
+        setUsername(user.username);
+        setAuthorized(true);
+        sessionStorage.setItem("authorized", JSON.stringify(true));
     }
 
     return (

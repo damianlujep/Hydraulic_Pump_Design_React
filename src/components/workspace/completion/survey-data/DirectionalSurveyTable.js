@@ -218,7 +218,7 @@ const DirectionalSurveyTable = ({handleClose, setSurveyDataInserted, setValidSur
 
         if (areDataValid.length === 0){
             setSurveyDataInserted(true);
-            sessionStorage.setItem("survey-data-inserted", JSON.stringify(true));
+            sessionStorage.setItem("survey-data-entered", JSON.stringify(true));
             setValidSurveyData(surveyData);
             sessionStorage.setItem("survey-data", JSON.stringify(Object.values(surveyData).filter(el => el.md !== "" && el.tvd !== "")));
             handleClose();
