@@ -3,7 +3,7 @@ import CompletionDialog from "./CompletionDialog";
 import {createTheme, makeStyles, Typography} from "@material-ui/core";
 import {DataGrid} from "@material-ui/data-grid";
 
-const CompletionGridTable = ({setCompletionDataInserted, setValidCompletionData, validCompletionData}) => {
+const CompletionGridTable = ({setCompletionDataInserted, setValidCompletionData, validCompletionData, tubingList, casingList}) => {
     const [editRowsModel, setEditRowsModel] = useState({});
 
     const handleEditRowsModelChange = useCallback((model) => {
@@ -156,6 +156,8 @@ const CompletionGridTable = ({setCompletionDataInserted, setValidCompletionData,
                 appBarLabel="Edit Completion Data Form"
                 setCompletionDataInserted={setCompletionDataInserted}
                 setValidCompletionData={setValidCompletionData}
+                tubingList={tubingList}
+                casingList={casingList}
             />
         </section>
     );

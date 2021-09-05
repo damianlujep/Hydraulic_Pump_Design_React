@@ -16,6 +16,8 @@ const Completion = () => {
 
     const [tubingList, seTubingList] = useState([]);
     const [casingList, setCasingList] = useState([]);
+    const [selectedTubing, setSelectedTubing] = useState([]);
+    const [selectedCasing, setSelectedCasing] = useState([]);
 
     const tubingListURL = "http://localhost:8080/api/tubingAndCasing/tubingList";
     const casingListURL = "http://localhost:8080/api/tubingAndCasing/casingList";
@@ -69,6 +71,8 @@ const Completion = () => {
                 setCompletionDataInserted={setCompletionDataInserted}
                 setValidCompletionData={setValidCompletionData}
                 validCompletionData={validCompletionData}
+                tubingList={tubingList}
+                casingList={casingList}
             />
         } else {
             return <CompletionDialog
