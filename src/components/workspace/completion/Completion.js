@@ -49,11 +49,7 @@ const Completion = () => {
 
     const renderDirectionalSurveyData = () => {
         if (surveyDataInserted && validSurveyData !== {}){
-            return <CompletionGridTable
-                setCompletionDataInserted={setCompletionDataInserted}
-                setValidCompletionData={setValidCompletionData}
-                validCompletionData={validCompletionData}
-            />
+            return <div>Chart</div>
         } else {
             return <DirectionalSurveyDialog
                 buttonLabel="Insert Directional Survey Data"

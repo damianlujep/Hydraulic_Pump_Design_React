@@ -1,8 +1,35 @@
 import React, {useCallback, useState} from 'react';
 import {Button, createStyles, createTheme, Grid, makeStyles, Paper, Typography} from "@material-ui/core";
 import {DataGrid} from "@material-ui/data-grid";
+import {Alert} from "@material-ui/lab";
 
 const DirectionalSurveyTable = ({handleClose, setSurveyDataInserted, setValidSurveyData}) => {
+    //Validation for final surveyData. Returns true if 0 errors
+    const validateDataSurvey = (fieldValues = surveyData) => {
+        const mdSumary = Object.values(fieldValues).map((el, index) => el.md);
+        const tvdSumary = Object.values(fieldValues).map((el, index) => el.tvd);
+        const errors = [];
+
+        for (let index = 0; index <= 2; index++) {
+            if (mdSumary[index] === "" || mdSumary[index] < 0 ||
+                tvdSumary[index] === "" || tvdSumary[index] < 0) {
+                errors.push("First 3 rows are required");
+                break;
+            }
+        }
+
+        for (let index = 1; index <= 20; index++) {
+            if (mdSumary[index] < 0 || tvdSumary[index] < 0) {
+                errors.push("Values must be > 0, check values in red");
+                break;
+            }
+        }
+
+        console.log(errors)
+
+        return errors;
+    }
+
     const [editRowsModel, setEditRowsModel] = useState({});
 
     const handleEditRowsModelChange = useCallback((model) => {
@@ -20,7 +47,12 @@ const DirectionalSurveyTable = ({handleClose, setSurveyDataInserted, setValidSur
         { field: 'hd', headerName: 'HD [feet]', description:"Horizontal Depth", flex:2.2/10, editable: false, sortable: false , type: 'number',
             valueFormatter: (params) => (params.value === "") ? "" : parseFloat(params.value).toFixed(3),
             valueGetter: (params) => {
-                if (params.id > 1 && params.getValue(params.id, "tvd") !== "" && params.getValue(params.id, "md") !== "") {
+                if (params.id > 1 &&
+                    params.getValue(params.id, "tvd") !== "" &&
+                    parseFloat(params.getValue(params.id, "tvd")) > 0 &&
+                    params.getValue(params.id, "md") !== "" &&
+                    parseFloat(params.getValue(params.id, "tvd")) > 0)
+                {
                     const currentMD = parseFloat(params.getValue(params.id, "md"));
                     const currentTVD = parseFloat(params.getValue(params.id, "tvd"));
                     const previousMD = parseFloat(params.getValue(params.id - 1, "md"));
@@ -40,7 +72,12 @@ const DirectionalSurveyTable = ({handleClose, setSurveyDataInserted, setValidSur
         { field: 'angle', headerName: 'Angle [degrees]', flex:2.4/10, editable: false, sortable: false, type: 'number',
             valueFormatter: (params) => (params.value === "") ? "" : parseFloat(params.value).toFixed(3),
             valueGetter: (params) => {
-                if (params.id > 1 && params.getValue(params.id, "tvd") !== "" && params.getValue(params.id, "md") !== "") {
+                if (params.id > 1 &&
+                    params.getValue(params.id, "tvd") !== "" &&
+                    parseFloat(params.getValue(params.id, "tvd")) > 0 &&
+                    params.getValue(params.id, "md") !== "" &&
+                    parseFloat(params.getValue(params.id, "tvd")) > 0)
+                {
                     const currentMD = parseFloat(params.getValue(params.id, "md"));
                     const currentTVD = parseFloat(params.getValue(params.id, "tvd"));
                     const previousMD = parseFloat(params.getValue(params.id - 1, "md"));
@@ -57,21 +94,6 @@ const DirectionalSurveyTable = ({handleClose, setSurveyDataInserted, setValidSur
             }
        }
     ];
-
-    const calculateHorizontalDistance = (currentMD, currentTVD, previousMD, previousTVD, previousHD) => {
-        let correlationHD = Math.pow((currentMD - previousMD), 2) - Math.pow((currentTVD - previousTVD), 2);
-        correlationHD = Math.sqrt(correlationHD);
-        correlationHD = Math.round(correlationHD) + parseInt(previousHD);
-
-        return correlationHD;
-    }
-
-    const calculateAngle = (currentMD, currentTVD, previousMD, previousTVD) => {
-        let correlationAngle = Math.asin((currentTVD - previousTVD) / (currentMD - previousMD)) * (180 / Math.PI);
-        correlationAngle = 90 - Math.abs(correlationAngle);
-
-        return correlationAngle;
-    }
 
     function validateNumbersColumnRendering(numberStr) {
         const numberValue = parseFloat(numberStr.value);
@@ -177,42 +199,37 @@ const DirectionalSurveyTable = ({handleClose, setSurveyDataInserted, setValidSur
         },
         { defaultTheme },
     );
-    const [updatedRows, setUpdatedRows] = useState(surveyRows);
+    const [surveyData, setSurveyData] = useState(surveyRows);
 
     const onRowEditCommit= (params) =>{
-        // //Get edited row by id
-        // const editedRow = params.api.getRow(params.id);
-        // //update local object with rows
-        // setUpdatedRows({
-        //     ...updatedRows,
-        //     [params.id - 1]: editedRow
-        // });
+        const editedRow = params.api.getRow(params.id);
+        setSurveyData({
+            ...surveyData,
+            [params.id - 1]: editedRow
+        });
+    }
 
-        const rowModels = params.api.getRowModels();
-        console.log(rowModels);
+    const [errorsList, setErrorsList] = useState([]);
+
+    const verifySurveyData = (e) => {
+        e.preventDefault();
+
+        const areDataValid = validateDataSurvey();
+
+        if (areDataValid.length === 0){
+            setSurveyDataInserted(true);
+            sessionStorage.setItem("survey-data-inserted", JSON.stringify(true));
+            setValidSurveyData(surveyData);
+            sessionStorage.setItem("survey-data", JSON.stringify(Object.values(surveyData).filter(el => el.md !== "" && el.tvd !== "")));
+            handleClose();
+        } else {
+            setErrorsList(areDataValid);
+        }
     }
 
     const classes = styles();
     const tableClasses = tableStyles();
     const maxDecimals = "0.001";
-
-    // const [rows, setRows] = useState(surveyRows);
-
-    // const handleCellEditCommit = useCallback(
-    //     ({ id, field, value }) => {
-    //         if (field === 'hd') {
-    //             const [md, tvd] = value.toString().split(' ');
-    //             const updatedRows = rows.map((row) => {
-    //                 if (row.id === id) {
-    //                     return { ...row, md, tvd };
-    //                 }
-    //                 return row;
-    //             });
-    //             setRows(updatedRows);
-    //         }
-    //     },
-    //     [rows],
-    // );
 
     return (
         <div className={classes.root}>
@@ -249,6 +266,7 @@ const DirectionalSurveyTable = ({handleClose, setSurveyDataInserted, setValidSur
                                 variant="contained" color="primary"
                                 size="large"
                                 type="submit"
+                                onClick={verifySurveyData}
                         >
                             Save
                         </Button>
@@ -261,6 +279,9 @@ const DirectionalSurveyTable = ({handleClose, setSurveyDataInserted, setValidSur
                         </Button>
                     </section>
 
+                    {
+                        errorsList.map(error => <Alert severity="error" style={{marginTop:"10px"}}>{error}</Alert>)
+                    }
 
                 </Grid>
             </Paper>
@@ -284,5 +305,21 @@ const createSurveyRows = () => {
 }
 
 const surveyRows = createSurveyRows();
+
+//Survey Dta calculations
+const calculateHorizontalDistance = (currentMD, currentTVD, previousMD, previousTVD, previousHD) => {
+    let correlationHD = Math.pow((currentMD - previousMD), 2) - Math.pow((currentTVD - previousTVD), 2);
+    correlationHD = Math.sqrt(correlationHD);
+    correlationHD = Math.round(correlationHD) + parseInt(previousHD);
+
+    return correlationHD;
+}
+
+const calculateAngle = (currentMD, currentTVD, previousMD, previousTVD) => {
+    let correlationAngle = Math.asin((currentTVD - previousTVD) / (currentMD - previousMD)) * (180 / Math.PI);
+    correlationAngle = 90 - Math.abs(correlationAngle);
+
+    return correlationAngle;
+}
 
 export default DirectionalSurveyTable;
