@@ -71,7 +71,7 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataInserted, se
     const [newProjectInfoData, setNewProjectInfoData] = useState(initialDataModel);
     const [errors, setErrors] = useState({});
 
-    const renderDynamicLabelButton = () => (newProjectDataInserted) ? "Edit new project data" :actionButtonLabel;
+    const renderDynamicLabelButton = () => (newProjectDataInserted) ? "Save changes" :actionButtonLabel;
 
     const cancelButtonHandler = () => (newProjectDataInserted) ? redirectToWorkspace() : history.push("/");
 

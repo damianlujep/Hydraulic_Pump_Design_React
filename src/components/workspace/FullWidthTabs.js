@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import {AppBar, Box, makeStyles, Tab, Tabs, Typography, useTheme} from "@material-ui/core";
 import PropTypes from "prop-types";
-import Completion from "./Completion/Completion";
+import Completion from "./completion/Completion";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
