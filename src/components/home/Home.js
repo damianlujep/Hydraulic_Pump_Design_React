@@ -19,7 +19,7 @@ const Home = ({grandAccess}) => {
         <>
             <CssBaseline/>
             <div className={classes.container}>
-                <LoginForm addCurrentUser={grandAccess}/>
+                <LoginForm grandAccess={grandAccess}/>
                 <Footer/>
             </div>
         </>

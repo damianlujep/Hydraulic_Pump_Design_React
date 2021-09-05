@@ -26,12 +26,12 @@ const initialDataModel = () => {
         data.numberProductionTubings = 1;
         data.numberCasingPipes = 1;
         data.casingID = 1;
-        data.tubingID = 1;
+        data.tubingID = 134;
         return data;
     }
 }
 
-const CompletionForm = ({handleClose, setCompletionDataInserted, setValidCompletionData}) => {
+const CompletionForm = ({handleClose, setCompletionDataInserted, setValidCompletionData, tubingList, casingList}) => {
 
     //Validation for form onSubmit(). Returns true if 0 errors
     const validate = (fieldValues = completionData) => {
@@ -466,9 +466,12 @@ const CompletionForm = ({handleClose, setCompletionDataInserted, setValidComplet
                                         value={completionData.casingID}
                                         error={errors.casingID}
                                     >
-                                        <MenuItem value={1}>2 3/8' (2.041) - 4.0 UN</MenuItem>
-                                        <MenuItem value={2}>3 3/8' (2.041) - 4.0 UN</MenuItem>
-                                        <MenuItem value={3}>4 3/8' (2.041) - 4.0 UN</MenuItem>
+                                        {
+                                            casingList.map((el, index)=> {
+                                                return <MenuItem value={el.id} key={index}>{`${el.outerDiameter} (${el.innerDiameter}) - ${el.nominalWeight}`}</MenuItem>
+                                            })
+                                        }
+
                                     </Select>
 
                                     {errors.casingID && (
@@ -494,9 +497,13 @@ const CompletionForm = ({handleClose, setCompletionDataInserted, setValidComplet
                                         value={completionData.tubingID}
                                         error={errors.tubingID}
                                     >
-                                        <MenuItem value="1">5 1/2" (4.892) - 17.00</MenuItem>
-                                        <MenuItem value="2">6 1/2" (4.892) - 17.00</MenuItem>
-                                        <MenuItem value="3">7 1/2" (4.892) - 17.00</MenuItem>
+                                        {
+                                            tubingList.map((el, index)=> {
+                                                return <MenuItem value={el.id} key={index}>{`${el.outerDiameter} (${el.innerDiameter}) - ${el.nominalWeight}`}</MenuItem>
+                                            })
+                                        }
+
+
                                     </Select>
 
                                     {errors.tubingID && (
