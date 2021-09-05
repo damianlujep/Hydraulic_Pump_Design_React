@@ -4,6 +4,7 @@ import CompletionDialog from "./CompletionDialog";
 import DirectionalSurveyDialog from "./survey-data/DirectionalSurveyDialog";
 import CompletionGridTable from "./CompletionGridTable";
 import {getSessionStorageOrDefault} from "../../service/SessionStorageService";
+import ChartTemplate from "../../charts/ChartTemplate";
 
 const Completion = () => {
     const base64 = require('base-64');
@@ -88,16 +89,8 @@ const Completion = () => {
 
     const renderDirectionalSurveyData = () => {
         if (surveyDataInserted && validSurveyData !== {}){
-            return <div>
-                Chart
+            return <ChartTemplate setSurveyDataInserted={setSurveyDataInserted} setValidSurveyData={setValidSurveyData}/>
 
-                <DirectionalSurveyDialog
-                    buttonLabel="Edit Directional Survey Data"
-                    appBarLabel="Edit Direction Survey Data"
-                    setSurveyDataInserted={setSurveyDataInserted}
-                    setValidSurveyData={setValidSurveyData}
-                />
-            </div>
         } else {
             return <DirectionalSurveyDialog
                 buttonLabel="Insert Directional Survey Data"
