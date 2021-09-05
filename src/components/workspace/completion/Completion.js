@@ -1,13 +1,16 @@
 import React, {useState} from 'react';
 import {createStyles, makeStyles} from "@material-ui/core";
 import CompletionDialog from "./CompletionDialog";
-import DirectionalSurveyDialog from "./DirectionalSurveyDialog";
+import DirectionalSurveyDialog from "./survey-data/DirectionalSurveyDialog";
 import CompletionGridTable from "./CompletionGridTable";
 import {getSessionStorageOrDefault} from "../../service/SessionStorageService";
 
 const Completion = () => {
     const [completionDataInserted, setCompletionDataInserted] = useState(getSessionStorageOrDefault('completion-data-entered', false));
     const [validCompletionData, setValidCompletionData] = useState(getSessionStorageOrDefault('completion-data', {}));
+
+    const [surveyDataInserted, setSurveyDataInserted] = useState(getSessionStorageOrDefault('survey-data-entered', false));
+    const [validSurveyData, setValidSurveyData] = useState(getSessionStorageOrDefault('survey-data', {}));
 
     const styles = makeStyles((theme) =>
         createStyles({
@@ -44,13 +47,27 @@ const Completion = () => {
         }
     }
 
+    const renderDirectionalSurveyData = () => {
+        if (surveyDataInserted && validSurveyData !== {}){
+            return <div>Chart</div>
+        } else {
+            return <DirectionalSurveyDialog
+                buttonLabel="Insert Directional Survey Data"
+                appBarLabel="Direction Survey Data"
+                setSurveyDataInserted={setSurveyDataInserted}
+                setValidSurveyData={setValidSurveyData}
+            />
+        }
+    }
+
     return (
         <section className={classes.container}>
             {
                 renderCompletionData()
             }
-
-            <DirectionalSurveyDialog/>
+            {
+                renderDirectionalSurveyData()
+            }
         </section>
     );
 };

@@ -1,27 +1,17 @@
 import React, {useState} from 'react';
-import {
-    AppBar,
-    Button,
-    Dialog,
-    Divider,
-    IconButton,
-    List,
-    ListItem,
-    ListItemText,
-    makeStyles,
-    Slide,
-    Toolbar,
-    Typography
-} from "@material-ui/core";
+import {AppBar, Button, Dialog, IconButton, makeStyles, Slide, Toolbar, Typography} from "@material-ui/core";
 import {Close, Edit} from "@material-ui/icons";
+import CompletionForm from "./CompletionForm";
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
         position: 'relative',
+        maxHeight: '45px',
+        justifyContent: 'center'
     },
     title: {
         marginLeft: theme.spacing(2),
-        flex: 1,
+        flex: 1
     },
 }));
 
@@ -29,7 +19,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const DirectionalSurveyDialog = () => {
+const CompletionDialog = ({buttonLabel, appBarLabel, setCompletionDataInserted, setValidCompletionData}) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
 
@@ -49,35 +39,29 @@ const DirectionalSurveyDialog = () => {
                 startIcon={<Edit />}
                 onClick={handleClickOpen}
             >
-                Insert Directional Survey Data
+                {buttonLabel}
             </Button>
 
             <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
                 <AppBar className={classes.appBar}>
-                    <Toolbar>
+                    <Toolbar style={{minHeight: "45px"}}>
                         <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
                             <Close />
                         </IconButton>
-                        <Typography variant="h6" className={classes.title}>
-                            Direction Survey Data
+                        <Typography variant="subtitle1" className={classes.title}>
+                            {appBarLabel}
                         </Typography>
-                        <Button autoFocus color="inherit" onClick={handleClose}>
-                            save
-                        </Button>
                     </Toolbar>
                 </AppBar>
-                <List>
-                    <ListItem button>
-                        <ListItemText primary="Phone ringtone" secondary="Titania" />
-                    </ListItem>
-                    <Divider />
-                    <ListItem button>
-                        <ListItemText primary="Default notification ringtone" secondary="Tethys" />
-                    </ListItem>
-                </List>
+
+                <CompletionForm
+                    handleClose={handleClose}
+                    setCompletionDataInserted={setCompletionDataInserted}
+                    setValidCompletionData={setValidCompletionData}
+                />
             </Dialog>
         </div>
     );
 };
 
-export default DirectionalSurveyDialog;
+export default CompletionDialog;
