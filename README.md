@@ -1,6 +1,13 @@
 # Hydraulic Pump Design with React
 
-App interface for hydraulic pump design in the oil and gas industry.
+Project developed with React and Material-UI from scratch. 
+User interface which collects all the necessary parameters to design a hydraulic pump for the Oil & Gas industry. 
+The application consumes a REST API created with Java and Spring Boot, which hosts a remote MariaDB database. 
+This project is still under  development process.
+
+### Technologies and tools:
+`The app was developed using:` Webstorm, GitHub, Material-UI, React, React Router, React Swipeable Views,
+Chart.js, clsx
 
 ## Available Scripts
 
@@ -13,10 +20,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
 
 ### `npm run build`
 
