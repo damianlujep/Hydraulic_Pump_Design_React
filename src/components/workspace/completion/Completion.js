@@ -20,8 +20,8 @@ const Completion = () => {
     const [selectedTubing, setSelectedTubing] = useState([]);
     const [selectedCasing, setSelectedCasing] = useState([]);
 
-    const tubingListURL = "http://localhost:8080/api/tubingAndCasing/tubingList";
-    const casingListURL = "http://localhost:8080/api/tubingAndCasing/casingList";
+    const tubingListURL = "https://phi-rms.com/api/tubingAndCasing/tubingList";
+    const casingListURL = "https://phi-rms.com/api/tubingAndCasing/casingList";
 
     const currentUser = JSON.parse(sessionStorage.getItem("user"));
     const authHeader = {
