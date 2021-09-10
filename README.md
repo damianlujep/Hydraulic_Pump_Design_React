@@ -9,6 +9,15 @@ This project is still under  development process.
 `The app was developed using:` Webstorm, GitHub, Material-UI, React, React Router, React Swipeable Views,
 Chart.js, clsx
 
+### Deployment:
+This project has been deployed with Docker.
+
+To visit the application live [CLICK HERE](http://phi-rm.com/)
+
+**Credentials:**
+`user: damianlujep`
+`password: password`
+
 ## Available Scripts
 
 In the project directory, you can run:
