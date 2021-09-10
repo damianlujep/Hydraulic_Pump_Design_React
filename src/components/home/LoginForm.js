@@ -27,7 +27,7 @@ const LoginForm = ({grandAccess}) => {
         e.preventDefault();
 
         //Authentication thought API
-        fetch(`http://localhost:8080/api/users/search/validateUser?username=${username}&password=${password}`, {
+        fetch(`https://phi-rms.com/api/users/search/validateUser?username=${username}&password=${password}`, {
             headers: {
                 'Authorization': 'Basic ' + base64.encode(`${username}:${password}`),
                 'Content-Type': 'application/json'
