@@ -12,7 +12,7 @@ Chart.js, clsx
 ### Deployment:
 This project has been deployed with Docker.
 
-To visit the application live [CLICK HERE](http://phi-rm.com/)
+To visit the application live [CLICK HERE](http://phi-rms.com/)
 
 **Credentials:**
 `user: damianlujep`
