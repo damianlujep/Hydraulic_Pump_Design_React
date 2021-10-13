@@ -5,10 +5,9 @@ import DirectionalSurveyDialog from "./survey-data/DirectionalSurveyDialog";
 import CompletionGridTable from "./CompletionGridTable";
 import {getSessionStorageOrDefault} from "../../service/SessionStorageService";
 import ChartTemplate from "../../charts/ChartTemplate";
+import {API_URL} from "../../../api-constants";
 
 const Completion = () => {
-    const base64 = require('base-64');
-
     const [completionDataInserted, setCompletionDataInserted] = useState(getSessionStorageOrDefault('completion-data-entered', false));
     const [validCompletionData, setValidCompletionData] = useState(getSessionStorageOrDefault('completion-data', {}));
 
@@ -20,13 +19,12 @@ const Completion = () => {
     const [selectedTubing, setSelectedTubing] = useState([]);
     const [selectedCasing, setSelectedCasing] = useState([]);
 
-    const tubingListURL = "https://phi-rms.com/api/tubingAndCasing/tubingList";
-    const casingListURL = "https://phi-rms.com/api/tubingAndCasing/casingList";
+    const tubingListURL = `${API_URL}/tubingAndCasing/tubingList`;
+    const casingListURL = `${API_URL}/tubingAndCasing/casingList`;
 
     const currentUser = JSON.parse(sessionStorage.getItem("user"));
     const authHeader = {
-            'Authorization': 'Basic ' + base64.encode(`${currentUser.username}:${currentUser.password}`),
-            'Content-Type': 'application/json'
+        'Authorization': sessionStorage.getItem("jwt")
     };
 
     //TubingList
