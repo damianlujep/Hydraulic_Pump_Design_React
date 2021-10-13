@@ -13,38 +13,48 @@ import {Alert} from "@material-ui/lab";
 import {User} from "../../models/User";
 import {AccountCircle} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
-import base64 from "base-64";
+import {API_BASE_URL} from "../../api-constants";
 
 const LoginForm = ({grandAccess}) => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [user, setUser] = useState({username: "", password: ""});
     const [errors, setErrors] = useState([]);
 
     const history = useHistory();
+
+    const handleUserInputChange = (e) => {
+        setUser({...user, [e.target.name]: e.target.value.trim()})
+    }
 
     const handleSubmit = (e) => {
         const tempErrors = [];
         e.preventDefault();
 
         //Authentication thought API
-        fetch(`https://phi-rms.com/api/users/search/validateUser?username=${username}&password=${password}`, {
-            headers: {
-                'Authorization': 'Basic ' + base64.encode(`${username}:${password}`),
-                'Content-Type': 'application/json'
-            },
-        })
-            .then(data => data.json())
-            .then(data => {
-                grandAccess(new User(data.username, data.password, data.email));
-                setErrors([]);
-                sessionStorage.setItem("username", JSON.stringify(username));
-                sessionStorage.setItem("user", JSON.stringify(data));
-                history.push("/newProject");
+        if (user.password !== "" && user.username !== ""){
+            fetch(`${API_BASE_URL}/login`, {
+                method: 'POST',
+                body: JSON.stringify(user),
             })
-            .catch(() => {
-                tempErrors.push("Incorrect username or password");
-                setErrors(tempErrors);
-            });
+                .then(data => {
+                    const jwtToken = data.headers.get("Authorization");
+                    if (jwtToken !== null){
+                        grandAccess(new User(user.username, user.password));
+                        setErrors([]);
+                        sessionStorage.setItem("jwt", jwtToken);
+                        sessionStorage.setItem("username", JSON.stringify(user.username));
+                        sessionStorage.setItem("user", JSON.stringify(data));
+                        history.push("/newProject");
+                    }
+
+                })
+                .catch(() => {
+                    tempErrors.push("Incorrect username or password");
+                    setErrors(tempErrors);
+                });
+        } else {
+            tempErrors.push("Incorrect username or password");
+            setErrors(tempErrors);
+        }
     }
 
     const styles = makeStyles((theme) =>
@@ -95,11 +105,11 @@ const LoginForm = ({grandAccess}) => {
                 <form className={classes.form} onSubmit={handleSubmit}>
                     <FormGroup className={classes.field}>
                         <TextField type="text"
-                                   value={username}
                                    id="outlined-basic"
                                    label="Username"
                                    variant="outlined"
-                                   onChange={e => setUsername(e.target.value)}
+                                   name="username"
+                                   onChange={handleUserInputChange}
                                    InputProps={{
                                        startAdornment: (
                                            <InputAdornment position="start">
@@ -111,11 +121,11 @@ const LoginForm = ({grandAccess}) => {
                     </FormGroup>
                     <FormGroup className={classes.field}>
                         <TextField type="password"
-                                   value={password}
                                    id="outlined-basic"
                                    label="Password"
                                    variant="outlined"
-                                   onChange={e => setPassword(e.target.value)}
+                                   name="password"
+                                   onChange={handleUserInputChange}
                                    className={classes.passwordInput}/>
                     </FormGroup>
                     <Button type="submit" variant="contained" color="primary">Login</Button>
