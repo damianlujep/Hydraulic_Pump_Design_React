@@ -27,7 +27,13 @@ const LoginForm = ({grandAccess}) => {
 
     const handleSubmit = (e) => {
         const tempErrors = [];
+        setErrors([]);
         e.preventDefault();
+
+        const flagLoginErrorAndSave =() => {
+            tempErrors.push("Incorrect username or password");
+            setErrors(tempErrors);
+        }
 
         //Authentication thought API
         if (user.password !== "" && user.username !== ""){
@@ -44,16 +50,15 @@ const LoginForm = ({grandAccess}) => {
                         sessionStorage.setItem("username", JSON.stringify(user.username));
                         sessionStorage.setItem("user", JSON.stringify(data));
                         history.push("/newProject");
+                    } else {
+                        flagLoginErrorAndSave();
                     }
-
                 })
                 .catch(() => {
-                    tempErrors.push("Incorrect username or password");
-                    setErrors(tempErrors);
+                    flagLoginErrorAndSave();
                 });
         } else {
-            tempErrors.push("Incorrect username or password");
-            setErrors(tempErrors);
+            flagLoginErrorAndSave();
         }
     }
 
