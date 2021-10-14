@@ -2,8 +2,8 @@
 
 Project developed with React and Material-UI from scratch. 
 User interface which collects all the necessary parameters to design a hydraulic pump for the Oil & Gas industry. 
-The application consumes a REST API created with Java and Spring Boot, which hosts a remote MariaDB database. 
-This project is still under  development process.
+The application consumes our **RESTful API** created with Java, Spring Boot & Hibernate, which hosts a remote MariaDB database. 
+This project is in continuous development process.
 
 ### Technologies and tools:
 `The app was developed using:` Webstorm, GitHub, Material-UI, React, React Router, React Swipeable Views,
@@ -12,11 +12,11 @@ Chart.js, clsx
 ### Deployment:
 This project has been deployed with Docker.
 
-To visit the application live [CLICK HERE](http://phi-rms.com/)
+[CLICK HERE](https://hpd-app.phi-rms.com/) **to visit the live application.**
 
 **Credentials:**
 `user: damianlujep`
-`password: password`
+`password: password2021`
 
 ## Available Scripts
 
