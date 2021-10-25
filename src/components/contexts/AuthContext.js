@@ -24,11 +24,11 @@ export const AuthProvider = ({ children }) => {
             method: 'POST',
             body: JSON.stringify(userCredential),
         })
-            .then(data => {
+            .then(async data => {
                 jwtToken = data.headers.get("Authorization");
                 return data.json();
             })
-            .then(data => {
+            .then(async data => {
                 const userData = data;
                 if (jwtToken !== null && userData !== null) {
                     setAuthorized(true);
