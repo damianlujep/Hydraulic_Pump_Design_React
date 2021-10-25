@@ -10,57 +10,41 @@ import {
     TextField
 } from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
-import {User} from "../../models/User";
 import {AccountCircle} from "@material-ui/icons";
 import {useHistory} from "react-router-dom";
-import {API_BASE_URL} from "../../api-constants";
+import {useAuth} from "../contexts/AuthContext";
 
-const LoginForm = ({grandAccess}) => {
+const LoginForm = () => {
     const [user, setUser] = useState({username: "", password: ""});
     const [errors, setErrors] = useState([]);
-
+    const { login } = useAuth();
     const history = useHistory();
+
+    const redirect = () =>{
+        history.push("/newProject")
+    };
 
     const handleUserInputChange = (e) => {
         setUser({...user, [e.target.name]: e.target.value.trim()})
-    }
+    };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         const tempErrors = [];
         setErrors([]);
         e.preventDefault();
 
-        const flagLoginErrorAndSave =() => {
+        const flagLoginErrorAndSave = () => {
             tempErrors.push("Incorrect username or password");
             setErrors(tempErrors);
         }
 
-        //Authentication thought API
-        if (user.password !== "" && user.username !== ""){
-            fetch(`${API_BASE_URL}/login`, {
-                method: 'POST',
-                body: JSON.stringify(user),
-            })
-                .then(data => {
-                    const jwtToken = data.headers.get("Authorization");
-                    if (jwtToken !== null){
-                        grandAccess(new User(user.username, user.password));
-                        setErrors([]);
-                        sessionStorage.setItem("jwt", jwtToken);
-                        sessionStorage.setItem("username", JSON.stringify(user.username));
-                        sessionStorage.setItem("user", JSON.stringify(data));
-                        history.push("/newProject");
-                    } else {
-                        flagLoginErrorAndSave();
-                    }
-                })
-                .catch(() => {
-                    flagLoginErrorAndSave();
-                });
+        //Authentication thought API with AuthContext.js
+        if (user.password !== "" && user.username !== "") {
+            await login(user) ? redirect() : flagLoginErrorAndSave();
         } else {
             flagLoginErrorAndSave();
         }
-    }
+    };
 
     const styles = makeStyles((theme) =>
         createStyles({

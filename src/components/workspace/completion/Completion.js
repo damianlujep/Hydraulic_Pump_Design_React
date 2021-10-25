@@ -6,6 +6,7 @@ import CompletionGridTable from "./CompletionGridTable";
 import {getSessionStorageOrDefault} from "../../service/SessionStorageService";
 import ChartTemplate from "../../charts/ChartTemplate";
 import {API_URL} from "../../../api-constants";
+import {useAuth} from "../../contexts/AuthContext";
 
 const Completion = () => {
     const [completionDataInserted, setCompletionDataInserted] = useState(getSessionStorageOrDefault('completion-data-entered', false));
@@ -23,8 +24,10 @@ const Completion = () => {
     const casingListURL = `${API_URL}/tubingAndCasing/casingList`;
 
     const currentUser = JSON.parse(sessionStorage.getItem("user"));
+
+    const { jwt } = useAuth();
     const authHeader = {
-        'Authorization': sessionStorage.getItem("jwt")
+        'Authorization': jwt
     };
 
     //TubingList
