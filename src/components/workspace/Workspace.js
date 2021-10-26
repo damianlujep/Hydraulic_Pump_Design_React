@@ -18,7 +18,7 @@ import WorkspaceMainBox from "./WorkspaceMainBox";
 import {useHistory} from "react-router-dom";
 
 
-const Workspace = ({username}) => {
+const Workspace = () => {
     const projectInfoData = JSON.parse(sessionStorage.getItem("new-project-info-data"));
     const history = useHistory();
     const drawerWidth = 200;
