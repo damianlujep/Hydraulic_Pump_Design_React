@@ -15,6 +15,7 @@ import {
 } from "@material-ui/core";
 import {useHistory} from "react-router-dom";
 import {NewProjectInfoData} from "../../models/NewProjectInfoData";
+import {useDispatch} from "react-redux";
 
 const initialDataModel = () => {
     const savedDAta = sessionStorage.getItem("new-project-info-data");
@@ -31,6 +32,7 @@ const initialDataModel = () => {
 
 const NewProjectForm = ({actionButtonLabel, username, newProjectDataInserted, setNewProjectDataInserted, setValidNewProjectData}) => {
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const validate = (fieldValues = newProjectInfoData) => {
         let temp = { ...errors }

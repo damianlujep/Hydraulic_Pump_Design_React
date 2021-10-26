@@ -9,7 +9,7 @@ import {useAuth} from "../contexts/AuthContext";
 const NewProject = () => {
     const { user } = useAuth();
     const [newProjectDataInserted, setNewProjectDataInserted] = useState(getSessionStorageOrDefault('new-project-info-data-entered', false));
-    const [validNewProjectData, setValidNewProjectData] = useState(getSessionStorageOrDefault('new-project-info-data', {}));
+    const [setValidNewProjectData] = useState(getSessionStorageOrDefault('new-project-info-data', {}));
 
     const styles = makeStyles((theme) =>
         createStyles({
