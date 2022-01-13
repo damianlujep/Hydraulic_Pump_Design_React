@@ -15,6 +15,8 @@ import {
     Typography
 } from "@material-ui/core";
 import {CompletionData} from "../../../models/CompletionData";
+import {useDispatch} from "react-redux";
+import {completionActions} from "../../store/completion-slice";
 
 const initialDataModel = () => {
     const savedDAta = sessionStorage.getItem("completion-data");
@@ -31,7 +33,144 @@ const initialDataModel = () => {
     }
 }
 
-const CompletionForm = ({handleClose, setCompletionDataInserted, setValidCompletionData, tubingList, casingList}) => {
+const CompletionForm = ({handleClose, tubingList, casingList}) => {
+    const dispatch = useDispatch();
+    const [completionData, setCompletionData] = useState(initialDataModel);
+    const [errors, setErrors] = useState({});
+
+    const styles = makeStyles((theme) =>
+        createStyles({
+            root:{
+                '& .MuiFormLabel-root':{
+                    color: 'rgba(0, 0, 0, 0.74)'
+                }
+            },
+            paper: {
+                // minHeight: "calc(100vh - 45px)",
+                marginTop: "30px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column"
+            },
+            customGroup:{
+                justifyContent:"center",
+                marginBottom: "10px",
+                alignItems: "center",
+            },
+            customLabel: {
+                width:"300px",
+                textAlign: "right",
+                alignSelf:"center",
+                marginRight: 40
+            },
+            customInput:{
+                height: "33px",
+                width: "130px",
+                paddingRight:"8px"
+            },
+            inputGroups: {
+                paddingBottom: "40px",
+                alignItems: "center",
+                justifyContent: "center"
+            },
+            inputBoxEl: {
+                marginBottom: "20px"
+            },
+            text: {
+                marginBottom: "20px",
+                fontWeight: "bold"
+            },
+            buttons: {
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                padding: "10px 15px",
+                fontWeight: "bold"
+            },
+            buttonCreate: {
+                padding: "10px",
+                width: "250px",
+            },
+            buttonCancel: {
+                padding: "8px",
+                width: "100px",
+                marginTop: "20px"
+            }
+        })
+    );
+
+    const handleCompletionFormChange = (e) => {
+        let value = e.target.value;
+
+        if (!isNaN(value) && value !== ""){
+            value = parseFloat(value)
+        }
+
+        setCompletionData({
+            ...completionData,
+            [e.target.name]: value
+        });
+    }
+
+    const submitCompletionFormHandler = (e) => {
+        e.preventDefault();
+        const areInputValid = validate();
+
+        //Save no errors, save data in session and close form
+        if (areInputValid){
+            sessionStorage.setItem("completion-data", JSON.stringify(completionData));
+            sessionStorage.setItem("completion-data-entered", JSON.stringify(true));
+            dispatch(completionActions.replaceCompletionData({
+                validCompletionData: completionData
+            }));
+            handleClose();
+        }
+    };
+
+    const classes = styles();
+    const maxDecimals = "0.001";
+
+    const [casingTMBDisplay, setCasingTMBDisplay] = useState({middle:{display:"none"}, bottom:{display:"none"}});
+    const [tubingTMBDisplay, setTubingTMBDisplay] = useState({middle:{display:"none"}, bottom:{display:"none"}});
+
+    //Dynamic casing # render
+    useEffect(() => {
+        const numberCasingPipes = completionData.numberCasingPipes;
+
+        if (numberCasingPipes === 2){
+            setCasingTMBDisplay({
+                middle:{display:"block"}, bottom:{display:"none"}
+            });
+        } else if (numberCasingPipes === 3){
+            setCasingTMBDisplay({
+                middle:{display:"block"}, bottom:{display:"block"}
+            });
+        } else {
+            setCasingTMBDisplay({
+                middle:{display:"none"}, bottom:{display:"none"}
+            });
+        }
+    }, [completionData.numberCasingPipes]);
+
+    //Dynamic tubing # render
+    useEffect(() => {
+        const numberProductionTubings = completionData.numberProductionTubings;
+
+        if (numberProductionTubings === 2){
+            setTubingTMBDisplay({
+                middle:{display:"block"}, bottom:{display:"none"}
+            });
+        } else if (numberProductionTubings === 3){
+            setTubingTMBDisplay({
+                middle:{display:"block"}, bottom:{display:"block"}
+            });
+        } else {
+            setTubingTMBDisplay({
+                middle:{display:"none"}, bottom:{display:"none"}
+            });
+        }
+    }, [completionData.numberProductionTubings]);
 
     //Validation for form onSubmit(). Returns true if 0 errors
     const validate = (fieldValues = completionData) => {
@@ -129,144 +268,7 @@ const CompletionForm = ({handleClose, setCompletionDataInserted, setValidComplet
 
         if (fieldValues === completionData)
             return Object.values(temp).every(x => x === "")
-    }
-
-    const [completionData, setCompletionData] = useState(initialDataModel);
-    const [errors, setErrors] = useState({});
-
-    const styles = makeStyles((theme) =>
-        createStyles({
-            root:{
-                '& .MuiFormLabel-root':{
-                    color: 'rgba(0, 0, 0, 0.74)'
-                }
-            },
-            paper: {
-                // minHeight: "calc(100vh - 45px)",
-                marginTop: "30px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column"
-            },
-            customGroup:{
-                justifyContent:"center",
-                marginBottom: "10px",
-                alignItems: "center",
-            },
-            customLabel: {
-                width:"300px",
-                textAlign: "right",
-                alignSelf:"center",
-                marginRight: 40
-            },
-            customInput:{
-                height: "33px",
-                width: "130px",
-                paddingRight:"8px"
-            },
-            inputGroups: {
-                paddingBottom: "40px",
-                alignItems: "center",
-                justifyContent: "center"
-            },
-            inputBoxEl: {
-                marginBottom: "20px"
-            },
-            text: {
-                marginBottom: "20px",
-                fontWeight: "bold"
-            },
-            buttons: {
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                padding: "10px 15px",
-                fontWeight: "bold"
-            },
-            buttonCreate: {
-                padding: "10px",
-                width: "250px",
-            },
-            buttonCancel: {
-                padding: "8px",
-                width: "100px",
-                marginTop: "20px"
-            }
-        })
-    );
-
-    function handleCompletionFormChange(e) {
-        let value = e.target.value;
-
-        if (!isNaN(value) && value !== ""){
-            value = parseFloat(value)
-        }
-
-        setCompletionData({
-            ...completionData,
-            [e.target.name]: value
-        });
-    }
-
-    const submitCompletionFormHandler = (e) => {
-        e.preventDefault();
-        const areInputValid = validate();
-
-        //Save no errors, save data in session and close form
-        if (areInputValid){
-            sessionStorage.setItem("completion-data", JSON.stringify(completionData));
-            sessionStorage.setItem("completion-data-entered", JSON.stringify(true));
-            setCompletionDataInserted(true);
-            setValidCompletionData(completionData)
-            handleClose();
-        }
-    }
-
-    const classes = styles();
-    const maxDecimals = "0.001";
-
-    const [casingTMBDisplay, setCasingTMBDisplay] = useState({middle:{display:"none"}, bottom:{display:"none"}});
-    const [tubingTMBDisplay, setTubingTMBDisplay] = useState({middle:{display:"none"}, bottom:{display:"none"}});
-
-    //Dynamic casing # render
-    useEffect(() => {
-        const numberCasingPipes = completionData.numberCasingPipes;
-
-        if (numberCasingPipes === 2){
-            setCasingTMBDisplay({
-                middle:{display:"block"}, bottom:{display:"none"}
-            });
-        } else if (numberCasingPipes === 3){
-            setCasingTMBDisplay({
-                middle:{display:"block"}, bottom:{display:"block"}
-            });
-        } else {
-            setCasingTMBDisplay({
-                middle:{display:"none"}, bottom:{display:"none"}
-            });
-        }
-    }, [completionData.numberCasingPipes]);
-
-    //Dynamic tubing # render
-    useEffect(() => {
-        const numberProductionTubings = completionData.numberProductionTubings;
-
-        if (numberProductionTubings === 2){
-            setTubingTMBDisplay({
-                middle:{display:"block"}, bottom:{display:"none"}
-            });
-        } else if (numberProductionTubings === 3){
-            setTubingTMBDisplay({
-                middle:{display:"block"}, bottom:{display:"block"}
-            });
-        } else {
-            setTubingTMBDisplay({
-                middle:{display:"none"}, bottom:{display:"none"}
-            });
-        }
-    }, [completionData.numberProductionTubings]);
-
+    };
 
     return (
         <div className={classes.root}>

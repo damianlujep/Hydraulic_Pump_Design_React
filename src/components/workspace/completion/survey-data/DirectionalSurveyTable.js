@@ -2,12 +2,15 @@ import React, {useCallback, useState} from 'react';
 import {Button, createStyles, createTheme, Grid, makeStyles, Paper, Typography} from "@material-ui/core";
 import {DataGrid} from "@material-ui/data-grid";
 import {Alert} from "@material-ui/lab";
+import {useDispatch} from "react-redux";
+import {completionActions} from "../../../store/completion-slice";
 
-const DirectionalSurveyTable = ({handleClose, setSurveyDataInserted, setValidSurveyData}) => {
+const DirectionalSurveyTable = ({handleClose}) => {
+    const dispatch = useDispatch();
     //Validation for final surveyData. Returns true if 0 errors
     const validateDataSurvey = (fieldValues = surveyData) => {
-        const mdSumary = Object.values(fieldValues).map((el, index) => el.md);
-        const tvdSumary = Object.values(fieldValues).map((el, index) => el.tvd);
+        const mdSumary = Object.values(fieldValues).map((el) => el.md);
+        const tvdSumary = Object.values(fieldValues).map((el) => el.tvd);
         const errors = [];
 
         for (let index = 0; index <= 2; index++) {
@@ -24,9 +27,6 @@ const DirectionalSurveyTable = ({handleClose, setSurveyDataInserted, setValidSur
                 break;
             }
         }
-
-        console.log(errors)
-
         return errors;
     }
 
@@ -217,9 +217,10 @@ const DirectionalSurveyTable = ({handleClose, setSurveyDataInserted, setValidSur
         const areDataValid = validateDataSurvey();
 
         if (areDataValid.length === 0){
-            setSurveyDataInserted(true);
             sessionStorage.setItem("survey-data-entered", JSON.stringify(true));
-            setValidSurveyData(surveyData);
+            dispatch(completionActions.replaceSurveyData({
+                validSurveyData: surveyData
+            }));
             sessionStorage.setItem("survey-data", JSON.stringify(Object.values(surveyData).filter(el => el.md !== "" && el.tvd !== "")));
             handleClose();
         } else {

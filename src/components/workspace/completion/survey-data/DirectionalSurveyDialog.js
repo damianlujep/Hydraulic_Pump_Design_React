@@ -17,7 +17,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const DirectionalSurveyDialog = ({buttonLabel, appBarLabel, setSurveyDataInserted, setValidSurveyData}) => {
+const DirectionalSurveyDialog = ({buttonLabel, appBarLabel}) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
 
@@ -54,8 +54,6 @@ const DirectionalSurveyDialog = ({buttonLabel, appBarLabel, setSurveyDataInserte
 
                 <DirectionalSurveyTable
                     handleClose={handleClose}
-                    setSurveyDataInserted={setSurveyDataInserted}
-                    setValidSurveyData={setValidSurveyData}
                 />
             </Dialog>
         </div>
