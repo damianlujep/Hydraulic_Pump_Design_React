@@ -3,7 +3,7 @@ import CompletionDialog from "./CompletionDialog";
 import {createTheme, makeStyles, Typography} from "@material-ui/core";
 import {DataGrid} from "@material-ui/data-grid";
 
-const CompletionGridTable = ({setCompletionDataInserted, setValidCompletionData, validCompletionData, tubingList, casingList}) => {
+const CompletionGridTable = ({validCompletionData, tubingList, casingList}) => {
     const [editRowsModel, setEditRowsModel] = useState({});
 
     const handleEditRowsModelChange = useCallback((model) => {
@@ -109,9 +109,14 @@ const CompletionGridTable = ({setCompletionDataInserted, setValidCompletionData,
                 />
             </div>
 
-            <Typography variant={"subtitle2"} style={{fontWeight:"bold", textAlign:"center"}}>Number of casing pipes: <span style={{fontWeight:"normal"}}>{validCompletionData.numberCasingPipes}</span></Typography>
-            <Typography variant={"subtitle2"} style={{fontWeight:"bold", textAlign:"center"}}>Casing (Size [in] - [lbs / ft)):   <span style={{fontWeight:"normal"}}>{validCompletionData.casingID}</span></Typography>
-
+            <Typography variant={"subtitle2"} style={{fontWeight: "bold", textAlign: "center"}}>
+                Number of casing pipes: <span
+                style={{fontWeight: "normal"}}>{validCompletionData.numberCasingPipes}</span>
+            </Typography>
+            <Typography variant={"subtitle2"} style={{fontWeight: "bold", textAlign: "center"}}>
+                Casing (Size [in] - [lbs / ft)): <span
+                style={{fontWeight: "normal"}}>{validCompletionData.casingID}</span>
+            </Typography>
 
             <div style={{width: '550px', paddingTop: "10px", paddingBottom:"10px"}}>
                 <DataGrid
@@ -130,9 +135,14 @@ const CompletionGridTable = ({setCompletionDataInserted, setValidCompletionData,
                 />
             </div>
 
-            <Typography variant={"subtitle2"} style={{fontWeight:"bold", textAlign:"center"}}> Number of production tubing: <span style={{fontWeight:"normal"}}>{validCompletionData.numberProductionTubings}</span></Typography>
-            <Typography variant={"subtitle2"} style={{fontWeight:"bold", textAlign:"center"}}> Tubing (Size [in] - [lbs / ft)): <span style={{fontWeight:"normal"}}>{validCompletionData.tubingID}</span></Typography>
-
+            <Typography variant={"subtitle2"} style={{fontWeight: "bold", textAlign: "center"}}>
+                Number of production tubing: <span
+                style={{fontWeight: "normal"}}>{validCompletionData.numberProductionTubings}</span>
+            </Typography>
+            <Typography variant={"subtitle2"} style={{fontWeight: "bold", textAlign: "center"}}>
+                Tubing (Size [in] - [lbs / ft)): <span
+                style={{fontWeight: "normal"}}>{validCompletionData.tubingID}</span>
+            </Typography>
 
             <div style={{width: '550px', paddingTop: "10px", paddingBottom:"15px"}}>
                 <DataGrid
@@ -154,8 +164,6 @@ const CompletionGridTable = ({setCompletionDataInserted, setValidCompletionData,
             <CompletionDialog
                 buttonLabel="Edit Completion Data"
                 appBarLabel="Edit Completion Data Form"
-                setCompletionDataInserted={setCompletionDataInserted}
-                setValidCompletionData={setValidCompletionData}
                 tubingList={tubingList}
                 casingList={casingList}
             />
@@ -181,19 +189,16 @@ const casing = (validCompletionData) => {
     casingValues.push(createData(1, 'Casing length 1:', validCompletionData.casingLength1, "ft"));
     casingValues.push(createData(2, 'Outer casing diameter 1:', validCompletionData.ODCasing1, "in"));
     casingValues.push(createData(3, 'Inner diameter of casing 1:', validCompletionData.IDCasing1, "in"));
-
     if (validCompletionData.numberCasingPipes > 1) {
         casingValues.push(createData(4, 'Casing length 2:', validCompletionData.casingLength2, "ft"));
         casingValues.push(createData(5, 'Outer casing diameter 2:', validCompletionData.ODCasing2, "in"));
         casingValues.push(createData(6, 'Inner diameter of casing 2:', validCompletionData.IDCasing2, "in"));
     }
-
     if (validCompletionData.numberCasingPipes === 3) {
         casingValues.push(createData(7, 'Casing length 3:', validCompletionData.casingLength3, "ft"));
         casingValues.push(createData(8, 'Outer casing diameter 3:', validCompletionData.ODCasing3, "in"));
         casingValues.push(createData(9, 'Inner diameter of casing 3:', validCompletionData.IDCasing3, "in"));
     }
-
     return casingValues;
 }
 
@@ -202,19 +207,16 @@ const tubing = (validCompletionData) => {
     tubingValues.push(createData(1, 'Tubing length 1:', validCompletionData.tubingLength1, "ft"));
     tubingValues.push(createData(2, 'Outer tubing diameter 1:', validCompletionData.ODTubing1, "in"));
     tubingValues.push(createData(3, 'Inner tubing diameter 1:', validCompletionData.IDTubing1, "in"));
-
     if (validCompletionData.numberProductionTubings > 1) {
         tubingValues.push(createData(4, 'Tubing length 2:', validCompletionData.tubingLength2, "ft"));
         tubingValues.push(createData(5, 'Outer tubing diameter 2:', validCompletionData.ODTubing2, "in"));
         tubingValues.push(createData(6, 'Inner tubing diameter 2:', validCompletionData.IDTubing2, "in"));
     }
-
     if (validCompletionData.numberProductionTubings === 3) {
         tubingValues.push(createData(7, 'Tubing length 3:', validCompletionData.tubingLength3, "ft"));
         tubingValues.push(createData(8, 'Outer tubing diameter 3:', validCompletionData.ODTubing3, "in"));
         tubingValues.push(createData(9, 'Inner tubing diameter 3:', validCompletionData.IDTubing3, "in"));
     }
-
     return tubingValues;
 }
 

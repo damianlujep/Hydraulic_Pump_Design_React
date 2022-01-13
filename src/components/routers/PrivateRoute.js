@@ -10,7 +10,7 @@ const PrivateRoute = ({component: Component, ...rest}) => {
     return (
         <Route
             {...rest}
-            render={props => user && projectInfoData? (
+            render={props => user && projectInfoData ? (
                 <Component {...props} />
             ) : user && !projectInfoData ? (<NewProject {...props} />) : (<Redirect to='/' />)}
         />

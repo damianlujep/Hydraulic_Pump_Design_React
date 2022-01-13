@@ -3,7 +3,7 @@ import {Line} from 'react-chartjs-2';
 import DirectionalSurveyDialog from "../workspace/completion/survey-data/DirectionalSurveyDialog";
 
 
-const ChartTemplate = (setSurveyDataInserted, setValidSurveyData) => (
+const ChartTemplate = () => (
     <div style={{width: "800px", height:"auto", display:"flex",flexDirection:"column", justifyContent: "center", alignItems: "center"}}>
 
         <Line data={data} options={options} style={{marginBottom:"20px"}}/>
@@ -11,8 +11,6 @@ const ChartTemplate = (setSurveyDataInserted, setValidSurveyData) => (
         <DirectionalSurveyDialog
             buttonLabel="Edit Directional Survey Data"
             appBarLabel="Edit Direction Survey Data"
-            setSurveyDataInserted={setSurveyDataInserted}
-            setValidSurveyData={setValidSurveyData}
         />
     </div>
 );

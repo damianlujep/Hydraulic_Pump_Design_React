@@ -1,52 +1,32 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {createStyles, makeStyles} from "@material-ui/core";
 import CompletionDialog from "./CompletionDialog";
 import DirectionalSurveyDialog from "./survey-data/DirectionalSurveyDialog";
 import CompletionGridTable from "./CompletionGridTable";
-import {getSessionStorageOrDefault} from "../../service/SessionStorageService";
 import ChartTemplate from "../../charts/ChartTemplate";
-import {API_URL} from "../../../api-constants";
-import {useAuth} from "../../contexts/AuthContext";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchCasingData, fetchTubingData} from "../../store/completion-fetch-actions";
 
 const Completion = () => {
-    const [completionDataInserted, setCompletionDataInserted] = useState(getSessionStorageOrDefault('completion-data-entered', false));
-    const [validCompletionData, setValidCompletionData] = useState(getSessionStorageOrDefault('completion-data', {}));
+    const dispatch = useDispatch();
+    const validCompletionData = useSelector(state => state.completion.validCompletionData);
+    const completionDataEntered = useSelector(state => state.completion.completionDataEntered);
 
-    const [surveyDataInserted, setSurveyDataInserted] = useState(getSessionStorageOrDefault('survey-data-entered', false));
-    const [validSurveyData, setValidSurveyData] = useState(getSessionStorageOrDefault('survey-data', {}));
+    const validSurveyData = useSelector(state => state.completion.validSurveyData);
+    const surveyDataEntered = useSelector(state => state.completion.surveyDataEntered);
 
-    const [tubingList, seTubingList] = useState([]);
-    const [casingList, setCasingList] = useState([]);
-    const [selectedTubing, setSelectedTubing] = useState([]);
-    const [selectedCasing, setSelectedCasing] = useState([]);
-
-    const tubingListURL = `${API_URL}/tubingAndCasing/tubingList`;
-    const casingListURL = `${API_URL}/tubingAndCasing/casingList`;
-
-    const currentUser = JSON.parse(sessionStorage.getItem("user"));
-
-    const { jwt } = useAuth();
-    const authHeader = {
-        'Authorization': jwt
-    };
+    const tubingList = useSelector(state => state.completion.tubingData);
+    const casingList = useSelector(state => state.completion.casingData);
 
     //TubingList
     useEffect(() => {
-        fetch(tubingListURL, {
-            headers:authHeader
-        })
-            .then(data => data.json())
-            .then(data => seTubingList(data));
-    }, []);
+        dispatch(fetchTubingData());
+    },[dispatch]);
 
     //Casing List
     useEffect(() => {
-        fetch(casingListURL, {
-            headers:authHeader
-        })
-            .then(data => data.json())
-            .then(data => setCasingList(data));
-    }, []);
+        dispatch(fetchCasingData());
+    },[dispatch]);
 
     const styles = makeStyles((theme) =>
         createStyles({
@@ -68,10 +48,8 @@ const Completion = () => {
 
     const renderCompletionData = () => {
         console.log(tubingList)
-        if (completionDataInserted && validCompletionData !== {}){
+        if (completionDataEntered && validCompletionData !== {}){
             return <CompletionGridTable
-                setCompletionDataInserted={setCompletionDataInserted}
-                setValidCompletionData={setValidCompletionData}
                 validCompletionData={validCompletionData}
                 tubingList={tubingList}
                 casingList={casingList}
@@ -80,8 +58,6 @@ const Completion = () => {
             return <CompletionDialog
                 buttonLabel="Insert Completion Data"
                 appBarLabel="Completion Data Form"
-                setCompletionDataInserted={setCompletionDataInserted}
-                setValidCompletionData={setValidCompletionData}
                 tubingList={tubingList}
                 casingList={casingList}
             />
@@ -89,15 +65,15 @@ const Completion = () => {
     }
 
     const renderDirectionalSurveyData = () => {
-        if (surveyDataInserted && validSurveyData !== {}){
-            return <ChartTemplate setSurveyDataInserted={setSurveyDataInserted} setValidSurveyData={setValidSurveyData}/>
+        if (surveyDataEntered && validSurveyData !== {}){
+            return <ChartTemplate />
 
         } else {
             return <DirectionalSurveyDialog
                 buttonLabel="Insert Directional Survey Data"
                 appBarLabel="Direction Survey Data"
-                setSurveyDataInserted={setSurveyDataInserted}
-                setValidSurveyData={setValidSurveyData}
+                // setSurveyDataInserted={setSurveyDataInserted}
+                // setValidSurveyData={setValidSurveyData}
             />
         }
     }

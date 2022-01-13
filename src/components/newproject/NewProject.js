@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {createStyles, CssBaseline, makeStyles} from "@material-ui/core";
 import Footer from "../home/Footer";
 import NewProjectForm from "./NewProjectForm";
-import {getSessionStorageOrDefault} from "../service/SessionStorageService";
 import {useAuth} from "../contexts/AuthContext";
+import {useSelector} from "react-redux";
 
 
 const NewProject = () => {
     const { user } = useAuth();
-    const [newProjectDataInserted, setNewProjectDataInserted] = useState(getSessionStorageOrDefault('new-project-info-data-entered', false));
-    const [validNewProjectData, setValidNewProjectData] = useState(getSessionStorageOrDefault('new-project-info-data', {}));
+    const validNewProjectData = useSelector(state => state.projectInfo.newProjectInfoData);
+    const newProjectDataEntered = useSelector(state => state.projectInfo.newProjectDataEntered);
 
     const styles = makeStyles((theme) =>
         createStyles({
@@ -28,9 +28,7 @@ const NewProject = () => {
                 <NewProjectForm
                     actionButtonLabel="Create new project"
                     username={user.username}
-                    newProjectDataInserted={newProjectDataInserted}
-                    setNewProjectDataInserted={setNewProjectDataInserted}
-                    setValidNewProjectData={setValidNewProjectData}
+                    newProjectDataEntered={newProjectDataEntered}
                 />
                 <Footer/>
             </div>
