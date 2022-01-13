@@ -1,5 +1,7 @@
 import {createContext, useContext, useMemo, useState} from "react";
 import {getSessionStorageOrDefault} from "../service/SessionStorageService";
+import {useDispatch} from "react-redux";
+import {authActions} from "../store/auth-slice";
 
 const AuthContext = createContext(null);
 
@@ -15,6 +17,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(getSessionStorageOrDefault("user", ""));
     const [authorized, setAuthorized] = useState(getSessionStorageOrDefault("authorized", false));
     const [jwt, setJwt] = useState(getSessionStorageOrDefault("jwt", ""));
+    const dispatch = useDispatch();
 
     const login = async (userCredential) => {
         let isUserLogged = false;
@@ -37,6 +40,7 @@ export const AuthProvider = ({ children }) => {
                     sessionStorage.setItem("user", JSON.stringify(userData));
                     sessionStorage.setItem("authorized", JSON.stringify(true));
                     sessionStorage.setItem("jwt", JSON.stringify(jwtToken));
+                    dispatch(authActions.authorizeLogin({jwt: jwtToken}));
                     isUserLogged = true;
                 }
             })

@@ -16,6 +16,7 @@ import {
 import {useHistory} from "react-router-dom";
 import {NewProjectInfoData} from "../../models/NewProjectInfoData";
 import {useDispatch} from "react-redux";
+import {projectInfoActions} from "../store/project-info-slice";
 
 const initialDataModel = () => {
     const savedDAta = sessionStorage.getItem("new-project-info-data");
@@ -30,9 +31,17 @@ const initialDataModel = () => {
     }
 }
 
-const NewProjectForm = ({actionButtonLabel, username, newProjectDataInserted, setNewProjectDataInserted, setValidNewProjectData}) => {
+const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) => {
     const history = useHistory();
     const dispatch = useDispatch();
+    const [newProjectInfoData, setNewProjectInfoData] = useState(initialDataModel);
+    const [errors, setErrors] = useState({});
+
+    const renderDynamicLabelButton = () => (newProjectDataEntered) ? "Save changes" :actionButtonLabel;
+
+    const cancelButtonHandler = () => (newProjectDataEntered) ? redirectToWorkspace() : history.push("/");
+
+    const redirectToWorkspace = () => history.push(`/${username}/workspace`);
 
     const validate = (fieldValues = newProjectInfoData) => {
         let temp = { ...errors }
@@ -69,15 +78,6 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataInserted, se
         if (fieldValues === newProjectInfoData)
             return Object.values(temp).every(x => x === "")
     }
-
-    const [newProjectInfoData, setNewProjectInfoData] = useState(initialDataModel);
-    const [errors, setErrors] = useState({});
-
-    const renderDynamicLabelButton = () => (newProjectDataInserted) ? "Save changes" :actionButtonLabel;
-
-    const cancelButtonHandler = () => (newProjectDataInserted) ? redirectToWorkspace() : history.push("/");
-
-    const redirectToWorkspace = () => history.push(`/${username}/workspace`);
 
     const styles = makeStyles((theme) =>
         createStyles({
@@ -145,13 +145,13 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataInserted, se
     const submitNewProjectFormHandler = (e) => {
         e.preventDefault();
         const areInputsValid = validate();
-        console.log(newProjectInfoData.date)
         //Save no errors, save data in session and forward to Workspace
         if (areInputsValid){
             sessionStorage.setItem("new-project-info-data", JSON.stringify(newProjectInfoData));
             sessionStorage.setItem("new-project-info-data-entered", JSON.stringify(true));
-            setNewProjectDataInserted(true);
-            setValidNewProjectData(newProjectInfoData);
+            dispatch(projectInfoActions.replaceNewProjectData({
+                newProjectInfoData
+            }));
             redirectToWorkspace();
         }
     }
