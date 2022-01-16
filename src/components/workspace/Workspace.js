@@ -108,7 +108,6 @@ const Workspace = () => {
     };
 
     const editUserInfoButtonHandler = () => {
-        console.log("click")
         history.push("/newProject");
     }
 
