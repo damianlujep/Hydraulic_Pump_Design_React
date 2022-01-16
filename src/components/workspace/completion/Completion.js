@@ -47,7 +47,6 @@ const Completion = () => {
     const classes = styles();
 
     const renderCompletionData = () => {
-        console.log(tubingList)
         if (completionDataEntered && validCompletionData !== {}){
             return <CompletionGridTable
                 validCompletionData={validCompletionData}
