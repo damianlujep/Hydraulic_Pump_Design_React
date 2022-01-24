@@ -1,4 +1,5 @@
 import {BrowserRouter, Switch} from "react-router-dom";
+import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
 import Home from "./components/home/Home";
 import NewProject from "./components/newproject/NewProject";
 import Workspace from "./components/workspace/Workspace";
@@ -8,29 +9,30 @@ import PrivateRoute from "./components/routers/PrivateRoute";
 
 function App() {
     const { user } = useAuth();
+    const theme = createMuiTheme();
 
     return (
-        <>
+        <ThemeProvider theme={theme}>
             <BrowserRouter>
-                    <Switch>
-                        <PublicRoute
-                            exact
-                            path="/"
-                            component={() => <Home />}
-                        />
-                        <PrivateRoute
-                            exact
-                            path="/newProject"
-                            component={() => <NewProject />}
-                        />
-                        <PrivateRoute
-                            exact
-                            path={`/${user.username}/workspace`}
-                            component={() => <Workspace />}
-                        />
-                    </Switch>
+                <Switch>
+                    <PublicRoute
+                        exact
+                        path="/"
+                        component={() => <Home />}
+                    />
+                    <PrivateRoute
+                        exact
+                        path="/newProject"
+                        component={() => <NewProject />}
+                    />
+                    <PrivateRoute
+                        exact
+                        path={`/${user.username}/workspace`}
+                        component={() => <Workspace />}
+                    />
+                </Switch>
             </BrowserRouter>
-        </>
+        </ThemeProvider>
   );
 }
 

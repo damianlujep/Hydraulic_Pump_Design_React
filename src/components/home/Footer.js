@@ -1,23 +1,24 @@
 import React from 'react';
-import {Box, createStyles, makeStyles, Typography} from "@material-ui/core";
+
+import {Box, Typography} from "@mui/material";
+
+import makeStyles from '@mui/styles/makeStyles';
 
 const Footer = () => {
-    const styles = makeStyles((theme) =>
-        createStyles({
-            footerBox: {
-                display: "flex",
-                alignItems: "center"
-            },
+    const styles = makeStyles((theme) => ({
+        footerBox: {
+            display: "flex",
+            alignItems: "center"
+        },
 
-            footer: {
-                height: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                color: "white",
-            },
-        })
-    );
+        footer: {
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            color: "white",
+        },
+    }));
 
     const classes = styles();
 
