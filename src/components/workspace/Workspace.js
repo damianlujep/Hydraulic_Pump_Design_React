@@ -16,6 +16,8 @@ import {mainListItems, secondaryListItems} from "./listItems";
 import WorkspaceActionsBar from "./WorkspaceActionsBar";
 import WorkspaceMainBox from "./WorkspaceMainBox";
 import {useHistory} from "react-router-dom";
+import {ThemeProvider} from "@mui/styles";
+import theme from "../theme";
 
 
 const Workspace = () => {
@@ -114,6 +116,7 @@ const Workspace = () => {
     return (
         <div className={classes.root}>
             <CssBaseline />
+            <ThemeProvider  theme={theme}>
             <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
                 <Toolbar className={classes.toolbar}>
                     <IconButton
@@ -168,6 +171,7 @@ const Workspace = () => {
                 <WorkspaceActionsBar/>
                 <WorkspaceMainBox/>
             </main>
+            </ThemeProvider>
         </div>
     );
 }
