@@ -1,22 +1,24 @@
 import React, {useState} from 'react';
+import {useHistory} from "react-router-dom";
+
+import {useDispatch} from "react-redux";
+import {projectInfoActions} from "../store/project-info-slice";
+
 import {
     Button,
-    createStyles,
     FormGroup,
     FormHelperText,
     Grid,
     InputLabel,
-    makeStyles,
     MenuItem,
     Paper,
     Select,
     TextField,
-    Typography
-} from "@material-ui/core";
-import {useHistory} from "react-router-dom";
+    Typography,
+} from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+
 import {NewProjectInfoData} from "../../models/NewProjectInfoData";
-import {useDispatch} from "react-redux";
-import {projectInfoActions} from "../store/project-info-slice";
 
 const initialDataModel = () => {
     const savedDAta = sessionStorage.getItem("new-project-info-data");
@@ -79,57 +81,55 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
             return Object.values(temp).every(x => x === "")
     }
 
-    const styles = makeStyles((theme) =>
-        createStyles({
-            container: {
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center"
-            },
-            paper: {
-                height: "calc(100vh - 50px)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column"
-            },
-            customLabel: {
-                display: "flex",
-                justifyContent: "center"
-            },
-            inputGroups: {
-                justifyContent: "center",
-                paddingBottom: "50px",
-                alignItems: "center"
-            },
-            inputBoxEl: {
-              marginBottom: "20px"
-            },
-            text: {
-                marginBottom: "20px"
-            },
-            selectInput: {
-                display: "flex",
-                flexDirection: "column"
-            },
-            buttons: {
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                padding: "10px 15px",
-                fontWeight: "bold"
-            },
-            buttonCreate: {
-                padding: "10px",
-                width: "250px",
-            },
-            buttonCancel: {
-                padding: "8px",
-                width: "100px",
-                marginTop: "20px"
-            }
-        })
-    );
+    const styles = makeStyles(() => ({
+        container: {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center"
+        },
+        paper: {
+            height: "calc(100vh - 50px)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column"
+        },
+        customLabel: {
+            display: "flex",
+            justifyContent: "center"
+        },
+        inputGroups: {
+            justifyContent: "center",
+            paddingBottom: "50px",
+            alignItems: "center"
+        },
+        inputBoxEl: {
+            marginBottom: "20px"
+        },
+        text: {
+            marginBottom: "20px"
+        },
+        selectInput: {
+            display: "flex",
+            flexDirection: "column"
+        },
+        buttons: {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            padding: "10px 15px",
+            fontWeight: "bold"
+        },
+        buttonCreate: {
+            padding: "10px",
+            width: "250px",
+        },
+        buttonCancel: {
+            padding: "8px",
+            width: "100px",
+            marginTop: "20px"
+        }
+    }));
 
     const classes = styles();
 

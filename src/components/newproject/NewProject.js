@@ -1,23 +1,24 @@
 import React from 'react';
-import {createStyles, CssBaseline, makeStyles} from "@material-ui/core";
-import Footer from "../home/Footer";
-import NewProjectForm from "./NewProjectForm";
-import {useAuth} from "../contexts/AuthContext";
 import {useSelector} from "react-redux";
 
+import {useAuth} from "../contexts/AuthContext";
+
+import {CssBaseline} from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+
+import Footer from "../home/Footer";
+import NewProjectForm from "./NewProjectForm";
 
 const NewProject = () => {
     const { user } = useAuth();
     const validNewProjectData = useSelector(state => state.projectInfo.newProjectInfoData);
     const newProjectDataEntered = useSelector(state => state.projectInfo.newProjectDataEntered);
 
-    const styles = makeStyles((theme) =>
-        createStyles({
-            container: {
-                margin: "0 8px"
-            }
-        })
-    );
+    const styles = makeStyles(() => ({
+        container: {
+            margin: "0 8px"
+        }
+    }));
 
     const classes = styles();
 

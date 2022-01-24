@@ -1,9 +1,12 @@
 import React, {useCallback, useState} from 'react';
-import {Button, createStyles, createTheme, Grid, makeStyles, Paper, Typography} from "@material-ui/core";
-import {DataGrid} from "@material-ui/data-grid";
-import {Alert} from "@material-ui/lab";
+
 import {useDispatch} from "react-redux";
 import {completionActions} from "../../../store/completion-slice";
+
+import {Alert, Button, Grid, Paper, Typography} from "@mui/material";
+import {createTheme} from "@mui/material/styles";
+import {makeStyles} from '@mui/styles';
+import {DataGrid} from "@material-ui/data-grid";
 
 const DirectionalSurveyTable = ({handleClose}) => {
     const dispatch = useDispatch();
@@ -128,76 +131,71 @@ const DirectionalSurveyTable = ({handleClose}) => {
         }
     }
 
-    const styles = makeStyles((theme) =>
-        createStyles({
-            root:{
-                '& .MuiFormLabel-root':{
-                    color: 'rgba(0, 0, 0, 0.74)'
-                }
-            },
-            paper: {
-                // minHeight: "calc(100vh - 45px)",
-                marginTop: "30px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column"
-            },
-            text: {
-                marginBottom: "20px",
-                fontWeight: "bold"
-            },
-            buttons: {
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                padding: "10px 15px",
-                fontWeight: "bold"
-            },
-            buttonCreate: {
-                padding: "10px",
-                width: "250px",
-            },
-            buttonCancel: {
-                padding: "8px",
-                width: "100px",
-                marginTop: "20px"
-            },
-        })
-    );
+    const styles = makeStyles((theme) => ({
+        root:{
+            '& .MuiFormLabel-root':{
+                color: 'rgba(0, 0, 0, 0.74)'
+            }
+        },
+        paper: {
+            // minHeight: "calc(100vh - 45px)",
+            marginTop: "30px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column"
+        },
+        text: {
+            marginBottom: "20px",
+            fontWeight: "bold"
+        },
+        buttons: {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            padding: "10px 15px",
+            fontWeight: "bold"
+        },
+        buttonCreate: {
+            padding: "10px",
+            width: "250px",
+        },
+        buttonCancel: {
+            padding: "8px",
+            width: "100px",
+            marginTop: "20px"
+        },
+    }));
 
     function getThemePaletteMode(palette) {
         return palette.type || palette.mode;
     }
 
     const defaultTheme = createTheme();
-    const tableStyles = makeStyles(
-        (theme) => {
-            const isDark = getThemePaletteMode(theme.palette)  === 'dark';
-
-            return {
-                root: {
-                    '& .MuiDataGrid-cell--editing': {
-                        backgroundColor: 'rgb(255,215,115, 0.19)',
-                        color: '#1a3e72',
-                    },
-                    '& .Mui-error': {
-                        backgroundColor: `rgb(126,10,15, ${isDark ? 0 : 0.1})`,
-                        color: isDark ? '#ff4343' : '#750f0f',
-                    },
-                    '& .MuiDataGrid-columnsContainer': {
-                        backgroundColor: theme.palette.primary.main,
-                        justifyContent: "center",
-                        color: "white"
-                    },
-                    '& .MuiDataGrid-cell--editable': {
-                        // backgroundColor: 'rgb(217 243 190)',
-                        border: "1px solid white"
-                    }
+    const tableStyles = makeStyles((theme) => {
+        const isDark = getThemePaletteMode(theme.palette)  === 'dark';
+        return {
+            root: {
+                '& .MuiDataGrid-cell--editing': {
+                    backgroundColor: 'rgb(255,215,115, 0.19)',
+                    color: '#1a3e72',
+                },
+                '& .Mui-error': {
+                    backgroundColor: `rgb(126,10,15, ${isDark ? 0 : 0.1})`,
+                    color: isDark ? '#ff4343' : '#750f0f',
+                },
+                '& .MuiDataGrid-columnsContainer': {
+                    backgroundColor: theme.palette.primary.main,
+                    justifyContent: "center",
+                    color: "white"
+                },
+                '& .MuiDataGrid-cell--editable': {
+                    // backgroundColor: 'rgb(217 243 190)',
+                    border: "1px solid white"
                 }
-            };
-        },
-        { defaultTheme },
+            }
+        };
+        }, { defaultTheme }
     );
     const [surveyData, setSurveyData] = useState(surveyRows);
 
