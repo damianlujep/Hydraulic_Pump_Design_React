@@ -5,6 +5,8 @@ import makeStyles from '@mui/styles/makeStyles';
 
 import LoginForm from "./LoginForm";
 import Footer from "./Footer";
+import {ThemeProvider} from "@mui/styles";
+import theme from "../theme";
 
 const Home = () => {
     const styles = makeStyles((theme) => ({
@@ -18,10 +20,12 @@ const Home = () => {
     return (
         <>
             <CssBaseline/>
-            <div className={classes.container}>
-                <LoginForm />
-                <Footer/>
-            </div>
+            <ThemeProvider theme={theme}>
+                <div className={classes.container}>
+                    <LoginForm/>
+                    <Footer/>
+                </div>
+            </ThemeProvider>
         </>
     );
 };

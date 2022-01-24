@@ -17,6 +17,7 @@ const Footer = () => {
             justifyContent: "center",
             alignItems: "center",
             color: "white",
+            backgroundColor: theme.palette.primary.main
         },
     }));
 

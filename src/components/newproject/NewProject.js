@@ -4,6 +4,8 @@ import Footer from "../home/Footer";
 import NewProjectForm from "./NewProjectForm";
 import {useAuth} from "../contexts/AuthContext";
 import {useSelector} from "react-redux";
+import {ThemeProvider} from "@mui/styles";
+import theme from "../theme";
 
 
 const NewProject = () => {
@@ -24,14 +26,16 @@ const NewProject = () => {
     return (
         <>
             <CssBaseline/>
-            <div className={classes.container}>
-                <NewProjectForm
-                    actionButtonLabel="Create new project"
-                    username={user.username}
-                    newProjectDataEntered={newProjectDataEntered}
-                />
-                <Footer/>
-            </div>
+            <ThemeProvider theme={theme}>
+                <div className={classes.container}>
+                    <NewProjectForm
+                        actionButtonLabel="Create new project"
+                        username={user.username}
+                        newProjectDataEntered={newProjectDataEntered}
+                    />
+                    <Footer/>
+                </div>
+            </ThemeProvider>
         </>
     );
 };
