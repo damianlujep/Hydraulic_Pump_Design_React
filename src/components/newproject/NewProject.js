@@ -1,5 +1,7 @@
 import React from 'react';
 import {useSelector} from "react-redux";
+import {ThemeProvider} from "@mui/styles";
+import theme from "../theme";
 
 import {useAuth} from "../contexts/AuthContext";
 
@@ -25,14 +27,16 @@ const NewProject = () => {
     return (
         <>
             <CssBaseline/>
-            <div className={classes.container}>
-                <NewProjectForm
-                    actionButtonLabel="Create new project"
-                    username={user.username}
-                    newProjectDataEntered={newProjectDataEntered}
-                />
-                <Footer/>
-            </div>
+            <ThemeProvider theme={theme}>
+                <div className={classes.container}>
+                    <NewProjectForm
+                        actionButtonLabel="Create new project"
+                        username={user.username}
+                        newProjectDataEntered={newProjectDataEntered}
+                    />
+                    <Footer/>
+                </div>
+            </ThemeProvider>
         </>
     );
 };
