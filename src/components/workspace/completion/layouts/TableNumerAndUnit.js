@@ -1,17 +1,9 @@
 import React from 'react';
-import {
-    IconButton,
-    makeStyles,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableRow,
-    Typography,
-    withStyles
-} from "@material-ui/core";
-import {Edit} from "@material-ui/icons";
+import {IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Typography,} from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import withStyles from '@mui/styles/withStyles';
+
+import {Edit} from "@mui/icons-material";
 
 const TableNumerAndUnit = () => {
     const StyledTableCell = withStyles((theme) => ({
@@ -105,7 +97,7 @@ const TableNumerAndUnit = () => {
             </TableContainer>
 
             <div className={classes.editCompletionButton}>
-                <IconButton color="primary" aria-label="Edit completion data" >
+                <IconButton color="primary" aria-label="Edit completion data" size="large">
                     <Edit />
                 </IconButton>
                 <Typography variant="body1" color="primary">Edit completion data</Typography>

@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {useHistory} from "react-router-dom";
 
+import {useAuth} from "../contexts/AuthContext";
+
 import {Alert, Button, Container, FormGroup, InputAdornment, Paper, TextField} from "@mui/material";
 import {makeStyles} from '@mui/styles';
 import {AccountCircle} from "@mui/icons-material";
-
-import {useAuth} from "../contexts/AuthContext";
 
 const LoginForm = () => {
     const [user, setUser] = useState({username: "", password: ""});
@@ -39,7 +39,7 @@ const LoginForm = () => {
         }
     };
 
-    const styles = makeStyles((theme) => ({
+    const styles = makeStyles(() => ({
         form: {
             display: "flex",
             justifyContent: "space-between",

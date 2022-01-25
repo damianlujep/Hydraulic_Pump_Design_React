@@ -1,16 +1,19 @@
 import {BrowserRouter, Switch} from "react-router-dom";
+
 import Home from "./components/home/Home";
 import NewProject from "./components/newproject/NewProject";
 import Workspace from "./components/workspace/Workspace";
 import {useAuth} from "./components/contexts/AuthContext";
 import PublicRoute from "./components/routers/PublicRoute";
 import PrivateRoute from "./components/routers/PrivateRoute";
+import {ThemeProvider} from '@mui/material/styles';
+import theme from "./components/theme";
 
 function App() {
     const { user } = useAuth();
 
     return (
-        <>
+        <ThemeProvider theme={theme}>
             <BrowserRouter>
                 <Switch>
                     <PublicRoute
@@ -30,7 +33,7 @@ function App() {
                     />
                 </Switch>
             </BrowserRouter>
-        </>
+        </ThemeProvider>
   );
 }
 

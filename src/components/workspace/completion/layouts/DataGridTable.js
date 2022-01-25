@@ -1,7 +1,8 @@
 import React, {useCallback, useState} from 'react';
-import {createTheme, makeStyles} from "@material-ui/core";
-import {DataGrid} from "@material-ui/data-grid";
 
+import {createTheme} from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import {DataGrid} from "@material-ui/data-grid";
 
 const DataGridTable = () => {
     const [editRowsModel, setEditRowsModel] = useState({});
@@ -56,7 +57,7 @@ const DataGridTable = () => {
     ];
 
     function getThemePaletteMode(palette) {
-        return palette.type || palette.mode;
+        return palette.mode || palette.mode;
     }
 
     const defaultTheme = createTheme();

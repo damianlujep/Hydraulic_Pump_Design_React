@@ -1,14 +1,13 @@
 import React, {useCallback, useState} from 'react';
-
 import {useDispatch} from "react-redux";
 import {completionActions} from "../../../store/completion-slice";
 
 import {Alert, Button, Grid, Paper, Typography} from "@mui/material";
-import {createTheme} from "@mui/material/styles";
 import {makeStyles} from '@mui/styles';
-import {DataGrid} from "@material-ui/data-grid";
+// import { DataGrid } from "@material-ui/data-grid";
+import {DataGrid} from '@mui/x-data-grid';
 
-const DirectionalSurveyTable = ({handleClose}) => {
+const DirectionalSurveyTable = ({ handleClose }) => {
     const dispatch = useDispatch();
     //Validation for final surveyData. Returns true if 0 errors
     const validateDataSurvey = (fieldValues = surveyData) => {
@@ -130,8 +129,10 @@ const DirectionalSurveyTable = ({handleClose}) => {
             )
         }
     }
-
-    const styles = makeStyles((theme) => ({
+    //TODO: Fix table header color, cell color green/red for correct/error
+    //TODO: HD an Angle auto calculation not working
+    // TODO Auto error finder on blur not working on cells
+    const styles = makeStyles(() => ({
         root:{
             '& .MuiFormLabel-root':{
                 color: 'rgba(0, 0, 0, 0.74)'
@@ -167,36 +168,28 @@ const DirectionalSurveyTable = ({handleClose}) => {
         },
     }));
 
-    function getThemePaletteMode(palette) {
-        return palette.type || palette.mode;
-    }
-
-    const defaultTheme = createTheme();
-    const tableStyles = makeStyles((theme) => {
-        const isDark = getThemePaletteMode(theme.palette)  === 'dark';
-        return {
-            root: {
-                '& .MuiDataGrid-cell--editing': {
-                    backgroundColor: 'rgb(255,215,115, 0.19)',
-                    color: '#1a3e72',
-                },
-                '& .Mui-error': {
-                    backgroundColor: `rgb(126,10,15, ${isDark ? 0 : 0.1})`,
-                    color: isDark ? '#ff4343' : '#750f0f',
-                },
-                '& .MuiDataGrid-columnsContainer': {
-                    backgroundColor: theme.palette.primary.main,
-                    justifyContent: "center",
-                    color: "white"
-                },
-                '& .MuiDataGrid-cell--editable': {
-                    // backgroundColor: 'rgb(217 243 190)',
-                    border: "1px solid white"
-                }
+    const tableStyles = makeStyles((theme) => ({
+        root: {
+            '& .MuiDataGrid-cell--editing': {
+                backgroundColor: 'rgb(255,215,115, 0.19)',
+                color: '#1a3e72',
+            },
+            '& .Mui-error': {
+                backgroundColor: `rgb(126,10,15, 0.1)`,
+                color: '#750f0f',
+            },
+            '& .MuiDataGrid-columnsContainer': {
+                backgroundColor: theme.palette.primary.main,
+                justifyContent: "center",
+                color: "white"
+            },
+            '& .MuiDataGrid-cell--editable': {
+                // backgroundColor: 'rgb(217 243 190)',
+                border: "1px solid white"
             }
-        };
-        }, { defaultTheme }
-    );
+        }
+    }));
+
     const [surveyData, setSurveyData] = useState(surveyRows);
 
     const onRowEditCommit= (params) =>{

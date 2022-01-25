@@ -1,8 +1,8 @@
 import React from 'react';
 import {useSelector} from "react-redux";
 import {ThemeProvider} from "@mui/styles";
-import theme from "../theme";
 
+import theme from "../theme";
 import {useAuth} from "../contexts/AuthContext";
 
 import {CssBaseline} from "@mui/material";

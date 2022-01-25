@@ -1,9 +1,13 @@
 import React, {useCallback, useState} from 'react';
-import CompletionDialog from "./CompletionDialog";
-import {createTheme, makeStyles, Typography} from "@material-ui/core";
-import {DataGrid} from "@material-ui/data-grid";
 
-const CompletionGridTable = ({validCompletionData, tubingList, casingList}) => {
+import {Typography} from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+// import { DataGrid } from "@material-ui/data-grid";
+import {DataGrid} from '@mui/x-data-grid';
+
+import CompletionDialog from "./CompletionDialog";
+
+const CompletionGridTable = ({ validCompletionData, tubingList, casingList }) => {
     const [editRowsModel, setEditRowsModel] = useState({});
 
     const handleEditRowsModelChange = useCallback((model) => {
@@ -55,38 +59,27 @@ const CompletionGridTable = ({validCompletionData, tubingList, casingList}) => {
         { field: 'unit', headerName: 'Unit', flex:0.3, editable: false, sortable: false }
     ];
 
-    function getThemePaletteMode(palette) {
-        return palette.type || palette.mode;
-    }
-
-    const defaultTheme = createTheme();
-    const useStyles = makeStyles(
-        (theme) => {
-            const isDark = getThemePaletteMode(theme.palette)  === 'dark';
-
-            return {
-                root: {
-                    '& .MuiDataGrid-cell--editing': {
-                        backgroundColor: 'rgb(255,215,115, 0.19)',
-                        color: '#1a3e72',
-                    },
-                    '& .Mui-error': {
-                        backgroundColor: `rgb(126,10,15, ${isDark ? 0 : 0.1})`,
-                        color: isDark ? '#ff4343' : '#750f0f',
-                    },
-                    '& .MuiDataGrid-columnsContainer': {
-                        backgroundColor: theme.palette.primary.main,
-                        justifyContent: "center",
-                        color: "white"
-                    },
-                    /*           '& .MuiDataGrid-cell--editable': {
-                                  backgroundColor: 'rgb(217 243 190)'
-                               },*/
-                },
-            };
+    //TODO: Fix table header color and number align to right
+    const useStyles = makeStyles((theme) => ({
+        root: {
+            '& .MuiDataGrid-cell--editing': {
+                backgroundColor: 'rgb(255,215,115, 0.19)',
+                color: '#1a3e72',
+            },
+            '& .Mui-error': {
+                backgroundColor: `rgb(126,10,15, 0.1})`,
+                color: '#750f0f',
+            },
+            '& .MuiDataGrid-columnsContainer': {
+                backgroundColor: theme.palette.primary.main,
+                justifyContent: "center",
+                color: "white"
+            },
+            /*           '& .MuiDataGrid-cell--editable': {
+                          backgroundColor: 'rgb(217 243 190)'
+                       },*/
         },
-        { defaultTheme },
-    );
+    }));
 
     const classes =  useStyles();
 
