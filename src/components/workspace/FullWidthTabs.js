@@ -1,10 +1,14 @@
 import React, {useState} from 'react';
 import SwipeableViews from 'react-swipeable-views';
-import {AppBar, Box, makeStyles, Tab, Tabs, Typography, useTheme} from "@material-ui/core";
+
 import PropTypes from "prop-types";
+
+import {AppBar, Box, Tab, Tabs, Typography, useTheme} from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+
 import Completion from "./completion/Completion";
 
-function TabPanel(props) {
+const TabPanel = (props) => {
     const { children, value, index, ...other } = props;
 
     return (
@@ -30,7 +34,7 @@ TabPanel.propTypes = {
     value: PropTypes.any.isRequired,
 };
 
-function a11yProps(index) {
+const a11yProps = (index) => {
     return {
         id: `full-width-tab-${index}`,
         'aria-controls': `full-width-tabpanel-${index}`,
@@ -70,6 +74,7 @@ const FullWidthTabs = () => {
     };
 
     return (
+        //TODO: Check alerts on div
         <div className={classes.root}>
             <AppBar position="static" color="default">
                 <Tabs
