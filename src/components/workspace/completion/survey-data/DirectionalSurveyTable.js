@@ -1,16 +1,17 @@
-import React, {useCallback, useState} from 'react';
+import React, {useState} from 'react';
 import {useDispatch} from "react-redux";
 import {completionActions} from "../../../store/completion-slice";
 
 import {Alert, Button, Grid, Paper, Typography} from "@mui/material";
 import {makeStyles} from '@mui/styles';
-// import { DataGrid } from "@material-ui/data-grid";
 import {DataGrid} from '@mui/x-data-grid';
 
 const DirectionalSurveyTable = ({ handleClose }) => {
     const dispatch = useDispatch();
+    const [tableData, setTableData] = useState(createSurveyRows());
+
     //Validation for final surveyData. Returns true if 0 errors
-    const validateDataSurvey = (fieldValues = surveyData) => {
+    const validateDataSurvey = (fieldValues = tableData) => {
         const mdSumary = Object.values(fieldValues).map((el) => el.md);
         const tvdSumary = Object.values(fieldValues).map((el) => el.tvd);
         const errors = [];
@@ -31,12 +32,6 @@ const DirectionalSurveyTable = ({ handleClose }) => {
         }
         return errors;
     }
-
-    const [editRowsModel, setEditRowsModel] = useState({});
-
-    const handleEditRowsModelChange = useCallback((model) => {
-        setEditRowsModel(model);
-    }, []);
 
     const columns = [
         { field: 'id', headerName: 'id', flex: 1/10, editable: false, sortable: false, type: 'number'},
@@ -198,15 +193,18 @@ const DirectionalSurveyTable = ({ handleClose }) => {
         }
     }));
 
-    const [surveyData, setSurveyData] = useState(surveyRows);
-
-    const onRowEditCommit= (params) =>{
-        const editedRow = params.api.getRow(params.id);
-        setSurveyData({
-            ...surveyData,
-            [params.id - 1]: editedRow
+    const onRowEditCommit = (params) =>{
+        setTableData(prevState => {
+            const oldState = [...prevState];
+            //Search edited row id in prevState
+            let editedRow = oldState.find(row => row.id === params.id);
+            //Replace old value for new value in edited row
+            editedRow = {...editedRow, [params.field]: params.value};
+            //Replace old row for new row in array
+            // sessionStorage.setItem("manual-forecast", JSON.stringify(newState));
+            return oldState.map(row => row.id !== editedRow.id ? row : editedRow);
         });
-    }
+    };
 
     const [errorsList, setErrorsList] = useState([]);
 
@@ -218,9 +216,9 @@ const DirectionalSurveyTable = ({ handleClose }) => {
         if (areDataValid.length === 0){
             sessionStorage.setItem("survey-data-entered", JSON.stringify(true));
             dispatch(completionActions.replaceSurveyData({
-                validSurveyData: surveyData
+                validSurveyData: tableData
             }));
-            sessionStorage.setItem("survey-data", JSON.stringify(Object.values(surveyData).filter(el => el.md !== "" && el.tvd !== "")));
+            sessionStorage.setItem("survey-data", JSON.stringify(Object.values(tableData).filter(el => el.md !== "" && el.tvd !== "")));
             handleClose();
         } else {
             setErrorsList(areDataValid);
@@ -247,34 +245,34 @@ const DirectionalSurveyTable = ({ handleClose }) => {
                             inputProps={{step: maxDecimals, min: "0"}}
                             isCellEditable={(params => params.id !== 1)}
                             className={tableClasses.root}
-                            rows={surveyRows}
+                            rows={tableData}
                             columns={columns}
-                            editRowsModel={editRowsModel}
-                            onEditRowsModelChange={handleEditRowsModelChange}
                             hideFooter={true}
                             disableExtendRowFullWidth={true}
                             rowHeight={30}
                             disableColumnFilter={true}
                             disableColumnMenu={true}
                             autoHeight={true}
-                            onCellEditStop={onRowEditCommit}
+                            onCellEditCommit={onRowEditCommit}
                         />
                     </div>
 
                     <section className={classes.buttons}>
                         <Button className={classes.buttonCreate}
-                                variant="contained" color="primary"
-                                size="large"
-                                type="submit"
-                                onClick={verifySurveyData}
+                            variant="contained" color="primary"
+                            size="large"
+                            type="submit"
+                            onClick={verifySurveyData}
                         >
                             Save
                         </Button>
-                        <Button className={classes.buttonCancel}
-                                variant="contained"
-                                color="secondary"
-                                size="small"
-                                onClick={handleClose}>
+                        <Button
+                            className={classes.buttonCancel}
+                            variant="contained"
+                            color="secondary"
+                            size="small"
+                            onClick={handleClose}
+                        >
                             Cancel
                         </Button>
                     </section>
@@ -303,8 +301,6 @@ const createSurveyRows = () => {
 
     return data;
 }
-
-const surveyRows = createSurveyRows();
 
 //Survey Dta calculations
 const calculateHorizontalDistance = (currentMD, currentTVD, previousMD, previousTVD, previousHD) => {
