@@ -7,7 +7,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import CompletionDialog from "./CompletionDialog";
 import DirectionalSurveyDialog from "./survey-data/DirectionalSurveyDialog";
 import CompletionGridTable from "./CompletionGridTable";
-import ChartTemplate from "../../charts/ChartTemplate";
+import DirectionalSurveyChart from "../../charts/DirectionalSurveyChart";
 
 const Completion = () => {
     const dispatch = useDispatch();
@@ -65,7 +65,7 @@ const Completion = () => {
 
     const renderDirectionalSurveyData = () => {
         if (surveyDataEntered && validSurveyData !== {}){
-            return <ChartTemplate />
+            return <DirectionalSurveyChart />
 
         } else {
             return <DirectionalSurveyDialog
