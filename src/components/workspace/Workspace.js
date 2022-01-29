@@ -10,9 +10,8 @@ import clsx from "clsx";
 
 import WorkspaceActionsBar from "./WorkspaceActionsBar";
 import WorkspaceMainBox from "./WorkspaceMainBox";
-// import { ThemeProvider } from "@mui/styles";
-// import { StyledEngineProvider } from '@mui/material/styles';
-// import theme from "../theme";
+import {styles} from "../styles";
+
 
 const Workspace = () => {
     const projectInfoData = JSON.parse(sessionStorage.getItem("new-project-info-data"));
@@ -93,6 +92,7 @@ const Workspace = () => {
     }));
 
     const classes = useStyles();
+    const classesMain = styles();
     const [open, setOpen] = React.useState(false);
 
     const handleDrawerOpen = () => {
@@ -110,10 +110,7 @@ const Workspace = () => {
     }
 
     return (
-        <div className={classes.root}>
-            <CssBaseline />
-            {/*<StyledEngineProvider injectFirst>*/}
-            {/*    <ThemeProvider  theme={theme}>*/}
+        <div className={clsx(classes.root, classesMain.container)}>
                 <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
                     <Toolbar className={classes.toolbar}>
                         <IconButton
@@ -168,8 +165,6 @@ const Workspace = () => {
                     <WorkspaceActionsBar/>
                     <WorkspaceMainBox/>
                 </main>
-                {/*</ThemeProvider>*/}
-            {/*</StyledEngineProvider>*/}
         </div>
     );
 }

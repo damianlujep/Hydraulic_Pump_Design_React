@@ -270,6 +270,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
     };
 
     return (
+
         <div className={classes.root}>
             <Paper square elevation={0} className={classes.paper}>
 

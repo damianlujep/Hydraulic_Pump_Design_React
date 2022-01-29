@@ -3,9 +3,10 @@ import {useHistory} from "react-router-dom";
 
 import {useAuth} from "../contexts/AuthContext";
 
-import {Alert, Button, Container, FormGroup, InputAdornment, Paper, TextField} from "@mui/material";
-import {makeStyles} from '@mui/styles';
+import {Alert, Button, Container, CssBaseline, FormGroup, InputAdornment, Paper, TextField} from "@mui/material";
+import {makeStyles, ThemeProvider} from '@mui/styles';
 import {AccountCircle} from "@mui/icons-material";
+import theme from "../theme";
 
 const LoginForm = () => {
     const [user, setUser] = useState({username: "", password: ""});
@@ -60,7 +61,7 @@ const LoginForm = () => {
             width: "261px"
         },
         alert: {
-                        margin: "0 auto 10px",
+            margin: "0 auto 10px",
             width: "300px",
             justifyContent: "center",
         },
@@ -80,43 +81,48 @@ const LoginForm = () => {
     }
 
     return (
-        <Paper square elevation={3} className={classes.paper}>
-            <Container maxWidth={"md"}>
-                <form className={classes.form} onSubmit={handleSubmit}>
-                    <FormGroup className={classes.field}>
-                        <TextField
-                            type="text"
-                            id="outlined-basic"
-                            label="Username"
-                            variant="outlined"
-                            name="username"
-                            onChange={handleUserInputChange}
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                       <AccountCircle/>
-                                   </InputAdornment>
-                               )}}
-                        >
-                        </TextField>
-                    </FormGroup>
-                    <FormGroup className={classes.field}>
-                        <TextField
-                            type="password"
-                            id="outlined-basic"
-                            label="Password"
-                            variant="outlined"
-                            name="password"
-                            onChange={handleUserInputChange}
-                            className={classes.passwordInput}/>
-                    </FormGroup>
-                    <Button type="submit" variant="contained" color="primary">Login</Button>
-                </form>
-                <div>
-                    {errorsJsx}
-                </div>
-            </Container>
-        </Paper>
+
+        <>
+                <Paper square elevation={3} className={classes.paper}>
+
+                    <Container maxWidth={"md"}>
+                        <form className={classes.form} onSubmit={handleSubmit}>
+                            <FormGroup className={classes.field}>
+                                <TextField
+                                    type="text"
+                                    id="outlined-basic"
+                                    label="Username"
+                                    variant="outlined"
+                                    name="username"
+                                    onChange={handleUserInputChange}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <AccountCircle/>
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                >
+                                </TextField>
+                            </FormGroup>
+                            <FormGroup className={classes.field}>
+                                <TextField
+                                    type="password"
+                                    id="outlined-basic"
+                                    label="Password"
+                                    variant="outlined"
+                                    name="password"
+                                    onChange={handleUserInputChange}
+                                    className={classes.passwordInput}/>
+                            </FormGroup>
+                            <Button type="submit" variant="contained" color="primary">Login</Button>
+                        </form>
+                        <div>
+                            {errorsJsx}
+                        </div>
+                    </Container>
+                </Paper>
+        </>
     );
 };
 

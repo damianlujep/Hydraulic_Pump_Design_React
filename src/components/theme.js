@@ -11,4 +11,19 @@ let theme = createTheme( {
     }
 });
 
+// theme = createTheme(theme, {
+//     components: {
+//         MuiButton: {
+//             variants: [
+//                 {
+//                     props: { variant: "secondary"},
+//                     style: {
+//                         backgroundColor: theme.palette.secondary.main
+//                     }
+//                 }
+//             ]
+//         },
+//     }
+// })
+
 export default theme;

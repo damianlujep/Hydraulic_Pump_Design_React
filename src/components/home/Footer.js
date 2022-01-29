@@ -1,7 +1,5 @@
 import React from 'react';
-
 import {Box, Typography} from "@mui/material";
-
 import makeStyles from '@mui/styles/makeStyles';
 
 const Footer = () => {
@@ -26,7 +24,7 @@ const Footer = () => {
     return (
         <Box bgcolor="primary.main" height="50px">
             <footer className={classes.footer}>
-                <Typography variant={"subtitle2"} align="center">Hydraulic Pump Design 2021 ©</Typography>
+                <Typography variant={"subtitle2"} align="center">Hydraulic Pump Design 2022 ©</Typography>
             </footer>
         </Box>
 
