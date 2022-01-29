@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 
-import {alpha, Divider, Menu, MenuItem, styled} from "@mui/material";
+import {alpha, Box, Divider, Menu, MenuItem, styled} from "@mui/material";
 import {Archive, Edit, FileCopy} from "@mui/icons-material";
 
 import ActionButton from "./ActionButton";
+import {makeStyles} from "@mui/styles";
+import theme from "../theme";
 
 const WorkspaceActionsBar = () => {
     const StyledMenu = styled((props) => (
@@ -50,6 +52,14 @@ const WorkspaceActionsBar = () => {
         }
     }));
 
+    const useStyles = makeStyles((theme) => ({
+        iconStyled: {
+            marginRight: "20px",
+            color: theme.palette.customized.grey
+        }
+    }));
+    const classes = useStyles();
+
     const [activateActionMenu, setActivateActionMenu] = useState(null);
     const [activateCalcMenu, setActivateCalcMenu] = useState(null);
     const isOpenedActions = Boolean(activateActionMenu);
@@ -71,9 +81,10 @@ const WorkspaceActionsBar = () => {
         setActivateCalcMenu(null);
     };
 
+
     return (
         <section style={{display: "flex", margin: "10px 24px 10px"}}>
-            <div style={{marginRight:"40px"}}>
+            <Box sx={{marginRight:"40px"}}>
                 <ActionButton
                     handleClick={handleClick}
                     open={isOpenedActions}
@@ -92,21 +103,21 @@ const WorkspaceActionsBar = () => {
                     onClose={handleClose}
                 >
                     <MenuItem onClick={handleClose} disableRipple>
-                        <Edit />
+                        <Edit className={classes.iconStyled}/>
                         Edit
                     </MenuItem>
                     <MenuItem onClick={handleClose} disableRipple>
-                        <FileCopy />
+                        <FileCopy className={classes.iconStyled}/>
                         Copy
                     </MenuItem>
                     <Divider sx={{ my: 0.5 }} />
                     <MenuItem onClick={handleClose} disableRipple>
-                        <Archive />
+                        <Archive className={classes.iconStyled}/>
                         Save Project
                     </MenuItem>
                 </StyledMenu>
-            </div>
-            <div style={{marginRight:"20px"}}>
+            </Box>
+            <Box sx={{marginRight:"20px"}}>
                 <ActionButton
                     handleClick={handleClick2}
                     open={isOpenedCalcs}
@@ -125,20 +136,20 @@ const WorkspaceActionsBar = () => {
                     onClose={handleClose2}
                 >
                     <MenuItem onClick={handleClose2} disableRipple>
-                        <Edit />
+                        <Edit className={classes.iconStyled}/>
                         Calculation 1
                     </MenuItem>
                     <MenuItem onClick={handleClose2} disableRipple>
-                        <FileCopy />
+                        <FileCopy className={classes.iconStyled}/>
                         Calculation 2
                     </MenuItem>
                     <Divider sx={{ my: 0.5 }} />
                     <MenuItem onClick={handleClose2} disableRipple>
-                        <Archive />
+                        <Archive className={classes.iconStyled}/>
                         Calculation 3
                     </MenuItem>
                 </StyledMenu>
-            </div>
+            </Box>
         </section>
     );
 };

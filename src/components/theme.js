@@ -6,9 +6,11 @@ let theme = createTheme( {
             main: '#3f51b5',
         },
         secondary: {
-            main: '#f50057'
+            main: '#f50057',
         },
-
+        customized: {
+            grey: 'rgba(0,0,0,0.54)'
+        }
     }
 });
 

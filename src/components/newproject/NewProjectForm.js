@@ -88,7 +88,7 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
             alignItems: "center"
         },
         paper: {
-            height: "calc(100vh - 50px)",
+            // height: "calc(100vh - 50px)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
