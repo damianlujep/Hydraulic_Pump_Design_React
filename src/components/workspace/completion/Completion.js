@@ -1,11 +1,13 @@
 import React, {useEffect} from 'react';
-import {createStyles, makeStyles} from "@material-ui/core";
+import {useDispatch, useSelector} from "react-redux";
+import {fetchCasingData, fetchTubingData} from "../../store/completion-fetch-actions";
+
+import makeStyles from '@mui/styles/makeStyles';
+
 import CompletionDialog from "./CompletionDialog";
 import DirectionalSurveyDialog from "./survey-data/DirectionalSurveyDialog";
 import CompletionGridTable from "./CompletionGridTable";
 import ChartTemplate from "../../charts/ChartTemplate";
-import {useDispatch, useSelector} from "react-redux";
-import {fetchCasingData, fetchTubingData} from "../../store/completion-fetch-actions";
 
 const Completion = () => {
     const dispatch = useDispatch();
@@ -28,21 +30,19 @@ const Completion = () => {
         dispatch(fetchCasingData());
     },[dispatch]);
 
-    const styles = makeStyles((theme) =>
-        createStyles({
-            container: {
-                minHeight: "calc(100vh - 120px - 48px - 8px - 48px)",
-                display: "flex",
-                justifyContent: "space-evenly",
-                alignItems: "center"
-            },
-            editCompletionButton:{
-                display: "flex",
-                alignItems: "center",
-                marginTop: "20px"
-            }
-        })
-    );
+    const styles = makeStyles(() =>({
+        container: {
+            minHeight: "calc(100vh - 120px - 48px - 8px - 48px)",
+            display: "flex",
+            justifyContent: "space-evenly",
+            alignItems: "center"
+        },
+        editCompletionButton:{
+            display: "flex",
+            alignItems: "center",
+            marginTop: "20px"
+        }
+    }));
 
     const classes = styles();
 

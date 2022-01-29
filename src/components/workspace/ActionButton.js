@@ -1,6 +1,7 @@
 import React from 'react';
-import {Button} from "@material-ui/core";
-import {KeyboardArrowDown} from "@material-ui/icons";
+
+import {Button} from "@mui/material";
+import {KeyboardArrowDown} from "@mui/icons-material";
 
 const ActionButton = ({handleClick, open, text, buttonID, styledMenuID}) => {
     return (

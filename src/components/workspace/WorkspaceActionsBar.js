@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
-import {alpha, Divider, Menu, MenuItem, styled} from "@material-ui/core";
-import {Archive, Edit, FileCopy} from "@material-ui/icons";
+
+import {alpha, Divider, Menu, MenuItem, styled} from "@mui/material";
+import {Archive, Edit, FileCopy} from "@mui/icons-material";
+
 import ActionButton from "./ActionButton";
 
 const WorkspaceActionsBar = () => {

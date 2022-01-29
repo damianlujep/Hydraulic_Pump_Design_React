@@ -1,14 +1,17 @@
-import React, {useCallback, useState} from 'react';
-import {Button, createStyles, createTheme, Grid, makeStyles, Paper, Typography} from "@material-ui/core";
-import {DataGrid} from "@material-ui/data-grid";
-import {Alert} from "@material-ui/lab";
+import React, {useState} from 'react';
 import {useDispatch} from "react-redux";
 import {completionActions} from "../../../store/completion-slice";
 
-const DirectionalSurveyTable = ({handleClose}) => {
+import {Alert, Button, Grid, Paper, Typography} from "@mui/material";
+import {makeStyles} from '@mui/styles';
+import {DataGrid} from '@mui/x-data-grid';
+
+const DirectionalSurveyTable = ({ handleClose }) => {
     const dispatch = useDispatch();
+    const [tableData, setTableData] = useState(createSurveyRows());
+
     //Validation for final surveyData. Returns true if 0 errors
-    const validateDataSurvey = (fieldValues = surveyData) => {
+    const validateDataSurvey = (fieldValues = tableData) => {
         const mdSumary = Object.values(fieldValues).map((el) => el.md);
         const tvdSumary = Object.values(fieldValues).map((el) => el.tvd);
         const errors = [];
@@ -29,12 +32,6 @@ const DirectionalSurveyTable = ({handleClose}) => {
         }
         return errors;
     }
-
-    const [editRowsModel, setEditRowsModel] = useState({});
-
-    const handleEditRowsModelChange = useCallback((model) => {
-        setEditRowsModel(model);
-    }, []);
 
     const columns = [
         { field: 'id', headerName: 'id', flex: 1/10, editable: false, sortable: false, type: 'number'},
@@ -103,7 +100,8 @@ const DirectionalSurveyTable = ({handleClose}) => {
                     <div style={{width: "100%", height: "100%",
                         border: "1px solid",
                         backgroundColor: 'rgb(212, 237, 218)',
-                        borderColor: '#c3e6cb'}}>
+                        borderColor: '#c3e6cb',
+                    textAlign: "right"}}>
                         {(numberValue.toFixed(3))}
                     </div>
                 )
@@ -127,87 +125,86 @@ const DirectionalSurveyTable = ({handleClose}) => {
             )
         }
     }
-
-    const styles = makeStyles((theme) =>
-        createStyles({
-            root:{
-                '& .MuiFormLabel-root':{
-                    color: 'rgba(0, 0, 0, 0.74)'
-                }
-            },
-            paper: {
-                // minHeight: "calc(100vh - 45px)",
-                marginTop: "30px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column"
-            },
-            text: {
-                marginBottom: "20px",
-                fontWeight: "bold"
-            },
-            buttons: {
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                padding: "10px 15px",
-                fontWeight: "bold"
-            },
-            buttonCreate: {
-                padding: "10px",
-                width: "250px",
-            },
-            buttonCancel: {
-                padding: "8px",
-                width: "100px",
-                marginTop: "20px"
-            },
-        })
-    );
-
-    function getThemePaletteMode(palette) {
-        return palette.type || palette.mode;
-    }
-
-    const defaultTheme = createTheme();
-    const tableStyles = makeStyles(
-        (theme) => {
-            const isDark = getThemePaletteMode(theme.palette)  === 'dark';
-
-            return {
-                root: {
-                    '& .MuiDataGrid-cell--editing': {
-                        backgroundColor: 'rgb(255,215,115, 0.19)',
-                        color: '#1a3e72',
-                    },
-                    '& .Mui-error': {
-                        backgroundColor: `rgb(126,10,15, ${isDark ? 0 : 0.1})`,
-                        color: isDark ? '#ff4343' : '#750f0f',
-                    },
-                    '& .MuiDataGrid-columnsContainer': {
-                        backgroundColor: theme.palette.primary.main,
-                        justifyContent: "center",
-                        color: "white"
-                    },
-                    '& .MuiDataGrid-cell--editable': {
-                        // backgroundColor: 'rgb(217 243 190)',
-                        border: "1px solid white"
-                    }
-                }
-            };
+    //TODO: Fix table header color, cell color green/red for correct/error
+    //TODO: HD an Angle auto calculation not working
+    // TODO Auto error finder on blur not working on cells
+    const styles = makeStyles(() => ({
+        root:{
+            '& .MuiFormLabel-root':{
+                color: 'rgba(0, 0, 0, 0.74)'
+            }
         },
-        { defaultTheme },
-    );
-    const [surveyData, setSurveyData] = useState(surveyRows);
+        paper: {
+            // minHeight: "calc(100vh - 45px)",
+            marginTop: "30px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column"
+        },
+        text: {
+            marginBottom: "20px",
+            fontWeight: "bold"
+        },
+        buttons: {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            padding: "10px 15px",
+            fontWeight: "bold"
+        },
+        buttonCreate: {
+            padding: "10px",
+            width: "250px",
+        },
+        buttonCancel: {
+            padding: "8px",
+            width: "100px",
+            marginTop: "20px"
+        },
+    }));
 
-    const onRowEditCommit= (params) =>{
-        const editedRow = params.api.getRow(params.id);
-        setSurveyData({
-            ...surveyData,
-            [params.id - 1]: editedRow
+    const tableStyles = makeStyles((theme) => ({
+        root: {
+            '& .MuiDataGrid-cell--editing': {
+                backgroundColor: 'rgb(255,215,115, 0.19)',
+                color: '#1a3e72',
+            },
+            '& .Mui-error': {
+                backgroundColor: `rgb(126,10,15, 0.1)`,
+                color: '#750f0f',
+            },
+            '& .MuiDataGrid-columnsContainer': {
+                backgroundColor: theme.palette.primary.main,
+                justifyContent: "center",
+                color: "white"
+            },
+            '& .MuiDataGrid-cell--editable': {
+                // backgroundColor: 'rgb(217 243 190)',
+                border: "1px solid white"
+            },
+            '&. MuiDataGrid-columnHeaders': {
+                backgroundColor: theme.palette.primary.main
+            },
+            '& .MuiDataGrid-columnHeader': {
+                backgroundColor: theme.palette.primary.main,
+                color: "white"
+            }
+        }
+    }));
+
+    const onRowEditCommit = (params) =>{
+        setTableData(prevState => {
+            const oldState = [...prevState];
+            //Search edited row id in prevState
+            let editedRow = oldState.find(row => row.id === params.id);
+            //Replace old value for new value in edited row
+            editedRow = {...editedRow, [params.field]: params.value};
+            //Replace old row for new row in array
+            // sessionStorage.setItem("manual-forecast", JSON.stringify(newState));
+            return oldState.map(row => row.id !== editedRow.id ? row : editedRow);
         });
-    }
+    };
 
     const [errorsList, setErrorsList] = useState([]);
 
@@ -219,9 +216,9 @@ const DirectionalSurveyTable = ({handleClose}) => {
         if (areDataValid.length === 0){
             sessionStorage.setItem("survey-data-entered", JSON.stringify(true));
             dispatch(completionActions.replaceSurveyData({
-                validSurveyData: surveyData
+                validSurveyData: tableData
             }));
-            sessionStorage.setItem("survey-data", JSON.stringify(Object.values(surveyData).filter(el => el.md !== "" && el.tvd !== "")));
+            sessionStorage.setItem("survey-data", JSON.stringify(Object.values(tableData).filter(el => el.md !== "" && el.tvd !== "")));
             handleClose();
         } else {
             setErrorsList(areDataValid);
@@ -248,34 +245,34 @@ const DirectionalSurveyTable = ({handleClose}) => {
                             inputProps={{step: maxDecimals, min: "0"}}
                             isCellEditable={(params => params.id !== 1)}
                             className={tableClasses.root}
-                            rows={surveyRows}
+                            rows={tableData}
                             columns={columns}
-                            editRowsModel={editRowsModel}
-                            onEditRowsModelChange={handleEditRowsModelChange}
                             hideFooter={true}
                             disableExtendRowFullWidth={true}
                             rowHeight={30}
                             disableColumnFilter={true}
                             disableColumnMenu={true}
                             autoHeight={true}
-                            onCellEditStop={onRowEditCommit}
+                            onCellEditCommit={onRowEditCommit}
                         />
                     </div>
 
                     <section className={classes.buttons}>
                         <Button className={classes.buttonCreate}
-                                variant="contained" color="primary"
-                                size="large"
-                                type="submit"
-                                onClick={verifySurveyData}
+                            variant="contained" color="primary"
+                            size="large"
+                            type="submit"
+                            onClick={verifySurveyData}
                         >
                             Save
                         </Button>
-                        <Button className={classes.buttonCancel}
-                                variant="contained"
-                                color="secondary"
-                                size="small"
-                                onClick={handleClose}>
+                        <Button
+                            className={classes.buttonCancel}
+                            variant="contained"
+                            color="secondary"
+                            size="small"
+                            onClick={handleClose}
+                        >
                             Cancel
                         </Button>
                     </section>
@@ -304,8 +301,6 @@ const createSurveyRows = () => {
 
     return data;
 }
-
-const surveyRows = createSurveyRows();
 
 //Survey Dta calculations
 const calculateHorizontalDistance = (currentMD, currentTVD, previousMD, previousTVD, previousHD) => {

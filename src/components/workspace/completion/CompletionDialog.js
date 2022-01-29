@@ -1,8 +1,12 @@
 import React, {useState} from 'react';
-import {AppBar, Button, Dialog, IconButton, makeStyles, Slide, Toolbar, Typography} from "@material-ui/core";
-import {Close, Edit} from "@material-ui/icons";
+
+import {AppBar, Button, Dialog, IconButton, Slide, Toolbar, Typography} from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import {Close, Edit} from "@mui/icons-material";
+
 import CompletionForm from "./CompletionForm";
 
+//TODO: Fix theme.spacing with new theme
 const useStyles = makeStyles((theme) => ({
     appBar: {
         position: 'relative',
@@ -19,7 +23,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const CompletionDialog = ({buttonLabel, appBarLabel, tubingList, casingList}) => {
+const CompletionDialog = ({ buttonLabel, appBarLabel, tubingList, casingList }) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
 
@@ -45,7 +49,12 @@ const CompletionDialog = ({buttonLabel, appBarLabel, tubingList, casingList}) =>
             <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
                 <AppBar className={classes.appBar}>
                     <Toolbar style={{minHeight: "45px"}}>
-                        <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            onClick={handleClose}
+                            aria-label="close"
+                            size="large">
                             <Close />
                         </IconButton>
                         <Typography variant="subtitle1" className={classes.title}>

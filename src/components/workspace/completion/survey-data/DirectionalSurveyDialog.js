@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
-import {AppBar, Button, Dialog, IconButton, makeStyles, Slide, Toolbar, Typography} from "@material-ui/core";
-import {Close, Edit} from "@material-ui/icons";
+
+import {AppBar, Button, Dialog, IconButton, Slide, Toolbar, Typography} from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+import {Close, Edit} from "@mui/icons-material";
+
 import DirectionalSurveyTable from "./DirectionalSurveyTable";
 
 const useStyles = makeStyles((theme) => ({
@@ -43,7 +46,12 @@ const DirectionalSurveyDialog = ({buttonLabel, appBarLabel}) => {
             <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
                 <AppBar className={classes.appBar}>
                     <Toolbar>
-                        <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            onClick={handleClose}
+                            aria-label="close"
+                            size="large">
                             <Close />
                         </IconButton>
                         <Typography variant="h6" className={classes.title}>

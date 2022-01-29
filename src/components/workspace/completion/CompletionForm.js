@@ -1,22 +1,23 @@
 import React, {useEffect, useState} from 'react';
+import {useDispatch} from "react-redux";
+import {completionActions} from "../../store/completion-slice";
+
 import {
     Button,
-    createStyles,
     FormGroup,
     FormHelperText,
     Grid,
     InputAdornment,
     InputLabel,
-    makeStyles,
     MenuItem,
     OutlinedInput,
     Paper,
     Select,
-    Typography
-} from "@material-ui/core";
+    Typography,
+} from "@mui/material";
+import makeStyles from '@mui/styles/makeStyles';
+
 import {CompletionData} from "../../../models/CompletionData";
-import {useDispatch} from "react-redux";
-import {completionActions} from "../../store/completion-slice";
 
 const initialDataModel = () => {
     const savedDAta = sessionStorage.getItem("completion-data");
@@ -33,72 +34,70 @@ const initialDataModel = () => {
     }
 }
 
-const CompletionForm = ({handleClose, tubingList, casingList}) => {
+const CompletionForm = ({ handleClose, tubingList, casingList }) => {
     const dispatch = useDispatch();
     const [completionData, setCompletionData] = useState(initialDataModel);
     const [errors, setErrors] = useState({});
 
-    const styles = makeStyles((theme) =>
-        createStyles({
-            root:{
-                '& .MuiFormLabel-root':{
-                    color: 'rgba(0, 0, 0, 0.74)'
-                }
-            },
-            paper: {
-                // minHeight: "calc(100vh - 45px)",
-                marginTop: "30px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column"
-            },
-            customGroup:{
-                justifyContent:"center",
-                marginBottom: "10px",
-                alignItems: "center",
-            },
-            customLabel: {
-                width:"300px",
-                textAlign: "right",
-                alignSelf:"center",
-                marginRight: 40
-            },
-            customInput:{
-                height: "33px",
-                width: "130px",
-                paddingRight:"8px"
-            },
-            inputGroups: {
-                paddingBottom: "40px",
-                alignItems: "center",
-                justifyContent: "center"
-            },
-            inputBoxEl: {
-                marginBottom: "20px"
-            },
-            text: {
-                marginBottom: "20px",
-                fontWeight: "bold"
-            },
-            buttons: {
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                padding: "10px 15px",
-                fontWeight: "bold"
-            },
-            buttonCreate: {
-                padding: "10px",
-                width: "250px",
-            },
-            buttonCancel: {
-                padding: "8px",
-                width: "100px",
-                marginTop: "20px"
+    const styles = makeStyles(() =>({
+        root:{
+            '& .MuiFormLabel-root':{
+                color: 'rgba(0, 0, 0, 0.74)'
             }
-        })
-    );
+        },
+        paper: {
+            // minHeight: "calc(100vh - 45px)",
+            marginTop: "30px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "column"
+        },
+        customGroup:{
+            justifyContent:"center",
+            marginBottom: "10px",
+            alignItems: "center",
+        },
+        customLabel: {
+            width:"300px",
+            textAlign: "right",
+            alignSelf:"center",
+            marginRight: 40
+        },
+        customInput:{
+            height: "33px",
+            width: "130px",
+            paddingRight:"8px"
+        },
+        inputGroups: {
+            paddingBottom: "40px",
+            alignItems: "center",
+            justifyContent: "center"
+        },
+        inputBoxEl: {
+            marginBottom: "20px"
+        },
+        text: {
+            marginBottom: "20px",
+            fontWeight: "bold"
+        },
+        buttons: {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            padding: "10px 15px",
+            fontWeight: "bold"
+        },
+        buttonCreate: {
+            padding: "10px",
+            width: "250px",
+        },
+        buttonCancel: {
+            padding: "8px",
+            width: "100px",
+            marginTop: "20px"
+        }
+    }));
 
     const handleCompletionFormChange = (e) => {
         let value = e.target.value;
@@ -271,6 +270,7 @@ const CompletionForm = ({handleClose, tubingList, casingList}) => {
     };
 
     return (
+
         <div className={classes.root}>
             <Paper square elevation={0} className={classes.paper}>
 

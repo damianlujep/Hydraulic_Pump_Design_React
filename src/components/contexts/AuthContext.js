@@ -1,7 +1,10 @@
 import {createContext, useContext, useMemo, useState} from "react";
-import {getSessionStorageOrDefault} from "../service/SessionStorageService";
+
 import {useDispatch} from "react-redux";
 import {authActions} from "../store/auth-slice";
+
+import {API_BASE_URL} from "../../api-constants";
+import {getSessionStorageOrDefault} from "../service/SessionStorageService";
 
 const AuthContext = createContext(null);
 
@@ -23,7 +26,7 @@ export const AuthProvider = ({ children }) => {
         let isUserLogged = false;
         let jwtToken = "";
 
-        await fetch(`http://localhost:8080/login`, {
+        await fetch(`${API_BASE_URL}/login`, {
             method: 'POST',
             body: JSON.stringify(userCredential),
         })

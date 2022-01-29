@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {AppBar, Container, Toolbar, Typography} from "@mui/material";
 
 const Header = () => {
@@ -7,7 +6,7 @@ const Header = () => {
         <>
             <AppBar position="static">
                 <Toolbar>
-                    <Container maxWidth={"ls"}>
+                    <Container maxWidth={"lg"}>
                         <Typography variant="h6">
                             Hydraulic Pump Design
                         </Typography>
