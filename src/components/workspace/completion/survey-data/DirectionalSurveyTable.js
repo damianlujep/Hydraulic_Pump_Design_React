@@ -100,7 +100,8 @@ const DirectionalSurveyTable = ({ handleClose }) => {
                     <div style={{width: "100%", height: "100%",
                         border: "1px solid",
                         backgroundColor: 'rgb(212, 237, 218)',
-                        borderColor: '#c3e6cb'}}>
+                        borderColor: '#c3e6cb',
+                    textAlign: "right"}}>
                         {(numberValue.toFixed(3))}
                     </div>
                 )
@@ -181,6 +182,13 @@ const DirectionalSurveyTable = ({ handleClose }) => {
             '& .MuiDataGrid-cell--editable': {
                 // backgroundColor: 'rgb(217 243 190)',
                 border: "1px solid white"
+            },
+            '&. MuiDataGrid-columnHeaders': {
+                backgroundColor: theme.palette.primary.main
+            },
+            '& .MuiDataGrid-columnHeader': {
+                backgroundColor: theme.palette.primary.main,
+                color: "white"
             }
         }
     }));

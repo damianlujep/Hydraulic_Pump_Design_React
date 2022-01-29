@@ -7,7 +7,7 @@ import FullWidthTabs from "./FullWidthTabs";
 
 const WorkspaceMainBox = () => {
 
-    const styles = makeStyles(() => ({
+    const styles = makeStyles((theme) => ({
         paper: {
             height: "calc(100vh - 120px - 8px)"
         }
@@ -16,7 +16,7 @@ const WorkspaceMainBox = () => {
     const classes = styles();
 
     return (
-        <Container maxWidth={"xl"}>
+        <Container maxWidth="xxl">
             <Paper elevation={3} className={classes.paper}>
                 <FullWidthTabs />
             </Paper>

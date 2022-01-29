@@ -22,7 +22,7 @@ const CompletionGridTable = ({ validCompletionData, tubingList, casingList }) =>
                     <div style={{width: "100%", height: "100%", color: '#155724',
                         border: "1px solid",
                         backgroundColor: '#d4edda',
-                        borderColor: '#c3e6cb'}}>
+                        borderColor: '#c3e6cb', textAlign: "right"}}>
                         {(numberValue.toFixed(3))}
                     </div>
                 )
@@ -75,6 +75,10 @@ const CompletionGridTable = ({ validCompletionData, tubingList, casingList }) =>
                 justifyContent: "center",
                 color: "white"
             },
+            '& .MuiDataGrid-columnHeader': {
+                backgroundColor: theme.palette.primary.main,
+                color: "white"
+            }
             /*           '& .MuiDataGrid-cell--editable': {
                           backgroundColor: 'rgb(217 243 190)'
                        },*/

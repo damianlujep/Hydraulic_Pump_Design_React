@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
             borderBottom: '2px solid #1890ff',
         },
 
-        '& .MuiTab-wrapper': {
+        '& .MuiTab-root': {
             color: "#1890ff",
             fontWeight: "600"
         }
@@ -80,8 +80,8 @@ const FullWidthTabs = () => {
                 <Tabs
                     value={value}
                     onChange={handleChange}
-                    indicatorColor="primary"
-                    textColor="primary"
+                    indicatorColor="primary.light"
+                    textColor="primary.light"
                     variant="fullWidth"
                     aria-label="full width tabs example"
                 >

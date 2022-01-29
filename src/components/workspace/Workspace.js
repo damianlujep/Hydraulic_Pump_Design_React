@@ -16,7 +16,7 @@ import {styles} from "../styles";
 const Workspace = () => {
     const projectInfoData = JSON.parse(sessionStorage.getItem("new-project-info-data"));
     const history = useHistory();
-    const drawerWidth = 200;
+    const DRAWER_WIDTH = 200;
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -40,8 +40,8 @@ const Workspace = () => {
             }),
         },
         appBarShift: {
-            marginLeft: drawerWidth,
-            width: `calc(100% - ${drawerWidth}px)`,
+            marginLeft: DRAWER_WIDTH,
+            width: `calc(100% - ${DRAWER_WIDTH}px - 8px)`,
             transition: theme.transitions.create(['width', 'margin'], {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.enteringScreen,
@@ -59,7 +59,7 @@ const Workspace = () => {
         drawerPaper: {
             position: 'relative',
             whiteSpace: 'nowrap',
-            width: drawerWidth,
+            width: DRAWER_WIDTH,
             transition: theme.transitions.create('width', {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.enteringScreen,
