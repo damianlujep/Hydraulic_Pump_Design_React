@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {useDispatch} from "react-redux";
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import {completionActions} from "../../../store/completion-slice";
 
 import {Alert, Button, Grid, Paper, Typography} from "@mui/material";
@@ -8,7 +8,14 @@ import {DataGrid} from '@mui/x-data-grid';
 
 const DirectionalSurveyTable = ({ handleClose }) => {
     const dispatch = useDispatch();
-    const [tableData, setTableData] = useState(createSurveyRows());
+    const [tableData, setTableData] = useState([]);
+    const surveyInitialData = useSelector(
+        state => state.completion.validSurveyData
+    );
+
+    useEffect(() => {
+        setTableData(surveyInitialData);
+    }, [surveyInitialData]);
 
     //Validation for final surveyData. Returns true if 0 errors
     const validateDataSurvey = (fieldValues = tableData) => {
@@ -35,7 +42,7 @@ const DirectionalSurveyTable = ({ handleClose }) => {
 
     const columns = [
         { field: 'id', headerName: 'id', flex: 1/10, editable: false, sortable: false, type: 'number'},
-        { field: 'md', headerName: 'MD [feet]', description:"Middle Depth in ft",  flex:2.2/10, editable: true, sortable: false, type: "number",
+        { field: 'md', headerName: 'MD [feet]', description:"Middle Depth in ft", flex:2.2/10, editable: true, sortable: false, type: "number",
             renderCell: (params) => validateNumbersColumnRendering(params)
         },
         { field: 'tvd', headerName: 'TVD [feet]', description:"Middle Depth in ft", flex:2.2/10, editable: true, sortable: false, type: "number",
@@ -207,7 +214,6 @@ const DirectionalSurveyTable = ({ handleClose }) => {
             //Replace old value for new value in edited row
             editedRow = {...editedRow, [params.field]: params.value};
             //Replace old row for new row in array
-            // sessionStorage.setItem("manual-forecast", JSON.stringify(newState));
             return oldState.map(row => row.id !== editedRow.id ? row : editedRow);
         });
     };
@@ -216,7 +222,6 @@ const DirectionalSurveyTable = ({ handleClose }) => {
 
     const verifySurveyData = (e) => {
         e.preventDefault();
-
         const areDataValid = validateDataSurvey();
 
         if (areDataValid.length === 0){
@@ -224,12 +229,12 @@ const DirectionalSurveyTable = ({ handleClose }) => {
             dispatch(completionActions.replaceSurveyData({
                 validSurveyData: tableData
             }));
-            sessionStorage.setItem("survey-data", JSON.stringify(Object.values(tableData).filter(el => el.md !== "" && el.tvd !== "")));
+            sessionStorage.setItem("survey-data", JSON.stringify(tableData));
             handleClose();
         } else {
             setErrorsList(areDataValid);
         }
-    }
+    };
 
     const classes = styles();
     const tableClasses = tableStyles();
@@ -238,14 +243,11 @@ const DirectionalSurveyTable = ({ handleClose }) => {
     return (
         <div className={classes.root}>
             <Paper square elevation={0} className={classes.paper}>
-
                 <Grid container
                       direction="column"
                       justifyContent="center"
                       alignItems="center" style={{width: "1200px"}}>
-
                     <Typography variant="h6" className={classes.text}>Insert Direction Survey Data</Typography>
-
                     <div style={{width: '600px', paddingTop: "10px", marginBottom:"20px", }}>
                         <DataGrid
                             inputProps={{step: maxDecimals, min: "0"}}
@@ -262,7 +264,6 @@ const DirectionalSurveyTable = ({ handleClose }) => {
                             onCellEditCommit={onRowEditCommit}
                         />
                     </div>
-
                     <section className={classes.buttons}>
                         <Button className={classes.buttonCreate}
                             variant="contained" color="primary"
@@ -282,45 +283,26 @@ const DirectionalSurveyTable = ({ handleClose }) => {
                             Cancel
                         </Button>
                     </section>
-
                     {
                         errorsList.map(error => <Alert severity="error" style={{marginTop:"10px"}}>{error}</Alert>)
                     }
-
                 </Grid>
             </Paper>
         </div>
     );
 };
 
-const createRow = (id, md, tvd, hd, angle) => {
-    return {id, md, tvd, hd, angle};
-}
-
-const createSurveyRows = () => {
-    const data =[]
-    data.push(createRow(1,0,0,0, 0));
-
-    for (let row = 2; row <= 20; row++) {
-       data.push(createRow(row, "", "", "", ""));
-    }
-
-    return data;
-}
-
 //Survey Dta calculations
 const calculateHorizontalDistance = (currentMD, currentTVD, previousMD, previousTVD, previousHD) => {
     let correlationHD = Math.pow((currentMD - previousMD), 2) - Math.pow((currentTVD - previousTVD), 2);
     correlationHD = Math.sqrt(correlationHD);
     correlationHD = Math.round(correlationHD) + parseInt(previousHD);
-
     return correlationHD;
 }
 
 const calculateAngle = (currentMD, currentTVD, previousMD, previousTVD) => {
     let correlationAngle = Math.asin((currentTVD - previousTVD) / (currentMD - previousMD)) * (180 / Math.PI);
     correlationAngle = 90 - Math.abs(correlationAngle);
-
     return correlationAngle;
 }
 
