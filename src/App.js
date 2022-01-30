@@ -19,7 +19,6 @@ function App() {
     return (
         <>
             <StyledEngineProvider injectFirst>
-
             <CssBaseline/>
             <ThemeProvider theme={theme}>
                 <BrowserRouter>

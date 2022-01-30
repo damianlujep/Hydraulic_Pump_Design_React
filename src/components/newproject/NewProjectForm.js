@@ -19,6 +19,7 @@ import {
 import makeStyles from '@mui/styles/makeStyles';
 
 import {NewProjectInfoData} from "../../models/NewProjectInfoData";
+import {ButtonCancel, ButtonMainLarge} from "../partials/Buttons";
 
 const initialDataModel = () => {
     const savedDAta = sessionStorage.getItem("new-project-info-data");
@@ -39,7 +40,7 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
     const [newProjectInfoData, setNewProjectInfoData] = useState(initialDataModel);
     const [errors, setErrors] = useState({});
 
-    const renderDynamicLabelButton = () => (newProjectDataEntered) ? "Save changes" :actionButtonLabel;
+    const renderDynamicLabelButton = () => (newProjectDataEntered) ? "Save changes" : actionButtonLabel;
 
     const cancelButtonHandler = () => (newProjectDataEntered) ? redirectToWorkspace() : history.push("/");
 
@@ -88,7 +89,7 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
             alignItems: "center"
         },
         paper: {
-            // height: "calc(100vh - 50px)",
+            height: "calc(100vh - 50px)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -124,11 +125,6 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
             padding: "10px",
             width: "250px",
         },
-        buttonCancel: {
-            padding: "8px",
-            width: "100px",
-            marginTop: "20px"
-        }
     }));
 
     const classes = styles();
@@ -332,13 +328,9 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
                                 renderDynamicLabelButton()
                             }
                         </Button>
-                        <Button className={classes.buttonCancel}
-                                variant="contained"
-                                color="secondary"
-                                size="small"
-                                onClick={cancelButtonHandler}>
-                            Cancel
-                        </Button>
+                        <ButtonCancel
+                            onClick={cancelButtonHandler}
+                        />
                     </section>
 
                 </Grid>

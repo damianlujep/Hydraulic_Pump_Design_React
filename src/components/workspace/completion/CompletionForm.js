@@ -18,6 +18,7 @@ import {
 import makeStyles from '@mui/styles/makeStyles';
 
 import {CompletionData} from "../../../models/CompletionData";
+import {ButtonCancel} from "../../partials/Buttons";
 
 const initialDataModel = () => {
     const savedDAta = sessionStorage.getItem("completion-data");
@@ -92,11 +93,6 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
             padding: "10px",
             width: "250px",
         },
-        buttonCancel: {
-            padding: "8px",
-            width: "100px",
-            marginTop: "20px"
-        }
     }));
 
     const handleCompletionFormChange = (e) => {
@@ -1012,13 +1008,9 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                             >
                                 Save
                             </Button>
-                            <Button className={classes.buttonCancel}
-                                    variant="contained"
-                                    color="secondary"
-                                    size="small"
+                            <ButtonCancel
                                     onClick={handleClose}>
-                                Cancel
-                            </Button>
+                            </ButtonCancel>
                         </section>
                     </Grid>
 
