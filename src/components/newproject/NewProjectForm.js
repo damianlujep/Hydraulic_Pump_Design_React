@@ -52,6 +52,9 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
         if ('newProjectName' in fieldValues)
             temp.newProjectName = fieldValues.newProjectName.length > 0 ? "" : "Required field."
 
+        // if ('newProjectName' in fieldValues)
+            // temp.newProjectName = fieldValues.newProjectName.length > 0 ? "" : <p style={{marginBottom: "-19.91px"}}>Required field.</p>
+
         if ('companyName' in fieldValues)
             temp.companyName = fieldValues.companyName.length > 0 ? "" : "Required field."
         if ('location' in fieldValues)
@@ -89,11 +92,12 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
             alignItems: "center"
         },
         paper: {
-            height: "calc(100vh - 50px)",
+            minHeight: "calc(100vh - 50px)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            flexDirection: "column"
+            flexDirection: "column",
+            paddingTop: 20
         },
         customLabel: {
             display: "flex",
