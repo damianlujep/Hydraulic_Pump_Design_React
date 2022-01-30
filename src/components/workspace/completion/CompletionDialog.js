@@ -6,7 +6,6 @@ import {Close, Edit} from "@mui/icons-material";
 
 import CompletionForm from "./CompletionForm";
 
-//TODO: Fix theme.spacing with new theme
 const useStyles = makeStyles((theme) => ({
     appBar: {
         position: 'relative',
