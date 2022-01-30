@@ -5,7 +5,6 @@ import {Archive, Edit, FileCopy} from "@mui/icons-material";
 
 import ActionButton from "./ActionButton";
 import {makeStyles} from "@mui/styles";
-import theme from "../theme";
 
 const WorkspaceActionsBar = () => {
     const StyledMenu = styled((props) => (

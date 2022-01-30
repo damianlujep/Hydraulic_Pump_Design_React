@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
-import {useHistory} from "react-router-dom";
-import {useDispatch} from "react-redux";
+import React, { useState } from 'react';
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
-import {projectInfoActions} from "../store/project-info-slice";
+import { projectInfoActions } from "../store/project-info-slice";
 
 import {
     Button,
@@ -19,7 +19,7 @@ import {
 import makeStyles from '@mui/styles/makeStyles';
 
 import {NewProjectInfoData} from "../../models/NewProjectInfoData";
-import {ButtonCancel, ButtonMainLarge} from "../partials/Buttons";
+import { ButtonCancel } from "../partials/Buttons";
 
 const initialDataModel = () => {
     const savedDAta = sessionStorage.getItem("new-project-info-data");
@@ -51,9 +51,6 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
 
         if ('newProjectName' in fieldValues)
             temp.newProjectName = fieldValues.newProjectName.length > 0 ? "" : "Required field."
-
-        // if ('newProjectName' in fieldValues)
-            // temp.newProjectName = fieldValues.newProjectName.length > 0 ? "" : <p style={{marginBottom: "-19.91px"}}>Required field.</p>
 
         if ('companyName' in fieldValues)
             temp.companyName = fieldValues.companyName.length > 0 ? "" : "Required field."

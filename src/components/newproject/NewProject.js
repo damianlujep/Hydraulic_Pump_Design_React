@@ -1,12 +1,12 @@
 import React from 'react';
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 
-import {useAuth} from "../contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 
 import Footer from "../home/Footer";
 import NewProjectForm from "./NewProjectForm";
-import {styles} from "../styles";
-import {Box} from "@mui/material";
+import { styles } from "../styles";
+import { Box } from "@mui/material";
 
 const NewProject = () => {
     const { user } = useAuth();
