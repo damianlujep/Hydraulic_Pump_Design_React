@@ -1,7 +1,7 @@
 import React from 'react';
 import LoginForm from "./LoginForm";
 import Footer from "./Footer";
-import {styles} from "../styles";
+import { styles } from "../styles";
 
 const Home = () => {
 

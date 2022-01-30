@@ -3,7 +3,7 @@ import {useHistory} from "react-router-dom";
 
 import {mainListItems, secondaryListItems} from "./listItems";
 
-import {AppBar, CssBaseline, Divider, Drawer, IconButton, List, Toolbar, Typography,} from "@mui/material";
+import {AppBar, Divider, Drawer, IconButton, List, Toolbar, Typography,} from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
 import {ChevronLeft, Edit, Menu} from "@mui/icons-material";
 import clsx from "clsx";

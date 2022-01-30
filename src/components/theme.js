@@ -6,9 +6,11 @@ let theme = createTheme( {
             main: '#3f51b5',
         },
         secondary: {
-            main: '#f50057'
+            main: '#f50057',
         },
-
+        customized: {
+            grey: 'rgba(0,0,0,0.54)'
+        }
     }
 });
 
@@ -22,19 +24,16 @@ theme = createTheme(theme, {
             xl: 1536,
             xxl: 1920
         }
+    },
+    components: {
+        MuiFormHelperText: {
+            styleOverrides: {
+                root: {
+                    marginBottom: "-22.91px"
+                }
+            }
+        },
     }
-//     components: {
-//         MuiButton: {
-//             variants: [
-//                 {
-//                     props: { variant: "secondary"},
-//                     style: {
-//                         backgroundColor: theme.palette.secondary.main
-//                     }
-//                 }
-//             ]
-//         },
-//     }
 })
 
 export default theme;

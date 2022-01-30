@@ -1,12 +1,11 @@
-import React, {useState} from 'react';
-import {useHistory} from "react-router-dom";
+import React, { useState } from 'react';
+import { useHistory } from "react-router-dom";
 
-import {useAuth} from "../contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 
-import {Alert, Button, Container, CssBaseline, FormGroup, InputAdornment, Paper, TextField} from "@mui/material";
-import {makeStyles, ThemeProvider} from '@mui/styles';
-import {AccountCircle} from "@mui/icons-material";
-import theme from "../theme";
+import { Alert, Button, Container, FormGroup, InputAdornment, Paper, TextField} from "@mui/material";
+import { makeStyles } from '@mui/styles';
+import { AccountCircle } from "@mui/icons-material";
 
 const LoginForm = () => {
     const [user, setUser] = useState({username: "", password: ""});
