@@ -45,13 +45,13 @@ const DirectionalSurveyTable = ({ handleClose }) => {
             valueFormatter: (params) => (params.value === "") ? "" : parseFloat(params.value).toFixed(3),
             valueGetter: (params) => {
                 if (params.id > 1 &&
-                    params.getValue(params.id, "tvd") !== "" &&
-                    parseFloat(params.getValue(params.id, "tvd")) > 0 &&
-                    params.getValue(params.id, "md") !== "" &&
-                    parseFloat(params.getValue(params.id, "tvd")) > 0)
+                    params.row.tvd !== "" &&
+                    parseFloat(params.row.tvd) > 0 &&
+                    params.row.md !== "" &&
+                    parseFloat(params.row.md) > 0)
                 {
-                    const currentMD = parseFloat(params.getValue(params.id, "md"));
-                    const currentTVD = parseFloat(params.getValue(params.id, "tvd"));
+                    const currentMD = parseFloat(params.row.md);
+                    const currentTVD = parseFloat(params.row.tvd);
                     const previousMD = parseFloat(params.getValue(params.id - 1, "md"));
                     const previousTVD = parseFloat(params.getValue(params.id - 1, "tvd"));
                     const previousHD = parseFloat(params.getValue(params.id - 1, "hd"));
@@ -70,13 +70,13 @@ const DirectionalSurveyTable = ({ handleClose }) => {
             valueFormatter: (params) => (params.value === "") ? "" : parseFloat(params.value).toFixed(3),
             valueGetter: (params) => {
                 if (params.id > 1 &&
-                    params.getValue(params.id, "tvd") !== "" &&
-                    parseFloat(params.getValue(params.id, "tvd")) > 0 &&
-                    params.getValue(params.id, "md") !== "" &&
-                    parseFloat(params.getValue(params.id, "tvd")) > 0)
+                    params.row.tvd !== "" &&
+                    parseFloat(params.row.tvd) > 0 &&
+                    params.row.md !== "" &&
+                    parseFloat(params.row.md) > 0)
                 {
-                    const currentMD = parseFloat(params.getValue(params.id, "md"));
-                    const currentTVD = parseFloat(params.getValue(params.id, "tvd"));
+                    const currentMD = parseFloat(params.row.md);
+                    const currentTVD = parseFloat(params.row.tvd);
                     const previousMD = parseFloat(params.getValue(params.id - 1, "md"));
                     const previousTVD = parseFloat(params.getValue(params.id - 1, "tvd"));
 
@@ -97,20 +97,28 @@ const DirectionalSurveyTable = ({ handleClose }) => {
         if (!isNaN(numberValue)){
             if (numberValue >= 0){
                 return (
-                    <div style={{width: "100%", height: "100%",
+                    <div style={{
+                        width: "100%",
+                        height: "100%",
                         border: "1px solid",
                         backgroundColor: 'rgb(212, 237, 218)',
                         borderColor: '#c3e6cb',
-                    textAlign: "right"}}>
+                        textAlign: "right"
+                    }}>
                         {(numberValue.toFixed(3))}
                     </div>
                 )
             } else {
                 return (
-                    <div style={{width: "100%", height: "100%", color: '#721c24',
+                    <div style={{
+                        width: "100%",
+                        height: "100%",
+                        color: '#721c24',
                         border: "1px solid",
                         backgroundColor: '#f8d7da',
-                        borderColor: '#f5c6cb'}}>
+                        borderColor: '#f5c6cb',
+                        textAlign: 'right'
+                    }}>
                         {(numberValue.toFixed(3))}
                     </div>
                 )
@@ -125,9 +133,7 @@ const DirectionalSurveyTable = ({ handleClose }) => {
             )
         }
     }
-    //TODO: Fix table header color, cell color green/red for correct/error
-    //TODO: HD an Angle auto calculation not working
-    // TODO Auto error finder on blur not working on cells
+    // TODO Error on cell render after edition -> Due to MUI version 5.0.4
     const styles = makeStyles(() => ({
         root:{
             '& .MuiFormLabel-root':{

@@ -2,7 +2,6 @@ import React, {useCallback, useState} from 'react';
 
 import {Typography} from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
-// import { DataGrid } from "@material-ui/data-grid";
 import {DataGrid} from '@mui/x-data-grid';
 
 import CompletionDialog from "./CompletionDialog";
@@ -59,7 +58,6 @@ const CompletionGridTable = ({ validCompletionData, tubingList, casingList }) =>
         { field: 'unit', headerName: 'Unit', flex:0.3, editable: false, sortable: false }
     ];
 
-    //TODO: Fix table header color and number align to right
     const useStyles = makeStyles((theme) => ({
         root: {
             '& .MuiDataGrid-cell--editing': {
