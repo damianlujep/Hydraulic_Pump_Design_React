@@ -80,8 +80,8 @@ const FullWidthTabs = () => {
                 <Tabs
                     value={value}
                     onChange={handleChange}
-                    indicatorColor="primary.light"
-                    textColor="primary.light"
+                    indicatorColor="primary"
+                    textColor="primary"
                     variant="fullWidth"
                     aria-label="full width tabs example"
                 >

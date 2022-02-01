@@ -1,20 +1,20 @@
-import {BrowserRouter, Switch} from "react-router-dom";
+import {BrowserRouter, Route, Routes } from "react-router-dom";
 
-import Home from "./components/home/Home";
-import NewProject from "./components/newproject/NewProject";
-import Workspace from "./components/workspace/Workspace";
-import {useAuth} from "./components/contexts/AuthContext";
-import PublicRoute from "./components/routers/PublicRoute";
-import PrivateRoute from "./components/routers/PrivateRoute";
+import {AuthProvider} from "./components/contexts/AuthContext";
+
 import {ThemeProvider} from '@mui/material/styles';
 import theme from "./components/theme";
 import {CssBaseline} from "@mui/material";
 import React from "react";
 import { StyledEngineProvider } from '@mui/material/styles';
+import Home from "./components/home/Home";
+import PrivateRoute from "./components/routers/PrivateRoute";
+import NewProject from "./components/newproject/NewProject";
+import Workspace from "./components/workspace/Workspace";
+import Projects from "./components/newproject/Projects";
 
 
 function App() {
-    const { user } = useAuth();
 
     return (
         <>
@@ -22,23 +22,37 @@ function App() {
             <CssBaseline/>
             <ThemeProvider theme={theme}>
                 <BrowserRouter>
-                    <Switch>
-                        <PublicRoute
-                            exact
-                            path="/"
-                            component={() => <Home/>}
-                        />
-                        <PrivateRoute
-                            exact
-                            path="/newProject"
-                            component={() => <NewProject/>}
-                        />
-                        <PrivateRoute
-                            exact
-                            path={`/${user.username}/workspace`}
-                            component={() => <Workspace/>}
-                        />
-                    </Switch>
+                    <AuthProvider>
+                        <Routes>
+                            <Route index element={<Home />}/>
+                            <Route path='/' element={<Home />}/>
+
+                            <Route
+                                path='/projects'
+                                element={
+                                    <PrivateRoute>
+                                        <Projects/>
+                                    </PrivateRoute>
+                                }
+                            />
+                            <Route
+                                path=':username/newProject'
+                                element={
+                                    <PrivateRoute>
+                                        <NewProject />
+                                    </PrivateRoute>
+                                }
+                            />
+                            <Route
+                                path=":username/workspace"
+                                element={
+                                    <PrivateRoute>
+                                        <Workspace/>
+                                    </PrivateRoute>
+                                }
+                            />
+                        </Routes>
+                    </AuthProvider>
                 </BrowserRouter>
             </ThemeProvider>
             </StyledEngineProvider>
