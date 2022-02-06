@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, Button, Container, Paper, Typography} from "@mui/material";
 import Footer from "../home/Footer";
 import {useAuth} from "../contexts/AuthContext";
 import makeStyles from "@mui/styles/makeStyles";
 import {Create, UploadRounded} from "@mui/icons-material";
+import Header from "../home/Header";
 
 const Projects = () => {
     const { user } = useAuth();
@@ -13,7 +14,7 @@ const Projects = () => {
             color: 'blue'
         },
         paper: {
-            minHeight: "calc(100vh - 50px)",
+            minHeight: "calc(100vh - 114px)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -26,6 +27,7 @@ const Projects = () => {
 
     return (
         <Box>
+            <Header />
             <Paper square elevation={3} className={classes.paper}>
                 <Container maxWidth={"md"}>
                     <Box>
