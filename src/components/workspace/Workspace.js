@@ -1,16 +1,17 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 
-import {mainListItems, secondaryListItems} from "./listItems";
+import { mainListItems, secondaryListItems } from "./listItems";
 
-import {AppBar, Divider, Drawer, IconButton, List, Toolbar, Typography,} from "@mui/material";
+import { AppBar, Divider, Drawer, IconButton, List, Toolbar, Typography } from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
-import {ChevronLeft, Edit, Menu} from "@mui/icons-material";
+import { ChevronLeft, Edit, Menu } from "@mui/icons-material";
 import clsx from "clsx";
+
+import { styles } from "../styles";
 
 import WorkspaceActionsBar from "./WorkspaceActionsBar";
 import WorkspaceMainBox from "./WorkspaceMainBox";
-import {styles} from "../styles";
 import Logout from "../home/Logout";
 
 
@@ -97,12 +98,10 @@ const Workspace = () => {
     const [open, setOpen] = React.useState(false);
 
     const handleDrawerOpen = () => {
-        console.log("click - open")
         setOpen(true);
     };
 
     const handleDrawerClose = () => {
-        console.log("click - close")
         setOpen(false);
     };
 
@@ -132,7 +131,6 @@ const Workspace = () => {
                             </Typography>
                             <div style={{display: "flex", alignItems: "center"}}>
                                 <IconButton
-                                    // color="secondary"
                                     aria-label="Edit completion data"
                                     onClick={editUserInfoButtonHandler}
                                     size="large">

@@ -1,5 +1,7 @@
-import {createSlice} from "@reduxjs/toolkit";
-import {getSessionStorageOrDefault} from "../service/SessionStorageService";
+import { createSlice } from "@reduxjs/toolkit";
+
+import { getSessionStorageOrDefault } from "../service/SessionStorageService";
+import SurveyService from "../service/SurveyService";
 
 const completionSlice = createSlice({
    name: 'completion-data',
@@ -8,7 +10,7 @@ const completionSlice = createSlice({
       completionDataEntered: getSessionStorageOrDefault('completion-data-entered', false),
       tubingData: [],
       casingData: [],
-      validSurveyData: getSessionStorageOrDefault('survey-data', {}),
+      validSurveyData: getSessionStorageOrDefault('survey-data', SurveyService.createSurveyInitialRows()),
       surveyDataEntered: getSessionStorageOrDefault('survey-data-entered', false)
    },
    reducers: {
