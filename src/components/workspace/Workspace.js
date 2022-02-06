@@ -1,17 +1,17 @@
 import React from 'react';
-import {useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
-import {mainListItems, secondaryListItems} from "./listItems";
+import { mainListItems, secondaryListItems } from "./listItems";
 
-import {AppBar, Divider, Drawer, IconButton, List, Toolbar, Typography,} from "@mui/material";
+import { AppBar, Divider, Drawer, IconButton, List, Toolbar, Typography } from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
-import {ChevronLeft, Edit, Menu} from "@mui/icons-material";
+import { ChevronLeft, Edit, Menu } from "@mui/icons-material";
 import clsx from "clsx";
+
+import { styles } from "../styles";
 
 import WorkspaceActionsBar from "./WorkspaceActionsBar";
 import WorkspaceMainBox from "./WorkspaceMainBox";
-import {styles} from "../styles";
-
 
 const Workspace = () => {
     const projectInfoData = JSON.parse(sessionStorage.getItem("new-project-info-data"));
@@ -96,12 +96,10 @@ const Workspace = () => {
     const [open, setOpen] = React.useState(false);
 
     const handleDrawerOpen = () => {
-        console.log("click - open")
         setOpen(true);
     };
 
     const handleDrawerClose = () => {
-        console.log("click - close")
         setOpen(false);
     };
 

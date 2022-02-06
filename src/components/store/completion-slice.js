@@ -1,19 +1,7 @@
-import {createSlice} from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-import {getSessionStorageOrDefault} from "../service/SessionStorageService";
-
-const createSurveyInitialRows = () => {
-   const data =[]
-   data.push(createSurveyInitialRow(1,0,0,0, 0));
-   for (let row = 2; row <= 20; row++) {
-      data.push(createSurveyInitialRow(row, "", "", "", ""));
-   }
-   return data;
-};
-
-const createSurveyInitialRow = (id, md, tvd, hd, angle) => {
-   return {id, md, tvd, hd, angle};
-};
+import { getSessionStorageOrDefault } from "../service/SessionStorageService";
+import SurveyService from "../service/SurveyService";
 
 const completionSlice = createSlice({
    name: 'completion-data',
@@ -22,7 +10,7 @@ const completionSlice = createSlice({
       completionDataEntered: getSessionStorageOrDefault('completion-data-entered', false),
       tubingData: [],
       casingData: [],
-      validSurveyData: getSessionStorageOrDefault('survey-data', createSurveyInitialRows()),
+      validSurveyData: getSessionStorageOrDefault('survey-data', SurveyService.createSurveyInitialRows()),
       surveyDataEntered: getSessionStorageOrDefault('survey-data-entered', false)
    },
    reducers: {

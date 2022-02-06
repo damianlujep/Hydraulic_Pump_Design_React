@@ -1,44 +1,23 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import {completionActions} from "../../../store/completion-slice";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { completionActions } from "../../../store/completion-slice";
 
-import {Alert, Button, Grid, Paper, Typography} from "@mui/material";
-import {makeStyles} from '@mui/styles';
-import {DataGrid} from '@mui/x-data-grid';
+import { Alert, Button, Grid, Paper, Typography } from "@mui/material";
+import { makeStyles } from '@mui/styles';
+import { DataGrid } from '@mui/x-data-grid';
+
+import SurveyService from "../../../service/SurveyService";
 
 const DirectionalSurveyTable = ({ handleClose }) => {
     const dispatch = useDispatch();
-    const [tableData, setTableData] = useState([]);
+    const [surveyTableData, setSurveyTableData] = useState([]);
     const surveyInitialData = useSelector(
         state => state.completion.validSurveyData
     );
 
     useEffect(() => {
-        setTableData(surveyInitialData);
+        setSurveyTableData(surveyInitialData);
     }, [surveyInitialData]);
-
-    //Validation for final surveyData. Returns true if 0 errors
-    const validateDataSurvey = (fieldValues = tableData) => {
-        const mdSumary = Object.values(fieldValues).map((el) => el.md);
-        const tvdSumary = Object.values(fieldValues).map((el) => el.tvd);
-        const errors = [];
-
-        for (let index = 0; index <= 2; index++) {
-            if (mdSumary[index] === "" || mdSumary[index] < 0 ||
-                tvdSumary[index] === "" || tvdSumary[index] < 0) {
-                errors.push("First 3 rows are required");
-                break;
-            }
-        }
-
-        for (let index = 1; index <= 20; index++) {
-            if (mdSumary[index] < 0 || tvdSumary[index] < 0) {
-                errors.push("Values must be > 0, check values in red");
-                break;
-            }
-        }
-        return errors;
-    }
 
     const columns = [
         { field: 'id', headerName: 'id', flex: 1/10, editable: false, sortable: false, type: 'number'},
@@ -51,10 +30,12 @@ const DirectionalSurveyTable = ({ handleClose }) => {
         { field: 'hd', headerName: 'HD [feet]', description:"Horizontal Depth", flex:2.2/10, editable: false, sortable: false , type: 'number',
             valueFormatter: (params) => (params.value === "") ? "" : parseFloat(params.value).toFixed(3),
             valueGetter: (params) => {
+                if (params.id === 1)
+                    return params.value;
                 if (params.id > 1 &&
-                    params.row.tvd !== "" &&
+                    params.row.tvd &&
                     parseFloat(params.row.tvd) > 0 &&
-                    params.row.md !== "" &&
+                    params.row.md &&
                     parseFloat(params.row.md) > 0)
                 {
                     const currentMD = parseFloat(params.row.md);
@@ -64,22 +45,26 @@ const DirectionalSurveyTable = ({ handleClose }) => {
                     const previousHD = parseFloat(params.getValue(params.id - 1, "hd"));
 
                     if (Math.round(currentMD - currentTVD) > 0) {
-                        return calculateHorizontalDistance(currentMD, currentTVD, previousMD, previousTVD, previousHD);
+                        return SurveyService.calculateHorizontalDistance(
+                            currentMD, currentTVD, previousMD, previousTVD, previousHD
+                        );
                     } else {
                         return 0;
                     }
                 } else {
-                    return params.value;
+                    return "";
                 }
             }
         },
         { field: 'angle', headerName: 'Angle [degrees]', flex:2.4/10, editable: false, sortable: false, type: 'number',
-            valueFormatter: (params) => (params.value === "") ? "" : parseFloat(params.value).toFixed(3),
+            valueFormatter: (params) => (params.value === "") ? "" : Math.round(parseFloat(params.value)),
             valueGetter: (params) => {
+                if (params.id === 1)
+                    return params.value;
                 if (params.id > 1 &&
-                    params.row.tvd !== "" &&
+                    params.row.tvd &&
                     parseFloat(params.row.tvd) > 0 &&
-                    params.row.md !== "" &&
+                    params.row.md  &&
                     parseFloat(params.row.md) > 0)
                 {
                     const currentMD = parseFloat(params.row.md);
@@ -88,18 +73,18 @@ const DirectionalSurveyTable = ({ handleClose }) => {
                     const previousTVD = parseFloat(params.getValue(params.id - 1, "tvd"));
 
                     if (Math.round(currentMD - currentTVD) > 0) {
-                        return calculateAngle(currentMD, currentTVD, previousMD, previousTVD);
+                        return SurveyService.calculateAngle(currentMD, currentTVD, previousMD, previousTVD);
                     } else {
                         return 0;
                     }
                 } else {
-                    return params.value;
+                    return "";
                 }
             }
        }
     ];
 
-    function validateNumbersColumnRendering(numberStr) {
+    const validateNumbersColumnRendering = (numberStr) => {
         const numberValue = parseFloat(numberStr.value);
         if (!isNaN(numberValue)){
             if (numberValue >= 0){
@@ -139,8 +124,8 @@ const DirectionalSurveyTable = ({ handleClose }) => {
                 </div>
             )
         }
-    }
-    // TODO Error on cell render after edition -> Due to MUI version 5.0.4
+    };
+
     const styles = makeStyles(() => ({
         root:{
             '& .MuiFormLabel-root':{
@@ -207,7 +192,7 @@ const DirectionalSurveyTable = ({ handleClose }) => {
     }));
 
     const onRowEditCommit = (params) =>{
-        setTableData(prevState => {
+        setSurveyTableData(prevState => {
             const oldState = [...prevState];
             //Search edited row id in prevState
             let editedRow = oldState.find(row => row.id === params.id);
@@ -220,19 +205,76 @@ const DirectionalSurveyTable = ({ handleClose }) => {
 
     const [errorsList, setErrorsList] = useState([]);
 
+    //Validation for final surveyData. Returns true if 0 errors
+    const validateDataSurvey = (fieldValues = surveyTableData) => {
+        const mdSumary = Object.values(fieldValues).map((el) => el.md);
+        const tvdSumary = Object.values(fieldValues).map((el) => el.tvd);
+        const errors = [];
+
+        for (let index = 0; index <= 2; index++) {
+            if (mdSumary[index] === "" || mdSumary[index] < 0 ||
+                tvdSumary[index] === "" || tvdSumary[index] < 0) {
+                errors.push("First 3 rows are required");
+                break;
+            }
+        }
+
+        for (let index = 1; index <= 20; index++) {
+            if (mdSumary[index] < 0 || tvdSumary[index] < 0) {
+                errors.push("Values must be > 0, check values in red");
+                break;
+            }
+        }
+        return errors;
+    };
+
     const verifySurveyData = (e) => {
         e.preventDefault();
-        const areDataValid = validateDataSurvey();
+        const errorsList = validateDataSurvey();
 
-        if (areDataValid.length === 0){
-            sessionStorage.setItem("survey-data-entered", JSON.stringify(true));
-            dispatch(completionActions.replaceSurveyData({
-                validSurveyData: tableData
-            }));
-            sessionStorage.setItem("survey-data", JSON.stringify(tableData));
-            handleClose();
+        let areNumbersFormatErrors = false;
+        if (errorsList.length === 0) {
+            let oldState = [...surveyTableData];
+            let previousRow = oldState[0];
+            const cleanedData = oldState.map(el => {
+                if (el.id > 1 && el.md && el.tvd) {
+                    let currentHD = 0;
+                    let currentAngle = 0;
+                    if (Math.round(el.md - el.tvd) > 0) {
+                        currentHD = SurveyService.calculateHorizontalDistance(
+                            el.md, el.tvd, previousRow.md, previousRow.tvd, previousRow.hd
+                        );
+                        currentAngle = SurveyService.calculateAngle(el.md, el.tvd, previousRow.md, previousRow.tvd);
+                    }
+                    isNaN(currentHD) ? areNumbersFormatErrors = true : el = {
+                        ...el,  hd: parseFloat(currentHD.toFixed(3))
+                    };
+                    isNaN(currentAngle) ? areNumbersFormatErrors = true : el = {
+                        ...el,  angle: parseFloat(currentAngle.toFixed(3))
+                    };
+                }
+                if ( (el.id > 1 && el.md && !el.tvd) ||
+                     (el.id > 1 && el.tvd && !el.md) ||
+                     (el.id > 1 && !el.tvd && !el.md)
+                ) {
+                    el = {...el, tvd: "", md: "", hd: "", angle: "" }
+                }
+                previousRow = el;
+                return el;
+            });
+
+            if (!areNumbersFormatErrors) {
+                sessionStorage.setItem("survey-data-entered", JSON.stringify(true));
+                dispatch(completionActions.replaceSurveyData({
+                    validSurveyData: cleanedData
+                }));
+                sessionStorage.setItem("survey-data", JSON.stringify(cleanedData));
+                handleClose();
+            } else {
+                setErrorsList(["Error on survey data, please correct"])
+            }
         } else {
-            setErrorsList(areDataValid);
+            setErrorsList(errorsList);
         }
     };
 
@@ -253,7 +295,7 @@ const DirectionalSurveyTable = ({ handleClose }) => {
                             inputProps={{step: maxDecimals, min: "0"}}
                             isCellEditable={(params => params.id !== 1)}
                             className={tableClasses.root}
-                            rows={tableData}
+                            rows={surveyTableData}
                             columns={columns}
                             hideFooter={true}
                             disableExtendRowFullWidth={true}
@@ -291,19 +333,5 @@ const DirectionalSurveyTable = ({ handleClose }) => {
         </div>
     );
 };
-
-//Survey Dta calculations
-const calculateHorizontalDistance = (currentMD, currentTVD, previousMD, previousTVD, previousHD) => {
-    let correlationHD = Math.pow((currentMD - previousMD), 2) - Math.pow((currentTVD - previousTVD), 2);
-    correlationHD = Math.sqrt(correlationHD);
-    correlationHD = Math.round(correlationHD) + parseInt(previousHD);
-    return correlationHD;
-}
-
-const calculateAngle = (currentMD, currentTVD, previousMD, previousTVD) => {
-    let correlationAngle = Math.asin((currentTVD - previousTVD) / (currentMD - previousMD)) * (180 / Math.PI);
-    correlationAngle = 90 - Math.abs(correlationAngle);
-    return correlationAngle;
-}
 
 export default DirectionalSurveyTable;
