@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 import { projectInfoActions } from "../store/project-info-slice";
@@ -35,16 +35,16 @@ const initialDataModel = () => {
 }
 
 const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [newProjectInfoData, setNewProjectInfoData] = useState(initialDataModel);
     const [errors, setErrors] = useState({});
 
     const renderDynamicLabelButton = () => (newProjectDataEntered) ? "Save changes" : actionButtonLabel;
 
-    const cancelButtonHandler = () => (newProjectDataEntered) ? redirectToWorkspace() : history.push("/");
+    const cancelButtonHandler = () => (newProjectDataEntered) ? redirectToWorkspace() : navigate("/projects");
 
-    const redirectToWorkspace = () => history.push(`/${username}/workspace`);
+    const redirectToWorkspace = () => navigate(`/${username}/workspace`);
 
     const validate = (fieldValues = newProjectInfoData) => {
         let temp = { ...errors }
@@ -82,7 +82,7 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
             return Object.values(temp).every(x => x === "")
     }
 
-    const styles = makeStyles(() => ({
+    const styles = makeStyles((theme) => ({
         container: {
             display: "flex",
             flexDirection: "column",
@@ -94,7 +94,7 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
             alignItems: "center",
             justifyContent: "center",
             flexDirection: "column",
-            paddingTop: 20
+            paddingTop: "20px"
         },
         customLabel: {
             display: "flex",
@@ -109,7 +109,8 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
             marginBottom: "20px"
         },
         text: {
-            marginBottom: "20px"
+            marginBottom: "20px",
+            color: theme.palette.customized.headers
         },
         selectInput: {
             display: "flex",
@@ -159,20 +160,21 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
                 <Grid container
                       direction="column"
                       justifyContent="center"
-                      alignItems="center" style={{width: "1200px"}}>
+                      alignItems="center"
+                      sx={{width: "1200px"}}>
                     <Grid container spacing={0} className={classes.inputGroups}>
                         <Grid item lg={4} sm={2} className={classes.customLabel}>
-                            <InputLabel style={{alignSelf:"center"}}>New project name</InputLabel>
+                            <InputLabel sx={{alignSelf:"center"}}>New project name</InputLabel>
                         </Grid>
                         <Grid item lg={8} sm={4}>
                             <TextField
-                                style={{width: "80%"}}
+                                sx={{width: "80%"}}
                                 type="text"
                                 id="outlined-basic"
                                 variant="outlined"
                                 name="newProjectName"
                                 value={newProjectInfoData.newProjectName}
-                                error={errors.newProjectName}
+                                error={!!errors.newProjectName}
                                 helperText={errors.newProjectName}
                                 onChange={handleNewProjectFormChange}
                             />
@@ -191,7 +193,7 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
                                     variant="outlined"
                                     name="companyName"
                                     value={newProjectInfoData.companyName}
-                                    error={errors.companyName}
+                                    error={!!errors.companyName}
                                     helperText={errors.companyName}
                                     onChange={handleNewProjectFormChange}
                                 />
@@ -204,7 +206,7 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
                                     variant="outlined"
                                     name="location"
                                     value={newProjectInfoData.location}
-                                    error={errors.location}
+                                    error={!!errors.location}
                                     helperText={errors.location}
                                     onChange={handleNewProjectFormChange}
                                 />
@@ -217,7 +219,7 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
                                     variant="outlined"
                                     name="sandType"
                                     value={newProjectInfoData.sandType}
-                                    error={errors.sandType}
+                                    error={!!errors.sandType}
                                     helperText={errors.sandType}
                                     onChange={handleNewProjectFormChange}
                                 />
@@ -230,7 +232,7 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
                                     variant="outlined"
                                     name="analystName"
                                     value={newProjectInfoData.analystName}
-                                    error={errors.analystName}
+                                    error={!!errors.analystName}
                                     helperText={errors.analystName}
                                     onChange={handleNewProjectFormChange}
                                 />
@@ -245,7 +247,7 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
                                     variant="outlined"
                                     name="oilField"
                                     value={newProjectInfoData.oilField}
-                                    error={errors.oilField}
+                                    error={!!errors.oilField}
                                     helperText={errors.oilField}
                                     onChange={handleNewProjectFormChange}
                                 />
@@ -258,7 +260,7 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
                                     variant="outlined"
                                     name="wellName"
                                     value={newProjectInfoData.wellName}
-                                    error={errors.wellName}
+                                    error={!!errors.wellName}
                                     helperText={errors.wellName}
                                     onChange={handleNewProjectFormChange}
                                 />
@@ -271,7 +273,7 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
                                     variant="outlined"
                                     name="date"
                                     value={newProjectInfoData.date}
-                                    error={errors.date}
+                                    error={!!errors.date}
                                     helperText={errors.date}
                                     onChange={handleNewProjectFormChange}
                                 />
@@ -284,7 +286,7 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
                                     variant="outlined"
                                     name="commentaries"
                                     value={newProjectInfoData.commentaries}
-                                    error={errors.commentaries}
+                                    error={!!errors.commentaries}
                                     helperText={errors.commentaries}
                                     onChange={handleNewProjectFormChange}
                                 />
@@ -294,7 +296,7 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
 
                     <Grid container spacing={0} className={classes.inputGroups}>
                         <Grid item xs={4} sm={2}>
-                            <Typography variant={"h6"}>Production well</Typography>
+                            <Typography variant={"h6"} color='customized.headers' sx={{paddingTop: "23px"}}>Production well</Typography>
                         </Grid>
 
                         <Grid item xs={8} sm={2} className={classes.selectInput}>
@@ -304,7 +306,7 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
                                 id="demo-simple-select-helper"
                                 name="wellType"
                                 value={newProjectInfoData.wellType}
-                                error={errors.wellType}
+                                error={!!errors.wellType}
                                 onChange={handleNewProjectFormChange}
                             >
                                 <MenuItem value="Directional">Directional</MenuItem>

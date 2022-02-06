@@ -1,12 +1,12 @@
 import React from 'react';
 import { useAuth } from "../contexts/AuthContext";
-import { Redirect, Route } from "react-router-dom";
+import { Navigate, Route } from "react-router-dom";
 
 const PublicRoute = ({component: Component, ...rest}) => {
     const { user } = useAuth();
     const projectInfoData = JSON.parse(sessionStorage.getItem("new-project-info-data"));
-    const redirectToWorkspace = () => <Redirect to={`${user.username}/workspace`}/>;
-    const redirectToNewProject = () => <Redirect to={`/newProject`}/>;
+    const redirectToWorkspace = () => <Navigate to={`${user.username}/workspace`}/>;
+    const redirectToNewProject = () => <Navigate to={`/newProject`}/>;
 
     return (
         <Route

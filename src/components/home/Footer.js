@@ -22,7 +22,7 @@ const Footer = () => {
     const classes = styles();
 
     return (
-        <Box bgcolor="primary.main" height="50px">
+        <Box bgcolor="primary" height="50px">
             <footer className={classes.footer}>
                 <Typography variant={"subtitle2"} align="center">Hydraulic Pump Design 2022 ©</Typography>
             </footer>

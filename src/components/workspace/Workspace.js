@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { mainListItems, secondaryListItems } from "./listItems";
 
@@ -12,10 +12,12 @@ import { styles } from "../styles";
 
 import WorkspaceActionsBar from "./WorkspaceActionsBar";
 import WorkspaceMainBox from "./WorkspaceMainBox";
+import Logout from "../home/Logout";
+
 
 const Workspace = () => {
     const projectInfoData = JSON.parse(sessionStorage.getItem("new-project-info-data"));
-    const history = useHistory();
+    const navigate = useNavigate();
     const DRAWER_WIDTH = 200;
 
     const useStyles = makeStyles((theme) => ({
@@ -104,7 +106,7 @@ const Workspace = () => {
     };
 
     const editUserInfoButtonHandler = () => {
-        history.push("/newProject");
+        navigate("/newProject");
     }
 
     return (
@@ -129,7 +131,6 @@ const Workspace = () => {
                             </Typography>
                             <div style={{display: "flex", alignItems: "center"}}>
                                 <IconButton
-                                    color="secondary"
                                     aria-label="Edit completion data"
                                     onClick={editUserInfoButtonHandler}
                                     size="large">
@@ -156,6 +157,8 @@ const Workspace = () => {
                     <List>{mainListItems}</List>
                     <Divider />
                     <List>{secondaryListItems}</List>
+                    <Divider />
+                    <Logout />
                 </Drawer>
 
                 <main className={classes.content}>

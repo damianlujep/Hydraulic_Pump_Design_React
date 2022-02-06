@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../contexts/AuthContext";
 
@@ -11,10 +11,10 @@ const LoginForm = () => {
     const [user, setUser] = useState({username: "", password: ""});
     const [errors, setErrors] = useState([]);
     const { login } = useAuth();
-    const history = useHistory();
+    const navigate = useNavigate();
 
-    const redirect = () =>{
-        history.push("/newProject")
+    const redirect = () => {
+        navigate('/projects')
     };
 
     const handleUserInputChange = (e) => {
@@ -89,7 +89,7 @@ const LoginForm = () => {
                             <FormGroup className={classes.field}>
                                 <TextField
                                     type="text"
-                                    id="outlined-basic"
+                                    id="outlined-login"
                                     label="Username"
                                     variant="outlined"
                                     name="username"
@@ -107,7 +107,7 @@ const LoginForm = () => {
                             <FormGroup className={classes.field}>
                                 <TextField
                                     type="password"
-                                    id="outlined-basic"
+                                    id="outlined-password"
                                     label="Password"
                                     variant="outlined"
                                     name="password"

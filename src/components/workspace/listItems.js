@@ -10,7 +10,7 @@ import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
 export const mainListItems = (
-    <div>
+    <>
         <ListItem button>
             <ListItemIcon>
                 <DashboardIcon />
@@ -41,11 +41,11 @@ export const mainListItems = (
             </ListItemIcon>
             <ListItemText primary="Projects" />
         </ListItem>
-    </div>
+    </>
 );
 
 export const secondaryListItems = (
-    <div>
+    <>
         <ListSubheader inset>Saved Projects</ListSubheader>
         <ListItem button>
             <ListItemIcon>
@@ -65,5 +65,5 @@ export const secondaryListItems = (
             </ListItemIcon>
             <ListItemText primary="202-08-20" />
         </ListItem>
-    </div>
+    </>
 );
