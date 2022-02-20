@@ -12,7 +12,7 @@ const TabPanel = (props) => {
     const { children, value, index, ...other } = props;
 
     return (
-        <div
+        <Box
             role="tabpanel"
             hidden={value !== index}
             id={`full-width-tabpanel-${index}`}
@@ -24,7 +24,7 @@ const TabPanel = (props) => {
                     <Typography>{children}</Typography>
                 </Box>
             )}
-        </div>
+        </Box>
     );
 }
 
@@ -75,7 +75,7 @@ const FullWidthTabs = () => {
 
     return (
         //TODO: Check alerts on div
-        <div className={classes.root}>
+        <Box className={classes.root}>
             <AppBar position="static" color="default">
                 <Tabs
                     value={value}
@@ -109,7 +109,7 @@ const FullWidthTabs = () => {
                     Results
                 </TabPanel>
             </SwipeableViews>
-        </div>
+        </Box>
     );
 }
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { completionActions } from "../../../store/completion-slice";
 
-import { Alert, Button, Grid, Paper, Typography } from "@mui/material";
+import {Alert, Box, Button, Grid, Paper, Typography} from "@mui/material";
 import { makeStyles } from '@mui/styles';
 import { DataGrid } from '@mui/x-data-grid';
 
@@ -89,7 +89,7 @@ const DirectionalSurveyTable = ({ handleClose }) => {
         if (!isNaN(numberValue)){
             if (numberValue >= 0){
                 return (
-                    <div style={{
+                    <Box sx={{
                         width: "100%",
                         height: "100%",
                         border: "1px solid",
@@ -98,11 +98,11 @@ const DirectionalSurveyTable = ({ handleClose }) => {
                         textAlign: "right"
                     }}>
                         {(numberValue.toFixed(3))}
-                    </div>
+                    </Box>
                 )
             } else {
                 return (
-                    <div style={{
+                    <Box sx={{
                         width: "100%",
                         height: "100%",
                         color: '#721c24',
@@ -112,16 +112,16 @@ const DirectionalSurveyTable = ({ handleClose }) => {
                         textAlign: 'right'
                     }}>
                         {(numberValue.toFixed(3))}
-                    </div>
+                    </Box>
                 )
             }
         } else {
             return (
-                <div style={{width: "100%", height: "100%",
+                <Box sx={{width: "100%", height: "100%",
                     border: "1px solid",
                     backgroundColor: '#ffffff',
                     borderColor: 'rgba(224, 224, 224, 1)'}}>
-                </div>
+                </Box>
             )
         }
     };
@@ -283,14 +283,14 @@ const DirectionalSurveyTable = ({ handleClose }) => {
     const maxDecimals = "0.001";
 
     return (
-        <div className={classes.root}>
+        <Box className={classes.root}>
             <Paper square elevation={0} className={classes.paper}>
                 <Grid container
                       direction="column"
                       justifyContent="center"
                       alignItems="center" style={{width: "1200px"}}>
                     <Typography variant="h6" className={classes.text}>Insert Direction Survey Data</Typography>
-                    <div style={{width: '600px', paddingTop: "10px", marginBottom:"20px", }}>
+                    <Box style={{width: '600px', paddingTop: "10px", marginBottom:"20px", }}>
                         <DataGrid
                             inputProps={{step: maxDecimals, min: "0"}}
                             isCellEditable={(params => params.id !== 1)}
@@ -305,7 +305,7 @@ const DirectionalSurveyTable = ({ handleClose }) => {
                             autoHeight={true}
                             onCellEditCommit={onRowEditCommit}
                         />
-                    </div>
+                    </Box>
                     <section className={classes.buttons}>
                         <Button className={classes.buttonCreate}
                             variant="contained" color="primary"
@@ -330,7 +330,7 @@ const DirectionalSurveyTable = ({ handleClose }) => {
                     }
                 </Grid>
             </Paper>
-        </div>
+        </Box>
     );
 };
 
