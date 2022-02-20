@@ -3,6 +3,7 @@ import {useDispatch} from "react-redux";
 import {completionActions} from "../../store/completion-slice";
 
 import {
+    Box,
     Button,
     FormGroup,
     FormHelperText,
@@ -267,7 +268,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
 
     return (
 
-        <div className={classes.root}>
+        <Box className={classes.root}>
             <Paper square elevation={0} className={classes.paper}>
 
                 <form action="#" method="POST" onSubmit={submitCompletionFormHandler} autoComplete="off">
@@ -1017,7 +1018,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                 </form>
 
             </Paper>
-        </div>
+        </Box>
     );
 };
 

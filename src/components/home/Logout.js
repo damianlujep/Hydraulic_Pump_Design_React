@@ -25,11 +25,10 @@ const Logout = () => {
 
     return (
         <>
-            <ListItem button>
+            <ListItem button onClick={handleLogout}>
                 <ListItemIcon>
                     <ExitToAppRounded
                         sx={{color: theme.palette.customized.grey}}
-                        onClick={handleLogout}
                     />
                 </ListItemIcon>
                 <ListItemText primary="Logout" />
