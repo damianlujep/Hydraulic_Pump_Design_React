@@ -1,12 +1,42 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-import {alpha, Box, Divider, Menu, MenuItem, styled} from "@mui/material";
+import { URI_SAVE_PROJECT_TO_FILE } from "../../api-constants";
+import { useAuth } from "../contexts/AuthContext";
+import { getSessionStorageOrDefault } from "../service/SessionStorageService";
+import SurveyService from "../service/SurveyService";
+
+import { alpha, Box, Divider, Menu, MenuItem, styled } from "@mui/material";
 import {Archive, Edit, FileCopy} from "@mui/icons-material";
+import { makeStyles } from "@mui/styles";
 
 import ActionButton from "./ActionButton";
-import {makeStyles} from "@mui/styles";
 
 const WorkspaceActionsBar = () => {
+    const { jwt } = useAuth();
+
+    const generateSaveProjectFileDate = () => {
+        const newProjectInfoData = getSessionStorageOrDefault("new-project-info-data", {})
+        const newProjectInfoDataEntered= getSessionStorageOrDefault("new-project-info-data-entered", false)
+        const completionData = getSessionStorageOrDefault("completion-data", {})
+        const completionDataEntered = getSessionStorageOrDefault("completion-data-entered", false)
+        const surveyData = getSessionStorageOrDefault("survey-data", SurveyService.createSurveyInitialRows());
+        const surveyDataEntered = getSessionStorageOrDefault("survey-data-entered", false);
+        return {
+            newProjectInfoData: {
+                data: newProjectInfoData,
+                dataEntered: newProjectInfoDataEntered
+            },
+            completionData: {
+                data: completionData,
+                dataEntered: completionDataEntered
+            },
+            surveyData: {
+                data: surveyData,
+                dataEntered: surveyDataEntered
+            }
+        }
+    };
+
     const StyledMenu = styled((props) => (
         <Menu
             elevation={0}
@@ -80,6 +110,25 @@ const WorkspaceActionsBar = () => {
         setActivateCalcMenu(null);
     };
 
+    const saveProjectHandler = async () => {
+        const saveProjectFileData =  generateSaveProjectFileDate();
+        const authHeader = { 'Authorization': jwt, 'Content-Type': 'application/json' };
+        await fetch(URI_SAVE_PROJECT_TO_FILE, {
+            method: 'POST',
+            body: JSON.stringify(saveProjectFileData),
+            headers: authHeader,
+        }).then(res => {
+            const filename = `${saveProjectFileData.newProjectInfoData.data?.newProjectName}.hpd`;
+            res.blob().then(blob => {
+                let url = window.URL.createObjectURL(blob.slice(0, blob.size, "text"));
+                let a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.click();
+                handleClose();
+            }).catch(e => console.log(e));
+        });
+    }
 
     return (
         <section style={{display: "flex", margin: "10px 24px 10px"}}>
@@ -110,7 +159,7 @@ const WorkspaceActionsBar = () => {
                         Copy
                     </MenuItem>
                     <Divider sx={{ my: 0.5 }} />
-                    <MenuItem onClick={handleClose} disableRipple>
+                    <MenuItem onClick={saveProjectHandler} disableRipple>
                         <Archive className={classes.iconStyled}/>
                         Save Project
                     </MenuItem>

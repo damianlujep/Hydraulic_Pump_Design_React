@@ -71,8 +71,6 @@ const Completion = () => {
             return <DirectionalSurveyDialog
                 buttonLabel="Insert Directional Survey Data"
                 appBarLabel="Direction Survey Data"
-                // setSurveyDataInserted={setSurveyDataInserted}
-                // setValidSurveyData={setValidSurveyData}
             />
         }
     }

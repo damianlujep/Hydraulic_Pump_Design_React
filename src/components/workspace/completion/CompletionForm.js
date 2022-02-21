@@ -93,6 +93,9 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
             padding: "10px",
             width: "250px",
         },
+        formHelper: {
+            marginBottom: 0
+        }
     }));
 
     const handleCompletionFormChange = (e) => {
@@ -302,7 +305,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                     />
 
                                     {errors.lengthOfShots && (
-                                        <FormHelperText error>
+                                        <FormHelperText className={classes.formHelper} error>
                                             {errors.lengthOfShots}
                                         </FormHelperText>
                                     )}
@@ -328,7 +331,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                     />
 
                                     {errors.averageShotDepth && (
-                                        <FormHelperText error>
+                                        <FormHelperText className={classes.formHelper} error>
                                             {errors.averageShotDepth}
                                         </FormHelperText>
                                     )}
@@ -354,7 +357,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                     />
 
                                     {errors.pumpSettlementLength && (
-                                        <FormHelperText error>
+                                        <FormHelperText className={classes.formHelper} error>
                                             {errors.pumpSettlementLength}
                                         </FormHelperText>
                                     )}
@@ -380,7 +383,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                     />
 
                                     {errors.pumpSettlementDepth && (
-                                        <FormHelperText error>
+                                        <FormHelperText className={classes.formHelper} error>
                                             {errors.pumpSettlementDepth}
                                         </FormHelperText>
                                     )}
@@ -412,7 +415,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                     </Select>
 
                                     {errors.numberCasingPipes && (
-                                        <FormHelperText error>
+                                        <FormHelperText className={classes.formHelper} error>
                                             {errors.numberCasingPipes}
                                         </FormHelperText>
                                     )}
@@ -440,7 +443,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                     </Select>
 
                                     {errors.numberProductionTubings && (
-                                        <FormHelperText error>
+                                        <FormHelperText className={classes.formHelper} error>
                                             {errors.numberProductionTubings}
                                         </FormHelperText>
                                     )}
@@ -473,7 +476,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                     </Select>
 
                                     {errors.casingID && (
-                                        <FormHelperText error>
+                                        <FormHelperText className={classes.formHelper} error>
                                             {errors.casingID}
                                         </FormHelperText>
                                     )}
@@ -505,7 +508,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                     </Select>
 
                                     {errors.tubingID && (
-                                        <FormHelperText error>
+                                        <FormHelperText className={classes.formHelper} error>
                                             {errors.tubingID}
                                         </FormHelperText>
                                     )}
@@ -539,7 +542,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                             />
 
                                             {errors.casingLength1 && (
-                                                <FormHelperText error>
+                                                <FormHelperText className={classes.formHelper} error>
                                                     {errors.casingLength1}
                                                 </FormHelperText>
                                             )}
@@ -563,7 +566,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                             />
 
                                             {errors.ODCasing1 && (
-                                                <FormHelperText error>
+                                                <FormHelperText className={classes.formHelper} error>
                                                     {errors.ODCasing1}
                                                 </FormHelperText>
                                             )}
@@ -586,7 +589,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                                 error={errors.IDCasing1}
                                             />
                                             {errors.IDCasing1 && (
-                                                <FormHelperText error>
+                                                <FormHelperText className={classes.formHelper} error>
                                                     {errors.IDCasing1}
                                                 </FormHelperText>
                                             )}
@@ -618,7 +621,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                             />
 
                                             {errors.casingLength2 && (
-                                                <FormHelperText error>
+                                                <FormHelperText className={classes.formHelper} error>
                                                     {errors.casingLength2}
                                                 </FormHelperText>
                                             )}
@@ -642,7 +645,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                             />
 
                                             {errors.ODCasing2 && (
-                                                <FormHelperText error>
+                                                <FormHelperText className={classes.formHelper} error>
                                                     {errors.ODCasing2}
                                                 </FormHelperText>
                                             )}
@@ -666,7 +669,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                             />
 
                                             {errors.IDCasing2 && (
-                                                <FormHelperText error>
+                                                <FormHelperText className={classes.formHelper} error>
                                                     {errors.IDCasing2}
                                                 </FormHelperText>
                                             )}
@@ -698,7 +701,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                             />
 
                                             {errors.casingLength3 && (
-                                                <FormHelperText error>
+                                                <FormHelperText className={classes.formHelper} error>
                                                     {errors.casingLength3}
                                                 </FormHelperText>
                                             )}
@@ -722,7 +725,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                             />
 
                                             {errors.ODCasing3 && (
-                                                <FormHelperText error>
+                                                <FormHelperText className={classes.formHelper} error>
                                                     {errors.ODCasing3}
                                                 </FormHelperText>
                                             )}
@@ -746,7 +749,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                             />
 
                                             {errors.IDCasing3 && (
-                                                <FormHelperText error>
+                                                <FormHelperText className={classes.formHelper} error>
                                                     {errors.IDCasing3}
                                                 </FormHelperText>
                                             )}
@@ -781,7 +784,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                             />
 
                                             {errors.tubingLength1 && (
-                                                <FormHelperText error>
+                                                <FormHelperText className={classes.formHelper} error>
                                                     {errors.tubingLength1}
                                                 </FormHelperText>
                                             )}
@@ -805,7 +808,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                             />
 
                                             {errors.ODTubing1 && (
-                                                <FormHelperText error>
+                                                <FormHelperText className={classes.formHelper} error>
                                                     {errors.ODTubing1}
                                                 </FormHelperText>
                                             )}
@@ -829,7 +832,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                             />
 
                                             {errors.IDTubing1 && (
-                                                <FormHelperText error>
+                                                <FormHelperText className={classes.formHelper} error>
                                                     {errors.IDTubing1}
                                                 </FormHelperText>
                                             )}
@@ -861,7 +864,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                             />
 
                                             {errors.tubingLength2 && (
-                                                <FormHelperText error>
+                                                <FormHelperText className={classes.formHelper} error>
                                                     {errors.tubingLength2}
                                                 </FormHelperText>
                                             )}
@@ -885,7 +888,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                             />
 
                                             {errors.ODTubing2 && (
-                                                <FormHelperText error>
+                                                <FormHelperText className={classes.formHelper} error>
                                                     {errors.ODTubing2}
                                                 </FormHelperText>
                                             )}
@@ -909,7 +912,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                             />
 
                                             {errors.IDTubing2 && (
-                                                <FormHelperText error>
+                                                <FormHelperText className={classes.formHelper} error>
                                                     {errors.IDTubing2}
                                                 </FormHelperText>
                                             )}
@@ -941,7 +944,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                             />
 
                                             {errors.tubingLength3 && (
-                                                <FormHelperText error>
+                                                <FormHelperText className={classes.formHelper} error>
                                                     {errors.tubingLength3}
                                                 </FormHelperText>
                                             )}
@@ -965,7 +968,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                             />
 
                                             {errors.ODTubing3 && (
-                                                <FormHelperText error>
+                                                <FormHelperText className={classes.formHelper} error>
                                                     {errors.ODTubing3}
                                                 </FormHelperText>
                                             )}
@@ -989,7 +992,7 @@ const CompletionForm = ({ handleClose, tubingList, casingList }) => {
                                             />
 
                                             {errors.IDTubing3 && (
-                                                <FormHelperText error>
+                                                <FormHelperText className={classes.formHelper} error>
                                                     {errors.IDTubing3}
                                                 </FormHelperText>
                                             )}

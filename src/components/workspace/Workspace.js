@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 
 import { mainListItems, secondaryListItems } from "./listItems";
+import { useAuth } from "../contexts/AuthContext";
 
 import { AppBar, Divider, Drawer, IconButton, List, Toolbar, Typography } from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
@@ -14,8 +15,8 @@ import WorkspaceActionsBar from "./WorkspaceActionsBar";
 import WorkspaceMainBox from "./WorkspaceMainBox";
 import Logout from "../home/Logout";
 
-
 const Workspace = () => {
+    const { user } = useAuth();
     const projectInfoData = JSON.parse(sessionStorage.getItem("new-project-info-data"));
     const navigate = useNavigate();
     const DRAWER_WIDTH = 200;
@@ -106,7 +107,7 @@ const Workspace = () => {
     };
 
     const editUserInfoButtonHandler = () => {
-        navigate("/newProject");
+        navigate(`/${user.username}/newProject`);
     }
 
     return (
