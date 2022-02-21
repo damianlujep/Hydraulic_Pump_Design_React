@@ -1,24 +1,16 @@
 import React, {useState} from 'react';
-import {AppBar, Container, IconButton, Toolbar, Tooltip, Typography} from "@mui/material";
+
 import theme from "../theme";
+
+import { AppBar, Container, IconButton, Toolbar, Tooltip, Typography } from "@mui/material";
 import { ExitToAppRounded } from "@mui/icons-material";
-import { useAuth } from "../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+
+import LogoutDialog from "../dialogs/LogoutDialog";
 
 const Header = () => {
-    const [error, setError] = useState('')
-    const { logout } = useAuth()
-    const navigate = useNavigate()
+    const [openLogoutDialog, setOpenLogoutDialog] = useState(false);
+    const requestLogoutDialog = () => setOpenLogoutDialog(true);
 
-    async function handleLogout() {
-        setError('')
-        try {
-            await logout()
-            navigate('/')
-        } catch {
-            setError('Failed to logout')
-        }
-    }
     return (
         <>
             <AppBar position="static">
@@ -30,15 +22,15 @@ const Header = () => {
                         <Tooltip title="Logout">
                             <IconButton
                                 sx={{color: theme.palette.primary.contrastText}}
-                                onClick={handleLogout}
+                                onClick={requestLogoutDialog}
                             >
                                 <ExitToAppRounded/>
                             </IconButton>
                         </Tooltip>
-
                     </Container>
                 </Toolbar>
             </AppBar>
+            {openLogoutDialog && <LogoutDialog open={openLogoutDialog} setOpen={setOpenLogoutDialog} />}
         </>
     );
 };

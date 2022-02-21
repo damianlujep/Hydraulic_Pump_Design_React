@@ -1,31 +1,20 @@
-import React, {useState} from 'react';
-import {useNavigate} from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
-import {ExitToAppRounded} from "@mui/icons-material";
+import React, { useState } from 'react';
+
+import { ExitToAppRounded } from "@mui/icons-material";
 import theme from "../theme";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 
+import LogoutDialog from "../dialogs/LogoutDialog";
+
 const Logout = () => {
-
-    const [error, setError] = useState('')
-    const { logout } = useAuth()
-    const navigate = useNavigate()
-
-    async function handleLogout() {
-        setError('')
-        try {
-            await logout()
-            navigate('/')
-        } catch {
-            setError('Failed to logout')
-        }
-    }
+    const [openLogoutDialog, setOpenLogoutDialog] = useState(false);
+    const requestLogoutDialog = () => setOpenLogoutDialog(true);
 
     return (
         <>
-            <ListItem button onClick={handleLogout}>
+            <ListItem button onClick={requestLogoutDialog}>
                 <ListItemIcon>
                     <ExitToAppRounded
                         sx={{color: theme.palette.customized.grey}}
@@ -33,6 +22,7 @@ const Logout = () => {
                 </ListItemIcon>
                 <ListItemText primary="Logout" />
             </ListItem>
+            {openLogoutDialog && <LogoutDialog open={openLogoutDialog} setOpen={setOpenLogoutDialog} />}
         </>
     );
 };

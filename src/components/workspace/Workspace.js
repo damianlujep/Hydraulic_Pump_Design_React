@@ -2,8 +2,9 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 
 import { mainListItems, secondaryListItems } from "./listItems";
+import { useAuth } from "../contexts/AuthContext";
 
-import {AppBar, Box, Divider, Drawer, IconButton, List, Toolbar, Typography} from "@mui/material";
+import { AppBar, Box, Divider, Drawer, IconButton, List, Toolbar, Typography } from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
 import { ChevronLeft, Edit, Menu } from "@mui/icons-material";
 import clsx from "clsx";
@@ -13,14 +14,12 @@ import { styles } from "../styles";
 import WorkspaceActionsBar from "./WorkspaceActionsBar";
 import WorkspaceMainBox from "./WorkspaceMainBox";
 import Logout from "../home/Logout";
-import {useAuth} from "../contexts/AuthContext";
-
 
 const Workspace = () => {
+    const { user } = useAuth();
     const projectInfoData = JSON.parse(sessionStorage.getItem("new-project-info-data"));
     const navigate = useNavigate();
     const DRAWER_WIDTH = 200;
-    const { user } = useAuth();
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -108,7 +107,7 @@ const Workspace = () => {
     };
 
     const editUserInfoButtonHandler = () => {
-        navigate(`/${user.username}/newProject`)
+        navigate(`/${user.username}/newProject`);
     }
 
     return (
