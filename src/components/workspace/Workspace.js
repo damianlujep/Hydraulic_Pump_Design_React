@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { mainListItems, secondaryListItems } from "./listItems";
 import { useAuth } from "../contexts/AuthContext";
 
-import { AppBar, Divider, Drawer, IconButton, List, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, Divider, Drawer, IconButton, List, Toolbar, Typography } from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
 import { ChevronLeft, Edit, Menu } from "@mui/icons-material";
 import clsx from "clsx";
@@ -111,7 +111,7 @@ const Workspace = () => {
     }
 
     return (
-        <div className={clsx(classes.root, classesMain.container)}>
+        <Box className={clsx(classes.root, classesMain.container)}>
                 <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
                     <Toolbar className={classes.toolbar}>
                         <IconButton
@@ -130,15 +130,18 @@ const Workspace = () => {
                             <Typography variant="subtitle2" color="inherit">
                                 {projectInfoData.newProjectName}
                             </Typography>
-                            <div style={{display: "flex", alignItems: "center"}}>
+                            <Box
+                                sx={{display: "flex", alignItems: "center"}}
+                                onClick={editUserInfoButtonHandler}
+                            >
                                 <IconButton
                                     aria-label="Edit completion data"
-                                    onClick={editUserInfoButtonHandler}
-                                    size="large">
+                                    size="large"
+                                >
                                     <Edit fontSize="small" style={{fill: "white"}}/>
                                 </IconButton>
                                 <Typography variant="subtitle2" >Edit user information</Typography>
-                            </div>
+                            </Box>
                         </section>
                     </Toolbar>
                 </AppBar>
@@ -149,11 +152,11 @@ const Workspace = () => {
                     }}
                     open={open}
                 >
-                    <div className={classes.toolbarIcon}>
+                    <Box className={classes.toolbarIcon}>
                         <IconButton onClick={handleDrawerClose} size="large">
                             <ChevronLeft />
                         </IconButton>
-                    </div>
+                    </Box>
                     <Divider />
                     <List>{mainListItems}</List>
                     <Divider />
@@ -163,11 +166,11 @@ const Workspace = () => {
                 </Drawer>
 
                 <main className={classes.content}>
-                    <div className={classes.appBarSpacer} />
+                    <Box className={classes.appBarSpacer} />
                     <WorkspaceActionsBar/>
                     <WorkspaceMainBox/>
                 </main>
-        </div>
+        </Box>
     );
 }
 

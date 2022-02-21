@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 
-import {Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
 import {DataGrid} from '@mui/x-data-grid';
 
@@ -87,7 +87,7 @@ const CompletionGridTable = ({ validCompletionData, tubingList, casingList }) =>
 
     return (
         <section style={{display: "flex", flexDirection:"column", alignItems:"center"}}>
-            <div style={{width: '550px', paddingBottom:"10px"}}>
+            <Box sx={{width: '550px', paddingBottom:"10px"}}>
                 <DataGrid
                     className={classes.root}
                     rows={completionRows(validCompletionData)}
@@ -102,7 +102,7 @@ const CompletionGridTable = ({ validCompletionData, tubingList, casingList }) =>
                     headerHeight={30}
                     autoHeight={true}
                 />
-            </div>
+            </Box>
 
             <Typography variant={"subtitle2"} style={{fontWeight: "bold", textAlign: "center"}}>
                 Number of casing pipes: <span
@@ -113,7 +113,7 @@ const CompletionGridTable = ({ validCompletionData, tubingList, casingList }) =>
                 style={{fontWeight: "normal"}}>{validCompletionData.casingID}</span>
             </Typography>
 
-            <div style={{width: '550px', paddingTop: "10px", paddingBottom:"10px"}}>
+            <Box sx={{width: '550px', paddingTop: "10px", paddingBottom:"10px"}}>
                 <DataGrid
                     className={classes.root}
                     rows={casing(validCompletionData)}
@@ -128,7 +128,7 @@ const CompletionGridTable = ({ validCompletionData, tubingList, casingList }) =>
                     headerHeight={0}
                     autoHeight={true}
                 />
-            </div>
+            </Box>
 
             <Typography variant={"subtitle2"} style={{fontWeight: "bold", textAlign: "center"}}>
                 Number of production tubing: <span
@@ -139,7 +139,7 @@ const CompletionGridTable = ({ validCompletionData, tubingList, casingList }) =>
                 style={{fontWeight: "normal"}}>{validCompletionData.tubingID}</span>
             </Typography>
 
-            <div style={{width: '550px', paddingTop: "10px", paddingBottom:"15px"}}>
+            <Box sx={{width: '550px', paddingTop: "10px", paddingBottom:"15px"}}>
                 <DataGrid
                     className={classes.root}
                     rows={tubing(validCompletionData)}
@@ -154,7 +154,7 @@ const CompletionGridTable = ({ validCompletionData, tubingList, casingList }) =>
                     headerHeight={0}
                     autoHeight={true}
                 />
-            </div>
+            </Box>
 
             <CompletionDialog
                 buttonLabel="Edit Completion Data"

@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Routes } from "react-router-dom";
+import {BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 import {AuthProvider} from "./components/contexts/AuthContext";
 
@@ -12,6 +12,7 @@ import PrivateRoute from "./components/routers/PrivateRoute";
 import NewProject from "./components/newproject/NewProject";
 import Workspace from "./components/workspace/Workspace";
 import Projects from "./components/newproject/Projects";
+import PublicRoute from "./components/routers/PublicRoute";
 
 
 function App() {
@@ -24,8 +25,19 @@ function App() {
                 <BrowserRouter>
                     <AuthProvider>
                         <Routes>
-                            <Route index element={<Home />}/>
-                            <Route path='/' element={<Home />}/>
+                            <Route index element={
+                                <PublicRoute>
+                                    <Home/>
+                                </PublicRoute>
+                            }/>
+                            <Route
+                                path='/'
+                                element={
+                                <PublicRoute>
+                                    <Home/>
+                                </PublicRoute>
+                                }
+                            />
 
                             <Route
                                 path='/projects'
@@ -39,7 +51,7 @@ function App() {
                                 path=':username/newProject'
                                 element={
                                     <PrivateRoute>
-                                        <NewProject />
+                                        <NewProject/>
                                     </PrivateRoute>
                                 }
                             />
@@ -51,6 +63,10 @@ function App() {
                                     </PrivateRoute>
                                 }
                             />
+                            <Route
+                                path=":username/*"
+                                element={<Navigate to='/' replace />}
+                                    />
                         </Routes>
                     </AuthProvider>
                 </BrowserRouter>

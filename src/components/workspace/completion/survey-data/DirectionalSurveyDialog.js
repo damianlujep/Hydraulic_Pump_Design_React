@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import {AppBar, Button, Dialog, IconButton, Slide, Toolbar, Typography} from "@mui/material";
+import {AppBar, Box, Button, Dialog, IconButton, Slide, Toolbar, Typography} from "@mui/material";
 import makeStyles from '@mui/styles/makeStyles';
 import {Close, Edit} from "@mui/icons-material";
 
@@ -33,7 +33,7 @@ const DirectionalSurveyDialog = ({buttonLabel, appBarLabel}) => {
     };
 
     return (
-        <div>
+        <Box>
             <Button
                 variant="contained"
                 color="primary"
@@ -64,7 +64,7 @@ const DirectionalSurveyDialog = ({buttonLabel, appBarLabel}) => {
                     handleClose={handleClose}
                 />
             </Dialog>
-        </div>
+        </Box>
     );
 };
 

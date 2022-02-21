@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 import { useAuth } from "../contexts/AuthContext";
 
@@ -12,9 +12,12 @@ const LoginForm = () => {
     const [errors, setErrors] = useState([]);
     const { login } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+
+    let from = location.state?.from?.pathname || "/projects";
 
     const redirect = () => {
-        navigate('/projects')
+        navigate(from, { replace: true})
     };
 
     const handleUserInputChange = (e) => {
