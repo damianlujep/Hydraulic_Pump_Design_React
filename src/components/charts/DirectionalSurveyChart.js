@@ -54,6 +54,7 @@ const DirectionalSurveyChart = () => {
             if (payload[1].name === "MD [ft]"){
                 return (
                     <div className={classes.customTooltipWrapper}>
+                        <p><span className={classes.customTooltipKey}>MD:</span> {payload[0].payload.md} ft</p>
                         <p><span className={classes.customTooltipKey}>TVD:</span> {payload[0].payload.tvd} ft</p>
                         <p><span className={classes.customTooltipKey}>HD:</span> {payload[0].payload.hd} ft</p>
                     </div>
@@ -61,6 +62,7 @@ const DirectionalSurveyChart = () => {
             } else if (payload[1].name === "Angle °"){
                 return (
                     <div className={classes.customTooltipWrapper}>
+                        <p><span className={classes.customTooltipKey}>MD:</span> {payload[0].payload.md} ft</p>
                         <p><span className={classes.customTooltipKey}>TVD:</span> {payload[0].payload.tvd} ft</p>
                         <p><span className={classes.customTooltipKey}>Angle:</span> {payload[0].payload.angle}°</p>
                     </div>
@@ -80,7 +82,7 @@ const DirectionalSurveyChart = () => {
                     margin={{top: 5, right: 30, left: 20, bottom: 40}}
                 >
                     {/*TVD vs HD, ANGLE vs HD*/}
-                    <CartesianGrid strokeDasharray="3 3" opacity={0.5}/>
+                    <CartesianGrid strokeDasharray="3 3" opacity={0.5} />
 
                     <XAxis type="number" dataKey="angle" xAxisId="bottom" tickCount={6}>
                         <Label className={classes.axisLabel} value="Angle °" offset={5} position="bottom" />
@@ -96,7 +98,7 @@ const DirectionalSurveyChart = () => {
                         <Label className={classes.axisLabel} value="TVD [ft]" offset={5} angle={90} position="right" />
                     </YAxis>
 
-                    <Tooltip content={<CustomTooltip />} />
+                    <Tooltip  cursor={false} content={<CustomTooltip /> } />
                     <Legend verticalAlign="top" height={60} />
 
                     <Scatter
