@@ -2,21 +2,41 @@
 
 Project developed with React and Material-UI from scratch. 
 User interface which collects all the necessary parameters to design a hydraulic pump for the Oil & Gas industry. 
-The application consumes our **RESTful API** created with Java, Spring Boot & Hibernate, which hosts a remote MariaDB database. 
+
 This project is in continuous development process.
+
+### HPD API:
+The application consumes an API created with **Java 17**, the Spring Framework (**Spring Boot 2.5.3**) and Hibernate,
+which hosts a remote **MariaDB** database.
+
+It exposes Spring Data Repositories over REST via **Spring Data REST**.
+
+#### Security:
+The API is protected by **Spring Security** and uses **JSON Web Tokens** in the HTTP responses for a secure connection 
+with the user interface.
+
+### Deployment:
+This project has been deployed with Docker in an Ubuntu 20 server.
 
 ### Technologies and tools:
 `The app was developed using:` Webstorm, GitHub, React, Redux, React Router, React Swipeable Views, Material-UI,
-Recharts
+Recharts.
 
-### Deployment:
-This project has been deployed with Docker.
+`The API was developed using:` IntelliJ, GitHub, Maven, Spring Boot, Spring Data REST, Spring Security, Jasyp, 
+JSON Web Tokens, MariaDB, Spring Data JPA, Hibernate, JUnit5, Mockito Lombok, Jackson, Swagger UI.
 
+### How to try the app:
 [CLICK HERE](https://hpd-app.phi-rms.com/) **to visit the live application.**
 
-**Credentials:**
-`user: tester`
+**Use the credentials to login:**
+`user: tester` , 
 `password: Apptester.2022`
+
+[CLICK HERE](https://fv2-3.failiem.lv/down.php?cf&i=htzysn8zj&n=HPD_Project_Example.hpd) **to download a project example file**
+
+Select **Upload From File**, and upload the previously downloaded file:
+
+![](public/create-project-options.png)
 
 ## Available Scripts
 
