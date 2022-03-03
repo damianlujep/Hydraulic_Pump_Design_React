@@ -6,8 +6,8 @@ The application consumes our **RESTful API** created with Java, Spring Boot & Hi
 This project is in continuous development process.
 
 ### Technologies and tools:
-`The app was developed using:` Webstorm, GitHub, Material-UI, React, React Router, React Swipeable Views,
-Chart.js, clsx
+`The app was developed using:` Webstorm, GitHub, React, Redux, React Router, React Swipeable Views, Material-UI,
+Recharts
 
 ### Deployment:
 This project has been deployed with Docker.
@@ -15,8 +15,8 @@ This project has been deployed with Docker.
 [CLICK HERE](https://hpd-app.phi-rms.com/) **to visit the live application.**
 
 **Credentials:**
-`user: damianlujep`
-`password: password2021`
+`user: tester`
+`password: Apptester.2022`
 
 ## Available Scripts
 

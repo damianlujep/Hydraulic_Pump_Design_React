@@ -212,7 +212,7 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
                                 />
                             </FormGroup>
                             <FormGroup className={classes.inputBoxEl}>
-                                <InputLabel>Sand</InputLabel>
+                                <InputLabel>Sand or Reservoir</InputLabel>
                                 <TextField
                                     type="text"
                                     id="outlined-basic"
@@ -253,7 +253,7 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
                                 />
                             </FormGroup>
                             <FormGroup className={classes.inputBoxEl}>
-                                <InputLabel>Oil well</InputLabel>
+                                <InputLabel>Well name</InputLabel>
                                 <TextField
                                     type="text"
                                     id="outlined-basic"
@@ -300,7 +300,7 @@ const NewProjectForm = ({actionButtonLabel, username, newProjectDataEntered}) =>
                         </Grid>
 
                         <Grid item xs={8} sm={2} className={classes.selectInput}>
-                            <InputLabel id="demo-simple-select-helper-label">Oil field type</InputLabel>
+                            <InputLabel id="demo-simple-select-helper-label">Well type</InputLabel>
                             <Select
                                 labelId="demo-simple-select-helper-label"
                                 id="demo-simple-select-helper"
