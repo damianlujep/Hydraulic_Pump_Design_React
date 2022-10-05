@@ -32,7 +32,7 @@ JSON Web Tokens, MariaDB, Spring Data JPA, Hibernate, JUnit5, Mockito Lombok, Ja
 `user: tester` , 
 `password: Apptester.2022`
 
-[CLICK HERE](https://fv2-3.failiem.lv/down.php?cf&i=htzysn8zj&n=HPD_Project_Example.hpd) **to download a project example file**
+[CLICK HERE](https://drive.google.com/file/d/1BBrfyxMSa7QgC_43133NdnROsQpTmOMn/view?usp=sharing) **to download a project example file**
 
 Select **Upload From File**, and upload the previously downloaded file:
 
