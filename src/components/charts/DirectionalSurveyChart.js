@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from "react-redux";
 
 import {
@@ -17,6 +17,10 @@ import { makeStyles } from "@mui/styles";
 import SurveyService from "../service/SurveyService";
 
 import DirectionalSurveyDialog from "../workspace/completion/survey-data/DirectionalSurveyDialog";
+import { IconButton, InputAdornment, TextField } from "@mui/material";
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { useAuth } from "../contexts/AuthContext";
+import { API_URL } from "../../api-constants";
 
 const useStyles = makeStyles(() => ({
     customTooltipWrapper: {
@@ -43,11 +47,14 @@ const useStyles = makeStyles(() => ({
 }));
 
 const DirectionalSurveyChart = () => {
+    const [mdValue, setMdValue] = useState("");
+    const [interpolatedTvd, setInterpolatedTvd] = useState("");
     const classes = useStyles();
     const validSurveyData = useSelector(
         state => state.completion.validSurveyData
     );
     const cleanedDataForChart = SurveyService.cleanSurveyDataForChart(validSurveyData);
+    const auth = useAuth();
 
     const CustomTooltip = ({ payload, label, active }) => {
         if (active) {
@@ -71,6 +78,49 @@ const DirectionalSurveyChart = () => {
         }
         return null;
     };
+
+    const handleCalculateTVDForm = async (e) => {
+        e.preventDefault();
+
+        const authHeader = {
+            'Authorization': auth.jwt,
+            'Content-Type': 'application/json',
+            'Accept':'application/json'
+        };
+
+        const payload = {
+            mdValue: parseFloat(mdValue),
+            surveyRows: validSurveyData
+        }
+
+        await fetch (`${API_URL}/numericalAnalysis/interpolate`, {
+            headers: authHeader,
+            method: "POST",
+            body: JSON.stringify(payload)
+        })
+          .then(data => data?.json())
+          .then(data => {
+              data && setInterpolatedTvd(data);
+          })
+    }
+
+    const textFieldBoxSx = {
+        display: "flex",
+        gap: "20px",
+        margin: "20px 0",
+        alignItems: "center"
+    }
+
+    const textFieldSx = {
+        ".MuiOutlinedInput-input": {
+            textAlign: "right",
+
+        },
+        ".MuiOutlinedInput-input:disabled": {
+            color: "red",
+            "-webkit-text-fill-color": "unset !important",
+        }
+    }
 
     return (
         <div className={classes.chartWrapper}>
@@ -129,6 +179,33 @@ const DirectionalSurveyChart = () => {
                 buttonLabel="Edit Directional Survey Data"
                 appBarLabel="Edit Direction Survey Data"
             />
+            <form onSubmit={e => handleCalculateTVDForm(e)} style={textFieldBoxSx}>
+                <TextField
+                  sx={textFieldSx}
+                  type="number"
+                  helperText="Inserte MD para calcular TVD"
+                  value={mdValue}
+                  onChange={e => setMdValue(e.target.value)}
+                  label="MD"
+                  InputProps={{
+                      endAdornment: <InputAdornment position="start">ft</InputAdornment>,
+                  }}
+                />
+                <IconButton type="submit">
+                    <ArrowForwardIosIcon />
+                </IconButton>
+                <TextField
+                  sx={textFieldSx}
+                  type="number"
+                  helperText=" "
+                  value={interpolatedTvd}
+                  label="TVD"
+                  disabled
+                  InputProps={{
+                      endAdornment: <InputAdornment position="start">ft</InputAdornment>,
+                  }}
+                />
+            </form>
         </div>
     );
 };
